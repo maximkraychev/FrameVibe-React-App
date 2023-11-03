@@ -71,6 +71,7 @@
         display: none;
     }
 
+    .main-nav.active,
     .main-nav {
         display: flex;
         flex-direction: row;
