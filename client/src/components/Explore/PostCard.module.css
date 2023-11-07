@@ -1,0 +1,66 @@
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+/* CARD HEADER */
+
+.card header {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.card header .avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.card header .avatar-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card header p {
+    flex: 1 1 20%;
+}
+
+.card header button {
+    flex: 1 1 40%;
+}
+
+
+/* image-container */
+
+.image-container {
+    margin: 0 auto;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+/* actions */
+
+.actions {
+    height: 2em;
+}
+
+.actions img {
+    height: 100%;
+    width: auto;
+}
+
+
+.actions p {
+    display: inline-block;
+}
