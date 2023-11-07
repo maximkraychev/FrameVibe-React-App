@@ -8,7 +8,7 @@ function App() {
      <Header />
      <Routes>
         <Route path='/'/>
-        <Route path='/browse'/>
+        <Route path='/explore'/>
         <Route path='/auth/register'/>
         <Route path='/auth/login'/>
         <Route path='/auth/logout'/>

@@ -4,7 +4,7 @@ import menuIcon from '../../assets/menu-vector.svg';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Header = () => {
+export const Header = () => {
 
     const [toggleState, setToggleState] = useState(false);
 
@@ -27,7 +27,7 @@ const Header = () => {
                     <nav className={[styles['main-nav'], toggleState ? styles['active'] : ''].join(' ')}>
 
                     <p>
-                        <Link to="/browse">Browse</Link>
+                        <Link to="/explore">Explore</Link>
                     </p>
 
                     {/* Guest */}
@@ -56,5 +56,3 @@ const Header = () => {
         </header>
     );
 };
-
-export default Header;
