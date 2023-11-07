@@ -15,7 +15,7 @@ const Header = () => {
 
                 <div className={styles['icon-wrapper']}>
                     <h1 className={styles['logo']}>
-                        <Link to="#">
+                        <Link to="/">
                             <img src={logoIcon} alt="logo" />
                         </Link>
                     </h1>
