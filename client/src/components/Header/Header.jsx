@@ -2,6 +2,7 @@ import styles from './Header.module.css';
 import logoIcon from '../../assets/logo-vector.svg';
 import menuIcon from '../../assets/menu-vector.svg';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -14,9 +15,9 @@ const Header = () => {
 
                 <div className={styles['icon-wrapper']}>
                     <h1 className={styles['logo']}>
-                        <a href="#">
+                        <Link to="#">
                             <img src={logoIcon} alt="logo" />
-                        </a>
+                        </Link>
                     </h1>
                     <p className={styles['toggle-menu']} onClick={() => setToggleState(state => !state)}>
                         <img src={menuIcon} alt="menu-toggle" />
@@ -26,27 +27,27 @@ const Header = () => {
                     <nav className={[styles['main-nav'], toggleState ? styles['active'] : ''].join(' ')}>
 
                     <p>
-                        <a href="#">Browse</a>
+                        <Link to="/browse">Browse</Link>
                     </p>
 
                     {/* Guest */}
                     <p>
-                        <a href="#">Login</a>
+                        <Link to="/auth/login">Login</Link>
                     </p>
                     <p>
-                        <a href="#">Register</a>
+                        <Link to="/auth/register">Register</Link>
                     </p>
 
                     {/* User */}
                     <p>
-                        <a href="#">Upload Image</a>
+                        <Link to="/upload">Upload Image</Link>
                     </p>
                     <p>
-                        <a href="#">Profile</a>
+                        <Link to="/profile">Profile</Link>
                     </p>
                     
                     <p>
-                        <a href="#">Logout</a>
+                        <Link to="/auth/logout">Logout</Link>
                     </p>
 
                     </nav>
