@@ -8,7 +8,7 @@
 
 @media (width >= 479px) {
     .explore {
-        width: 60%;
+        max-width: 600px;
         margin: 0 auto;
     }
 }
