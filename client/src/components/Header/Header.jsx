@@ -1,37 +1,32 @@
 import styles from './Header.module.css';
 import logoIcon from '../../assets/logo.svg';
-import menuIcon from '../../assets/menu.svg';
-import exploreIcon from '../../assets/explore.svg';
-import uploadIcon from '../../assets/upload.svg';
-import profileIcon from '../../assets/profile.svg';
-import logoutIcon from '../../assets/logout.svg';
-import { useState } from 'react';
+// import exploreIcon from '../../assets/explore.svg';
+// import uploadIcon from '../../assets/upload.svg';
+// import profileIcon from '../../assets/profile.svg';
+// import logoutIcon from '../../assets/logout.svg';
 import { Link } from 'react-router-dom';
+import { ProfileSvg } from '../Svg/Profile';
+import { LogoutSvg } from '../Svg/Logout';
+import { UploadSvg } from '../Svg/Upload';
+import { ExploreSvg } from '../Svg/Explore';
 
 export const Header = () => {
-
-    const [toggleState, setToggleState] = useState(false);
 
 
     return (
         <header className={styles['main-header']}>
             <div className={'section-container ' + styles['header-container']}>
 
-                <div className={styles['logo-wrapper']}>
-                    <h1 className={styles['logo']}>
-                        <Link to="/">
-                            <img src={logoIcon} alt="logo" />
-                        </Link>
-                    </h1>
-                    <p className={styles['toggle-menu']} onClick={() => setToggleState(state => !state)}>
-                        <img src={menuIcon} alt="menu-toggle" />
-                    </p>
-                </div>
+                <h1 className={styles['logo']}>
+                    <Link to="/">
+                        <img src={logoIcon} alt="logo" />
+                    </Link>
+                </h1>
 
-                <nav className={[styles['main-nav'], toggleState ? styles['active'] : ''].join(' ')}>
+                <nav className={styles['desktop-nav']}>
 
                     <Link to="/explore" className={styles['links']}>
-                        <img src={exploreIcon} alt="explore-icon" />
+                        <ExploreSvg />
                         <p>Explore</p>
                     </Link>
 
@@ -41,25 +36,43 @@ export const Header = () => {
 
                     {/* User */}
                     <Link to="/upload" className={styles['links']}>
-                        <img src={uploadIcon} alt="upload-icon" />
+                        <UploadSvg />
                         <p>Upload Image</p>
                     </Link>
 
                     <Link to="/profile" className={styles['links']}>
-                        <img src={profileIcon} alt="profile-icon" />
+                        <ProfileSvg />
                         <p>Profile</p>
                     </Link>
 
 
                     <Link to="/auth/logout" className={styles['links']}>
-                        <img src={logoutIcon} alt="logout-icon" />
+                        <LogoutSvg />
                         <p>Logout</p>
+                    </Link>
+                </nav>
+
+                <nav className={styles['mobile-nav']}>
+                    <Link to="/explore" className={styles['links']}>
+                        <ExploreSvg />
+                    </Link>
+
+                    {/* User */}
+                    <Link to="/upload" className={styles['links']}>
+                        <UploadSvg />
+                    </Link>
+
+                    <Link to="/profile" className={styles['links']}>
+                        <ProfileSvg />
                     </Link>
 
 
+                    <Link to="/auth/logout" className={styles['links']}>
+                        <LogoutSvg />
+                    </Link>
                 </nav>
 
             </div>
-        </header>
+        </header >
     );
 };

@@ -5,7 +5,7 @@
 
 html {
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 13px;
     font-family: "PT Sans", sans-serif;
     line-height: 1.5;
 }
@@ -37,12 +37,12 @@ a {
 
 @media (width > 768px) {
     html {
-        font-size: 16px;
+        font-size: 15px;
     }
 }
 
 @media (width > 1200px) {
     html {
-        font-size: 18px;
+        font-size: 16px;
     }
 }
