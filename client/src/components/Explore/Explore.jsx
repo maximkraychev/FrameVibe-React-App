@@ -1,4 +1,4 @@
-import { PostCard } from './PostCard';
+import { PostCard } from './PostCard/PostCard';
 import styles from './Explore.module.css';
 
 export const Explore = () => {

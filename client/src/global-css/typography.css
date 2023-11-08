@@ -5,7 +5,7 @@
 
 html {
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 12px;
     font-family: "PT Sans", sans-serif;
     line-height: 1.5;
 }
@@ -27,4 +27,22 @@ h4 { font-size: 1.3em;}
 a {
     text-decoration: none;
     display: block;
+}
+
+@media (width > 479px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (width > 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (width > 1200px) {
+    html {
+        font-size: 18px;
+    }
 }
