@@ -76,6 +76,20 @@
     width: auto;
 }
 
-.actions p {
+.actions .description {
     display: inline-block;
+}
+
+.card header,
+.actions,
+.description {
+    padding-inline: 0.5em;
+}
+
+@media (width > 600px) {
+    .card header,
+    .actions,
+    .description {
+        padding-inline: 0;
+    }
 }
