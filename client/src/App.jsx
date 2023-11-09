@@ -1,8 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
+import './global-css/global.css';
+
 import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
-import './global-css/global.css';
 import { Login } from './components/Auth/Login/Login';
+import { Register } from './components/Auth/Register/Register';
 
 function App() {
 
@@ -13,7 +15,7 @@ function App() {
         <Routes>
           <Route path='/' />
           <Route path='/explore' element={<Explore />} />
-          <Route path='register' />
+          <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
           <Route path='logout' />
           <Route path='/upload' />
