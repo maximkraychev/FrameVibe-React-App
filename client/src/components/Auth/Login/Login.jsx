@@ -1,0 +1,18 @@
+import { Link } from 'react-router-dom';
+import styles from './Login.module.css';
+
+export const Login = () => {
+    return (
+        <div className={'section-container ' + styles['login']}>
+            <form className={styles['login-form']}>
+                <h2>Sign in</h2>
+                <input type="email" placeholder='Email' />
+                <input type="password" placeholder='Password' />
+                <input type="submit" value={'Sign up'} />
+                <p className={styles['option']}>
+                    You don&apos;t have an account? <Link to='/register'>Register here!</Link>
+                </p>
+            </form>
+        </div>
+    );
+};

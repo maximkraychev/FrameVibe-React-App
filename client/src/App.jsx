@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import './global-css/global.css';
+import { Login } from './components/Auth/Login/Login';
 
 function App() {
 
@@ -12,9 +13,9 @@ function App() {
         <Routes>
           <Route path='/' />
           <Route path='/explore' element={<Explore />} />
-          <Route path='/auth/register' />
-          <Route path='/auth/login' />
-          <Route path='/auth/logout' />
+          <Route path='register' />
+          <Route path='login' element={<Login />} />
+          <Route path='logout' />
           <Route path='/upload' />
           <Route path='/profile' />
         </Routes>
