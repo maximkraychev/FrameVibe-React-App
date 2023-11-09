@@ -8,7 +8,7 @@ export const Login = () => {
                 <h2>Sign in</h2>
                 <input type="email" placeholder='Email' />
                 <input type="password" placeholder='Password' />
-                <input type="submit" value={'Sign up'} />
+                <input type="submit" value={'Sign in'} />
                 <p className={styles['option']}>
                     You don&apos;t have an account? <Link to='/register'>Register here!</Link>
                 </p>
