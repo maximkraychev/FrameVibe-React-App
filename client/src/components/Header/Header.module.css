@@ -17,11 +17,11 @@
 }
 
 .links:hover {
-    color: #F7FBFC;
+    color: var(--white-color);
 }
 
 .links:hover svg {
-    fill: #F7FBFC;
+    fill: var(--white-color);
 }
 
 /* Mobile look */
@@ -36,7 +36,7 @@
     padding-block: 0.5em;
     bottom: 0;
     left: 0;
-    background-color: #B9D7EA;
+    background-color: var(--blue-medium-color);
     position: fixed;
     width: 100%;
     height: 3em;
@@ -50,7 +50,7 @@
     }
 
     .main-header {
-        background-color: #B9D7EA;
+        background-color: var(--blue-medium-color);
     }
 
     .header-container {
@@ -80,7 +80,7 @@
     }
 
     .desktop-nav a {
-        color: #0F0F0F;
+        color: var(--black-color);
     }
 
     .links {
