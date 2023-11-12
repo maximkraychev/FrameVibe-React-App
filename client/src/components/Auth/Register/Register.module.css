@@ -1,5 +1,5 @@
-.login {
-    height: calc(100vh - 5em);
+.form-container {
+    min-height: calc(100vh - 5em);
     display: flex;
     align-items: center;
     justify-content: center;

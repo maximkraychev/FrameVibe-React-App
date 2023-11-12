@@ -3,7 +3,7 @@ import styles from './Login.module.css';
 
 export const Login = () => {
     return (
-        <div className={'section-container ' + styles['login']}>
+        <div className={styles['form-container']}>
             <form className={styles['login-form']}>
                 <h2>Sign in</h2>
                 <input type="email" placeholder='Email' />

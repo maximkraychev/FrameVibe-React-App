@@ -3,7 +3,7 @@ import styles from './Register.module.css';
 
 export const Register = () => {
     return (
-        <div className={'section-container ' + styles['login']}>
+        <div className={styles['form-container']}>
             <form className={styles['login-form']}>
                 <h2>Create Account</h2>
                 <input type="email" placeholder='Email' />
