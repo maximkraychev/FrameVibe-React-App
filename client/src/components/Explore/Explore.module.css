@@ -3,12 +3,13 @@
     display: flex;
     flex-direction: column;
     gap: 5em;
+    margin-top: 2em;
 }
 
 
 @media (width >= 479px) {
     .explore {
         max-width: 600px;
-        margin: 0 auto;
+        margin-inline: auto;
     }
 }

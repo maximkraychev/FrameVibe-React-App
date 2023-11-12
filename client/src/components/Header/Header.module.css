@@ -26,10 +26,6 @@
 
 /* Mobile look */
 
-.main-header {
-    margin-bottom: 2em;
-}
-
 .mobile-nav {
     display: flex;
     justify-content: space-around;
