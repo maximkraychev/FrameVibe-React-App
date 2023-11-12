@@ -1,0 +1,68 @@
+.form-container {
+    min-height: calc(100vh - 5em);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-image-form {
+    flex: 0 1 20em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    max-width: 20em;
+    min-height: 30em;
+    background-color: var(--pure-white-color);
+    border-radius: 1.5em;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.upload-image-form h2 {
+    color: var(--blue-dark-color);
+}
+
+.upload-image-form input[type="file"] {
+    display: none;
+}
+
+.label-for-upload-image {
+    border: 1px solid var(--blue-dark-color);
+    background-color: var(--blue-dark-color);
+    color: var(--white-color);
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+}
+
+.upload-image-form textarea {
+    background-color: var(--darker-white-color);
+    border: none;
+    padding: 0.8em 1em;
+    width: 80%;
+}
+
+.upload-image-form textarea:focus {
+    outline: 2px solid var(--blue-light-color);
+}
+
+.upload-image-form input[type="submit"] {
+    border-radius: 1em; 
+    padding: 1em 2em;
+    border: 1px solid var(--blue-dark-color);
+    background-color: var(--blue-dark-color);
+    color: var(--white-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+@media (width > 479px) {
+    .upload-image-form {
+        flex-basis: 25em;
+        max-width: 25em;
+        min-height: 32em;
+    }
+}

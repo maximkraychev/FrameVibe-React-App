@@ -5,6 +5,7 @@ import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
 import { Register } from './components/Auth/Register/Register';
+import { UploadImage } from './components/UploadImage/UploadImage';
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
           <Route path='register' element={<Register />} />
           <Route path='login' element={<Login />} />
           <Route path='logout' />
-          <Route path='/upload' />
+          <Route path='/upload' element={<UploadImage />}/>
           <Route path='/profile' />
         </Routes>
       </div>
