@@ -24,6 +24,14 @@
     fill: var(--white-color);
 }
 
+.header-container .active {
+    color: var(--white-color);
+}
+
+.header-container .active svg {
+    fill: var(--white-color);
+}
+
 /* Mobile look */
 
 .mobile-nav {

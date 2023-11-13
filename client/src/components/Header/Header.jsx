@@ -1,16 +1,19 @@
 import styles from './Header.module.css';
 import logoIcon from '../../assets/logo.svg';
-// import exploreIcon from '../../assets/explore.svg';
-// import uploadIcon from '../../assets/upload.svg';
-// import profileIcon from '../../assets/profile.svg';
-// import logoutIcon from '../../assets/logout.svg';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { ProfileSvg } from '../Svg/Profile';
 import { LogoutSvg } from '../Svg/Logout';
 import { UploadSvg } from '../Svg/Upload';
 import { ExploreSvg } from '../Svg/Explore';
 
 export const Header = () => {
+
+    function setLinksAndActiveCss(boolean) {
+        return  [
+            styles['links'],
+            boolean ? styles['active'] : ''
+        ].join(' ');
+    }
 
 
     return (
@@ -25,25 +28,25 @@ export const Header = () => {
 
                 <nav className={styles['desktop-nav']}>
 
-                    <Link to="/explore" className={styles['links']}>
+                    <NavLink to="/explore" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ExploreSvg />
                         <p>Explore</p>
-                    </Link>
+                    </NavLink>
 
                     {/* Guest */}
                     {/* <Link to="/auth/login" className={styles['links']}>Login</Link>
                     <Link to="/auth/register" className={styles['links']}>Register</Link> */}
 
                     {/* User */}
-                    <Link to="/upload" className={styles['links']}>
+                    <NavLink to="/upload" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <UploadSvg />
                         <p>Upload Image</p>
-                    </Link>
+                    </NavLink>
 
-                    <Link to="/profile" className={styles['links']}>
+                    <NavLink to="/profile" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ProfileSvg />
                         <p>Profile</p>
-                    </Link>
+                    </NavLink>
 
 
                     <Link to="/auth/logout" className={styles['links']}>
@@ -53,18 +56,18 @@ export const Header = () => {
                 </nav>
 
                 <nav className={styles['mobile-nav']}>
-                    <Link to="/explore" className={styles['links']}>
+                    <NavLink to="/explore" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ExploreSvg />
-                    </Link>
+                    </NavLink>
 
                     {/* User */}
-                    <Link to="/upload" className={styles['links']}>
+                    <NavLink to="/upload" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <UploadSvg />
-                    </Link>
+                    </NavLink>
 
-                    <Link to="/profile" className={styles['links']}>
+                    <NavLink to="/profile" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ProfileSvg />
-                    </Link>
+                    </NavLink>
 
 
                     <Link to="/auth/logout" className={styles['links']}>
