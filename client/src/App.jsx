@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './global-css/global.css';
 
+import { PATH } from './paths/paths';
 import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
@@ -16,12 +17,12 @@ function App() {
       <div className='section-container'>
         <Routes>
           <Route path='/' />
-          <Route path='/explore' element={<Explore />} />
-          <Route path='register' element={<Register />} />
-          <Route path='login' element={<Login />} />
-          <Route path='logout' />
-          <Route path='/upload' element={<UploadImage />}/>
-          <Route path='/profile' element={<Profile />}/>
+          <Route path={PATH.EXPLORE} element={<Explore />} />
+          <Route path={PATH.REGISTER} element={<Register />} />
+          <Route path={PATH.LOGIN} element={<Login />} />
+          <Route path={PATH.LOGOUT} />
+          <Route path={PATH.UPLOAD} element={<UploadImage />}/>
+          <Route path={PATH.PROFILE} element={<Profile />}/>
         </Routes>
       </div>
     </>

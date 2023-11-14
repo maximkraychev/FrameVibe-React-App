@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Register.module.css';
+import { PATH } from '../../../paths/paths';
 
 export const Register = () => {
     return (
@@ -11,7 +12,7 @@ export const Register = () => {
                 <input type="password" placeholder='Password' />
                 <input type="submit" value={'Sign up'} />
                 <p className={styles['option']}>
-                    You have an account? <Link to='/login'>Login here!</Link>
+                    You have an account? <Link to={PATH.LOGIN}>Login here!</Link>
                 </p>
             </form>
         </div>
