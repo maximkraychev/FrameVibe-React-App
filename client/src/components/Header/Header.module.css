@@ -55,6 +55,8 @@
 
     .main-header {
         background-color: var(--blue-medium-color);
+        position: sticky;
+        top: 0;
     }
 
     .header-container {
