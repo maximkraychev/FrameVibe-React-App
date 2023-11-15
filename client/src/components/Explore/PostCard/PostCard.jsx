@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { HeartSvg } from '../../Svg/Heart';
 import styles from './PostCard.module.css';
 
@@ -45,7 +46,6 @@ export const PostCard = () => {
                 </p>
             </div>
 
-
             <div className={styles['card']}>
                 <header>
                     <div className={styles['avatar-container']}>
@@ -55,7 +55,9 @@ export const PostCard = () => {
                     <button>View Profile</button>
                 </header>
                 <div className={styles['image-container']}>
-                    <img src="https://images.unsplash.com/photo-1698778755357-63abc1fe986f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDMzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="main-image" />
+                    <Link to={'/explore/ioashd'}>
+                        <img src="https://images.unsplash.com/photo-1698778755357-63abc1fe986f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDMzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="main-image" />
+                    </Link>
                 </div>
                 <div className={styles['actions']}>
                     <HeartSvg />
