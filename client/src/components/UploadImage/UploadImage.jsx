@@ -7,7 +7,7 @@ export const UploadImage = () => {
 
 
     function showSelectedFileName(e) {
-        setFileName(e.target.value?.slice(-30));
+        setFileName(e.target.value);
     }
 
 
@@ -17,8 +17,8 @@ export const UploadImage = () => {
                 <h2>Image Upload</h2>
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
                 <input type="file" name='uploadImage' id='upload-image' accept="image/png, image/jpeg" onChange={showSelectedFileName} />
-                {fileName ||
-                    <span id={styles['file-selected']}>{fileName}</span>
+                {fileName &&
+                    <p className={styles['file-selected']}>{fileName}</p>
                 }
                 <textarea name='description' rows="6" cols="50"></textarea>
                 <input type="submit" value={'Upload'} />

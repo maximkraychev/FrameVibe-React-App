@@ -59,10 +59,21 @@
     cursor: pointer;
 }
 
+.file-selected {
+    max-width: 10em;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
 @media (width > 479px) {
     .upload-image-form {
         flex-basis: 25em;
         max-width: 25em;
         min-height: 32em;
+    }
+
+    .file-selected {
+        max-width: 20em;
     }
 }
