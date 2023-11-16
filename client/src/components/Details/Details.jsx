@@ -17,7 +17,7 @@ export const Details = () => {
                 <div className={styles['dimmer']} onClick={changeVisibility}>
                     <div className={styles['details-container']}>
 
-                        <div className={styles['owner']}>
+                        <div className={styles['owner-mobile']}>
                             <div className={styles['avatar-container-mobile']}>
                                 <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
                             </div>
@@ -30,8 +30,11 @@ export const Details = () => {
                         </div>
 
                         <div className={styles['description-container']}>
-                            <div className={styles['avatar-container-desktop']}>
-                                <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                            <div className={styles['owner-desktop']}>
+                                <div className={styles['avatar-container-desktop']}>
+                                    <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                                </div>
+                                <p>Username</p>
                             </div>
                             <div className={styles['description']}>
                                 <p>
