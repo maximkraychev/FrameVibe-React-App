@@ -9,6 +9,7 @@ import { Register } from './components/Auth/Register/Register';
 import { UploadImage } from './components/UploadImage/UploadImage';
 import { Profile } from './components/Profile/Profile';
 import { Details } from './components/Details/Details';
+import { NotFound } from './components/NotFound/NotFound';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path={PATH.PROFILE} element={<Profile />}>
             <Route path={PATH.IMAGE_DETAILS} element={<Details />} />
           </Route>
+          <Route path={PATH.NOT_FOUND} element={<NotFound />} />
         </Routes>
       </div>
     </>

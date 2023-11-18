@@ -5,5 +5,6 @@ export const PATH = {
     LOGOUT: '/logout',
     UPLOAD: '/upload',
     PROFILE: '/profile',
-    IMAGE_DETAILS: ':ImageId'
+    IMAGE_DETAILS: ':ImageId',
+    NOT_FOUND: '*'
 };
