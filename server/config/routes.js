@@ -1,5 +1,5 @@
 import { homeController } from '../controllers/homeController.js';
-import { productController } from '../controllers/productController.js';
+import { postController } from '../controllers/postController.js';
 import { userController } from '../controllers/userController.js';
 import { isUserLogged } from '../middlewares/guards.js';
 import logRequests from '../middlewares/displayRequest.js';
@@ -7,7 +7,7 @@ import logRequests from '../middlewares/displayRequest.js';
 export default (app) => {
 	app.use(logRequests()); // Logging every request
 	app.use('/', homeController);
-	app.use('/products', isUserLogged, productController);
+	app.use('/products', isUserLogged, postController);
 	app.use('/users', userController);
 	app.all('*', (req, res, next) => {
 		try {
