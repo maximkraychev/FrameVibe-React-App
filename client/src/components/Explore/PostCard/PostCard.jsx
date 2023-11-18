@@ -8,7 +8,9 @@ export const PostCard = () => {
             <div className={styles['card']}>
                 <header>
                     <div className={styles['avatar-container']}>
-                        <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        <Link to={'someId'}>
+                            <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        </Link>
                     </div>
                     <p className={styles['username']}>Test</p>
                     <button>View Profile</button>
@@ -29,7 +31,9 @@ export const PostCard = () => {
             <div className={styles['card']}>
                 <header>
                     <div className={styles['avatar-container']}>
-                        <img src="https://images.unsplash.com/photo-1698668768739-7dfa1a00a8f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        <Link to={'someId'}>
+                            <img src="https://images.unsplash.com/photo-1698668768739-7dfa1a00a8f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        </Link>
                     </div>
                     <p className={styles['username']}>Test</p>
                     <button>View Profile</button>
@@ -49,7 +53,9 @@ export const PostCard = () => {
             <div className={styles['card']}>
                 <header>
                     <div className={styles['avatar-container']}>
-                        <img src="https://images.unsplash.com/photo-1698681375999-8faa3e824cd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI4fHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        <Link to={'someId'}>
+                            <img src="https://images.unsplash.com/photo-1698681375999-8faa3e824cd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI4fHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
+                        </Link>
                     </div>
                     <p className={styles['username']}>Test</p>
                     <button>View Profile</button>
