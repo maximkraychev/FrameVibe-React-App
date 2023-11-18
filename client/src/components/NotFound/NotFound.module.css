@@ -1,0 +1,77 @@
+.not-found-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.not-found {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.not-found-image {
+    position: relative;
+    display: inline-block;
+    width: 1000px;
+    max-width: 200px;
+    aspect-ratio: 1 / 1;
+    background-image: url('../../assets/emoji.webp');
+    background-size: cover;
+}
+
+.not-found-image::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.5);
+    border-radius: 50%;
+    background-color: var(--blue-light-color);
+    z-index: -1;
+    opacity: 0.4;
+}
+
+.not-found-description {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+    font-family: 'Nunito', sans-serif;
+}
+
+.not-found-description h2 {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.not-found-description h5 {
+    font-weight: 400;
+}
+
+.not-found-description p {
+    font-weight: 400;
+    color: #999fa5;
+}
+
+.not-found-description a {
+    display: inline-block;
+    font-weight: 700;
+    border-radius: 40px;
+    color: var(--blue-dark-color)
+}
+
+
+@media (width <= 800px) {
+    .not-found {
+        flex-direction: column;
+    }
+
+    .not-found-image {
+        align-self: center;
+    }
+
+    .not-found-description {
+        margin-inline: 2em;
+    }
+}
