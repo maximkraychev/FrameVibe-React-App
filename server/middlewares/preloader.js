@@ -1,7 +1,7 @@
-const preload = (api, id = 'productId') => async (req, res, next) => {
+const preload = (api, id = 'postId') => async (req, res, next) => {
 		try {
-			const paramsId = req.params[id];
-			const currentState = await api(paramsId);
+			const postId = req.params[id];
+			const currentState = await api(postId);
 
 			if (currentState) {
 				res.locals.preload = currentState;
