@@ -8,17 +8,17 @@ const jwtSecret = process.env.JWT_SECRET;
 const roundsBcrypt = 10;
 
 // Register
-async function userRegister({ username, email, password, role }) {  
+async function userRegister({ username, email, password }) {  
 
     // TODO... make the requests with promise all
     // Check if the username or email is already taken
     const isExistingEmail = await User.findOne({ email });
-    if (isExisting) {
+    if (isExistingEmail) {
         throw new Error('Email is already used!');
     }
 
     const isExistingUsername = await User.findOne({ username });
-    if (isExisting) {
+    if (isExistingUsername) {
         throw new Error('Username is already used!');
     }
     
@@ -29,7 +29,6 @@ async function userRegister({ username, email, password, role }) {
     const user = await User.create({
         username,
         email,
-        role,
         password: hashedPassword
     });
 
@@ -43,7 +42,6 @@ async function userRegister({ username, email, password, role }) {
             _id: user._id,
             username: user.username,
             email: user.email,
-            role: user.role,
         }
     };
 }
@@ -72,8 +70,7 @@ async function userLogin({ email, password }) {
         userDetails: {
             _id: user._id,
             username: user.username,
-            email: user.email,
-            role: user.role,
+            email: user.email
         }
     };
 }
@@ -97,7 +94,6 @@ async function generateToken(user) {
         _id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role,
     }
 
     try {
