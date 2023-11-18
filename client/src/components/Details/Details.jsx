@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './Details.module.css';
 import { useNavigate } from 'react-router-dom';
+import { Xmark } from '../Svg/Xmark';
 
 export const Details = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export const Details = () => {
                                 <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
                             </div>
                             <p>Username</p>
+                            <Xmark onClick={changeVisibility}/>
                         </div>
 
                         <div className={styles['image-container']}>
@@ -35,6 +37,7 @@ export const Details = () => {
                                     <img src="https://images.unsplash.com/photo-1698778755079-a76db5955d2c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIxfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
                                 </div>
                                 <p>Username</p>
+                                <Xmark onClick={changeVisibility}/>
                             </div>
                             <div className={styles['description']}>
                                 <p>
