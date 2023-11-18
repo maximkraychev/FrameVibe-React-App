@@ -97,6 +97,7 @@
     .owner-desktop {
         display: flex;
         background-color: var(--white-color);
+        align-items: center;
     }
 
     .details-container {
