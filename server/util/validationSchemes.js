@@ -25,7 +25,7 @@ const validateLoginSchema = joi.object({
 
 // Validate comment on creation
 const validateCommentSchema = joi.object({
-	comment: joi.string.trim().required().max(200)
+	comment: joi.string().trim().required().max(200)
 });
 
 export { validatePostSchema, validateRegisterSchema, validateLoginSchema, validateCommentSchema };
