@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getSingleProduct, createProduct, updateProduct, deleteProduct, getAllProducts } from '../services/productService.js';
+import { getSingleProduct, createProduct, updateProduct, deleteProduct, getAllProducts } from '../services/postService.js';
 import { validateProductSchema } from '../util/validationSchemes.js';
 import { preload } from '../middlewares/preloader.js';
 import { isOwner } from '../middlewares/guards.js';
