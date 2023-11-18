@@ -3,9 +3,12 @@ import { PostCard } from './PostCard/PostCard';
 import styles from './Explore.module.css';
 
 export const Explore = () => {
+
+    const urlAfterDetailsClose = '/explore'
+
     return (
         <>
-            <Outlet></Outlet>
+            <Outlet context={[urlAfterDetailsClose]}></Outlet>
             <section className={styles['explore']}>
                 <PostCard />
             </section>

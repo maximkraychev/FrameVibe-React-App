@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import styles from './Details.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Xmark } from '../Svg/Xmark';
 
 export const Details = () => {
     const navigate = useNavigate();
     const [isVisible, setVisible] = useState(true);
 
+    const [urlAfterClose] = useOutletContext();
+
     function changeVisibility() {
         setVisible((oldValue) => !oldValue);
-        navigate('/explore');
+        navigate(urlAfterClose);
     }
 
     return (
