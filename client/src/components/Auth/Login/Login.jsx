@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
-import { PATH } from '../../../paths/paths';
+import { PATH } from '../../../constants/paths';
 
 export const Login = () => {
     return (

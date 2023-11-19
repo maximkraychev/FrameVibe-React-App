@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './global-css/global.css';
 
-import { PATH } from './paths/paths';
+import { PATH } from './constants/paths';
 import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
