@@ -16,10 +16,12 @@
 }
 
 .details-container {
+   position: relative;
+   top: 2em;
    width: 80%;
    max-width: 350px;
    height: 600px;
-   /* max-height: 600px; */
+   max-height: calc(80% - 4em);
    border-radius: 0.5em;
    overflow: hidden;
    display: flex;
