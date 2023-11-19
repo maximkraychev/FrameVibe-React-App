@@ -13,14 +13,14 @@ const validateRegisterSchema = joi.object({
 
 	email: joi.string().required().trim().email().lowercase(),
 
-	password: joi.string().required().trim().min(8).max(20),
+	password: joi.string().required().trim().min(6).max(20),
 });
 
 // Validate user on login
 const validateLoginSchema = joi.object({
 	email: joi.string().required().trim().email().lowercase(),
 
-	password: joi.string().required().trim().min(8).max(20),
+	password: joi.string().required().trim().min(6).max(20),
 });
 
 // Validate comment on creation
