@@ -3,6 +3,7 @@ import styles from './Register.module.css';
 import { PATH } from '../../../constants/paths';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
 import { useForm } from '../../../hooks/useForm';
+import { registerService } from '../../../services/authService';
 
 export const Register = () => {
 
@@ -15,7 +16,10 @@ export const Register = () => {
         onRegisterSubmit)
 
     async function onRegisterSubmit(data) {
-        console.log(data);
+        const {repassword, ...userDataForServer} = data
+        console.log(userDataForServer);
+        const result = await registerService(userDataForServer);
+        console.log(result);
     }
 
     return (
