@@ -15,6 +15,11 @@ export const UploadImage = () => {
                 setPreviewImage(e.target.result);
             };
 
+            reader.onerror = (e) => {
+                console.error('Error reading the file:', e.target.error);
+                // TODO add modal that shows the error message; 
+              };
+
             reader.readAsDataURL(file);
         }
     };
