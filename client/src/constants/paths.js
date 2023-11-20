@@ -8,3 +8,10 @@ export const PATH = {
     IMAGE_DETAILS: ':ImageId',
     NOT_FOUND: '*'
 };
+
+
+export const API_PATH = {
+    BASE: 'http://localhost:3000',
+    REGISTER: '/users/register',
+    LOGIN: '/users/login',
+}
