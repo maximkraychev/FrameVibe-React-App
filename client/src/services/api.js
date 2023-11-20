@@ -4,6 +4,7 @@ async function request(type, path, data) {
 
     const options = {
         method: type,
+        credentials: 'include',                                                
         headers: {}
     }
 
