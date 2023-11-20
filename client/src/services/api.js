@@ -1,4 +1,4 @@
-const host = 'http://localhost:3000';
+import { API_PATH } from "../constants/paths";
 
 async function request(type, path, data) {
 
@@ -19,7 +19,7 @@ async function request(type, path, data) {
     // }
 
     try {
-        const response = await fetch(host + path, options);
+        const response = await fetch(API_PATH.BASE + path, options);
 
         if (response.ok == false) {
             //TODO add logic for clearing local user state 
