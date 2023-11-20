@@ -9,9 +9,12 @@ const userController = Router();
 userController.post('/register', isUserGuest, async (req, res, next) => {
     try {
         await validateRegisterSchema.validateAsync(req.body);
-        const user = await userRegister(req.body);
 
-        res.status(200).json(user);
+        const { cookies, userDetails } = await userRegister(req.body);
+        res.cookie('jwtHeaderPayload', cookies.userInfo)
+        res.cookie('jwtSignature', cookies.signature, { httpOnly: true });
+        res.status(200).json({message: 'Successful registration'});
+
     } catch (err) {
         next(err);
     }
@@ -21,9 +24,12 @@ userController.post('/register', isUserGuest, async (req, res, next) => {
 userController.post('/login', isUserGuest, async (req, res, next) => {
     try {
         await validateLoginSchema.validateAsync(req.body);
-        const user = await userLogin(req.body);
 
-        res.status(200).json(user);
+        const { cookies, userDetails } = await userLogin(req.body);
+        res.cookie('jwtHeaderPayload', cookies.userInfo)
+        res.cookie('jwtSignature', cookies.signature, { httpOnly: true });
+        res.status(200).json({message: 'Successful login'});
+
     } catch (err) {
         next(err);
     }
