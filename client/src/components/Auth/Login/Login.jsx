@@ -1,14 +1,45 @@
 import { Link } from 'react-router-dom';
 import styles from './Login.module.css';
 import { PATH } from '../../../constants/paths';
+import { useForm } from '../../../hooks/useForm';
+import { INPUT_NAMES } from '../../../constants/formInputNaming';
+import { loginService } from '../../../services/authService';
 
 export const Login = () => {
+
+    const { values, changeHandler, onSubmit } = useForm({
+        [INPUT_NAMES.EMAIL]: '',
+        [INPUT_NAMES.PASSWORD]: '',
+    },
+        onLoginSubmit)
+
+    async function onLoginSubmit(data) {
+        console.log(data);
+        const result = await loginService(data);
+        console.log(result);
+    }
+
     return (
-        <div className={styles['form-container']}>
+        <div className={styles['form-container']} onSubmit={onSubmit}>
             <form className={styles['login-form']}>
                 <h2>Sign in</h2>
-                <input type="email" placeholder='Email' />
-                <input type="password" placeholder='Password' />
+
+                <input 
+                    type="email" 
+                    placeholder='Email'
+                    name={INPUT_NAMES.EMAIL}
+                    value={values[INPUT_NAMES.EMAIL]}
+                    onChange={changeHandler} 
+                />
+
+                <input 
+                    type="password" 
+                    placeholder='Password'
+                    name={INPUT_NAMES.PASSWORD}
+                    value={values[INPUT_NAMES.PASSWORD]}
+                    onChange={changeHandler}  
+                />
+
                 <input type="submit" value={'Sign in'} />
                 <p className={styles['option']}>
                     You don&apos;t have an account? <Link to={PATH.REGISTER}>Register here!</Link>
