@@ -8,7 +8,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const roundsBcrypt = 10;
 
 // Register
-async function userRegister({ username, email, password }) {  
+async function userRegister({ username, email, password }) {
 
     // TODO... make the requests with promise all
     // Check if the username or email is already taken
@@ -21,7 +21,7 @@ async function userRegister({ username, email, password }) {
     if (isExistingUsername) {
         throw new Error('Username is already used!');
     }
-    
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, roundsBcrypt);
 
@@ -34,10 +34,11 @@ async function userRegister({ username, email, password }) {
 
     // Create token
     const userToken = await generateToken(user);
+    const cookies = splitToken(userToken);
 
     // Return user info
     return {
-        accessToken: userToken,
+        cookies,
         userDetails: {
             _id: user._id,
             username: user.username,
@@ -63,10 +64,11 @@ async function userLogin({ email, password }) {
 
     // Create token
     const userToken = await generateToken(user);
+    const cookies = splitToken(userToken);
 
     // Return user info
     return {
-        accessToken: userToken,
+        cookies,
         userDetails: {
             _id: user._id,
             username: user.username,
@@ -115,6 +117,24 @@ async function generateToken(user) {
 
     } catch (err) {
         throw new Error('An error occurred while generating the token!');
+    }
+}
+
+// This function will split the token into two parts
+// They will be send as cookie to the client and only the header and payload from the jwt will be available for js
+// Signature will be httpOnly cookie 
+
+function splitToken(token) {
+    const lastIndexOfDot = token.lastIndexOf('.');
+
+    if (lastIndexOfDot == -1) throw 'There were a problem with splitting the token';
+
+    const userInfo = token.substring(0, lastIndexOfDot);
+    const signature = token.substring(lastIndexOfDot + 1);
+
+    return {
+        userInfo,
+        signature
     }
 }
 
