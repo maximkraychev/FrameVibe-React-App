@@ -1,7 +1,7 @@
-import { getCookieByName } from "../util/getCookieByName"
+import { getCookieByName } from "./getCookieByName"
 import { COOKIES_NAMES } from '../constants/cookies'
 
-export const useCookieUserData = () => {
+export const getCookieUserData = () => {
     const headerPayload = getCookieByName(COOKIES_NAMES.USER_DATA);
 
     if (headerPayload == null) {
