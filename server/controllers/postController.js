@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost } from '../services/postService.js';
+
+import { cloudinary } from '../config/cloudinary.js';
 import { validatePostSchema } from '../util/validationSchemes.js';
+import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
 import { isOwner } from '../middlewares/guards.js';
+
 const postController = Router();
 
 
@@ -32,16 +35,35 @@ const postController = Router();
 // });
 
 // POST 
-// productController.post('/', async (req, res, next) => {
-//     try {
-//         await validateProductSchema.validateAsync(req.body);
-//         const newProduct = await createProduct(req.body, req.user._id);
+postController.post('/', async (req, res, next) => {
+    try {
+        const data = req.body;
+        console.log(data);
 
-//         res.status(201).json(newProduct);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        await validatePostSchema.validateAsync(data);
+        console.log('-----------upload image');
+        console.log(data.uploadImage);
+
+        const result = await cloudinary.uploader.upload(data.uploadImage);
+        console.log('---------------------result');
+        console.log(result);
+
+        const imgDataForDataBase = {
+            description: data.description,
+            imageURL: result.secure.url,
+            imageId: result.public_id
+        }
+
+        console.log('------DATA for database');
+        console.log(imgDataForDataBase);
+
+        const newProduct = await createPost(imgDataForDataBase, req.user._id);
+
+        res.status(201).json(newProduct);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // PUT
 // productController.put('/:productId', preload(getSingleProduct), isOwner, async (req, res, next) => {
