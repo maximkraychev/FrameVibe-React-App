@@ -6,6 +6,10 @@ const postSchema = new Schema({
 		required: [true, 'ImageURL is required!'],
 		match: [/^https?:\/\//, 'Image URL must start with http or https!']
 	},
+	imageId: {
+		type: String,
+		required: [true, 'ImageId is required!']
+	},
 	description: {
 		type: String,
 		required: [true, 'Description is required!'],

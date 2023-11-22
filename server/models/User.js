@@ -21,6 +21,9 @@ const userSchema = new Schema({
 		type: String,
 		required: [true, 'Password is required!']
 	},
+    avatar: {
+        type: String
+    },
     description: {
         type: String,
         maxlength: [300, 'Description can\'t exceed 300 characters']
