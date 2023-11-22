@@ -2,8 +2,17 @@ import jwt from 'jsonwebtoken';
 import { tokenBlackList } from '../util/tokenBlackList.js';
 
 export default () => (req, res, next) => {
-	const userToken = req.headers['x-authorization'];
 
+	let userToken = null;
+
+	// The token is saved as two cookies on the client
+	// Concatenate the two cookie into one
+	const tokenHeaderPayload = req.cookies.jwtHeaderPayload;
+	const tokenSignature = req.cookies.jwtSignature;
+
+	if (tokenHeaderPayload && tokenSignature) tokenHeaderPayload.concat('.', tokenSignature);
+
+	// If we have userToken save it into req
 	if (userToken) {
 		try {
 			if (tokenBlackList.has(userToken)) {
