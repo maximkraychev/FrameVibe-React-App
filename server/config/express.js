@@ -7,6 +7,6 @@ export default (app) => {
 	app.use(cors());
 	app.use(json());
 	app.use(urlencoded({ extended: true }));
+	app.use(cookieParser()); 			
 	app.use(userSession());
-	// app.use(cookieParser()); 				//	TODO.. add if needed
 };
