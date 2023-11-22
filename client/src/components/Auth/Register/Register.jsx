@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import styles from './Register.module.css';
 import { PATH } from '../../../constants/paths';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
@@ -7,6 +8,7 @@ import { registerService } from '../../../services/authService';
 
 export const Register = () => {
 
+    const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm({
         [INPUT_NAMES.EMAIL]: '',
         [INPUT_NAMES.USERNAME]: '',
@@ -16,10 +18,10 @@ export const Register = () => {
         onRegisterSubmit)
 
     async function onRegisterSubmit(data) {
-        const {repassword, ...userDataForServer} = data
-        console.log(userDataForServer);
-        const result = await registerService(userDataForServer);
-        console.log(result);
+        //TODO remove userDataForServer if we end up not using it
+        const {repassword, ...userDataForServer} = data;
+        await registerService(userDataForServer);
+        navigate(PATH.EXPLORE);
     }
 
     return (
