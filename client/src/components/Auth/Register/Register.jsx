@@ -13,7 +13,8 @@ export const Register = () => {
         [INPUT_NAMES.EMAIL]: '',
         [INPUT_NAMES.USERNAME]: '',
         [INPUT_NAMES.PASSWORD]: '',
-        [INPUT_NAMES.REPASSWORD]: ''
+        [INPUT_NAMES.REPASSWORD]: '',
+        [INPUT_NAMES.USER_AVATAR]: [INPUT_NAMES.USER_BASE_AVATAR_URL]
     },
         onRegisterSubmit)
 
