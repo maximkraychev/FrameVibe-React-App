@@ -1,12 +1,20 @@
+import { useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+
+import { PATH } from '../../constants/paths';
+import { AuthContext } from '../../contexts/AuthContext';
+
 import styles from './Header.module.css';
 import logoIcon from '../../assets/logo.svg';
-import { Link, NavLink } from 'react-router-dom';
 import { ProfileSvg } from '../Svg/Profile';
 import { LogoutSvg } from '../Svg/Logout';
 import { UploadSvg } from '../Svg/Upload';
 import { ExploreSvg } from '../Svg/Explore';
 
 export const Header = () => {
+
+    const {auth, setUser} = useContext(AuthContext);
+
 
     function setLinksAndActiveCss(boolean) {
         return  [
@@ -28,7 +36,7 @@ export const Header = () => {
 
                 <nav className={styles['desktop-nav']}>
 
-                    <NavLink to="/explore" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ExploreSvg />
                         <p>Explore</p>
                     </NavLink>
@@ -38,39 +46,39 @@ export const Header = () => {
                     <Link to="/auth/register" className={styles['links']}>Register</Link> */}
 
                     {/* User */}
-                    <NavLink to="/upload" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <UploadSvg />
                         <p>Upload Image</p>
                     </NavLink>
 
-                    <NavLink to="/profile" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.PROFILE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ProfileSvg />
                         <p>Profile</p>
                     </NavLink>
 
 
-                    <Link to="/auth/logout" className={styles['links']}>
+                    <Link to={PATH.LOGOUT} className={styles['links']}>
                         <LogoutSvg />
                         <p>Logout</p>
                     </Link>
                 </nav>
 
                 <nav className={styles['mobile-nav']}>
-                    <NavLink to="/explore" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ExploreSvg />
                     </NavLink>
 
                     {/* User */}
-                    <NavLink to="/upload" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <UploadSvg />
                     </NavLink>
 
-                    <NavLink to="/profile" className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                    <NavLink to={PATH.PROFILE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                         <ProfileSvg />
                     </NavLink>
 
 
-                    <Link to="/auth/logout" className={styles['links']}>
+                    <Link to={PATH.LOGOUT} className={styles['links']}>
                         <LogoutSvg />
                     </Link>
                 </nav>
