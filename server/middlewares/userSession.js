@@ -10,7 +10,9 @@ export default () => (req, res, next) => {
 	const tokenHeaderPayload = req.cookies.jwtHeaderPayload;
 	const tokenSignature = req.cookies.jwtSignature;
 
-	if (tokenHeaderPayload && tokenSignature) tokenHeaderPayload.concat('.', tokenSignature);
+	if (tokenHeaderPayload && tokenSignature) {
+		userToken = tokenHeaderPayload.concat('.', tokenSignature);
+	}
 
 	// If we have userToken save it into req
 	if (userToken) {
