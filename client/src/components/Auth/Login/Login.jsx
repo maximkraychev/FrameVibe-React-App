@@ -1,13 +1,19 @@
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import styles from './Login.module.css';
 import { PATH } from '../../../constants/paths';
-import { useForm } from '../../../hooks/useForm';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
+
+import { useForm } from '../../../hooks/useForm';
 import { loginService } from '../../../services/authService';
+import { AuthContext } from '../../../contexts/AuthContext';
+
 
 
 export const Login = () => {
 
+    const { auth, setUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm({
         [INPUT_NAMES.EMAIL]: '',
@@ -17,6 +23,7 @@ export const Login = () => {
 
     async function onLoginSubmit(data) {
         await loginService(data);
+        setUser();
         navigate(PATH.EXPLORE);
     }
 
@@ -25,20 +32,20 @@ export const Login = () => {
             <form className={styles['login-form']}>
                 <h2>Sign in</h2>
 
-                <input 
-                    type="email" 
+                <input
+                    type="email"
                     placeholder='Email'
                     name={INPUT_NAMES.EMAIL}
                     value={values[INPUT_NAMES.EMAIL]}
-                    onChange={changeHandler} 
+                    onChange={changeHandler}
                 />
 
-                <input 
-                    type="password" 
+                <input
+                    type="password"
                     placeholder='Password'
                     name={INPUT_NAMES.PASSWORD}
                     value={values[INPUT_NAMES.PASSWORD]}
-                    onChange={changeHandler}  
+                    onChange={changeHandler}
                 />
 
                 <input type="submit" value={'Sign in'} />
