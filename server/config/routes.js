@@ -7,7 +7,7 @@ import logRequests from '../middlewares/displayRequest.js';
 export default (app) => {
 	app.use(logRequests()); // Logging every request
 	app.use('/', homeController);
-	app.use('/products', isUserLogged, postController);
+	app.use('/post', postController);
 	app.use('/users', userController);
 	app.all('*', (req, res, next) => {
 		try {

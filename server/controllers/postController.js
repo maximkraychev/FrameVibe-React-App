@@ -38,7 +38,6 @@ const postController = Router();
 postController.post('/', async (req, res, next) => {
     try {
         const data = req.body;
-        console.log(data);
 
         await validatePostSchema.validateAsync(data);
         console.log('-----------upload image');
