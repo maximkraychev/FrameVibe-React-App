@@ -1,10 +1,16 @@
-import styles from './Profile.module.css';
-import { PreviewPost } from './PreviewPost/PreviewPost';
 import { Link, Outlet } from 'react-router-dom';
+import { useContext } from 'react';
+
+import { PreviewPost } from './PreviewPost/PreviewPost';
+import { AuthContext } from '../../contexts/AuthContext';
+
+import styles from './Profile.module.css';
 
 export const Profile = () => {
 
     const urlAfterDetailsClose = '/profile';
+    const {auth, setUser} = useContext(AuthContext);
+    console.log(auth);
 
     return (
         <section className={styles['profile-section']}>
