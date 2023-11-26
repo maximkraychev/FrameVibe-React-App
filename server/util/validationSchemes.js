@@ -4,7 +4,7 @@ import joi from 'joi';
 const validatePostSchema = joi.object({
 	description: joi.string().trim().max(200),
 
-	imageURL: joi.string().required().trim(),
+	uploadImage: joi.string().required().trim(),
 });
 
 // Validate user on registration
