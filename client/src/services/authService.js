@@ -8,3 +8,7 @@ export const registerService = async (data) => {
 export const loginService = async (data) => {
     return api.post(API_PATH.LOGIN, data);
 }
+
+export const logoutService = async () => {
+    return api.get(API_PATH.LOGOUT);
+}
