@@ -2,19 +2,18 @@ import { useState } from 'react';
 
 import styles from './UploadImage.module.css';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
-import { useFormReducer } from '../../hooks/useFormReducer';
+import { createPost } from '../../services/postService';
+import { useForm } from '../../hooks/useForm';
 
 const initialFormState = {
-    [INPUT_NAMES.UPLOAD_IMAGE]: '',
     [INPUT_NAMES.DESCRIPTION]: ''
 }
 
 export const UploadImage = () => {
-    const { values, changeHandler, onSubmit } = useFormReducer(initialFormState, uploadImageSubmitHandler);
+    const { values, changeHandler, onSubmit } = useForm(initialFormState, uploadImageSubmitHandler);
     const [previewImage, setPreviewImage] = useState(null);
 
     const handleImageChange = (event) => {
-        changeHandler(event, 'IMAGE_FORM');
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -32,9 +31,14 @@ export const UploadImage = () => {
         }
     };
 
-    function uploadImageSubmitHandler(formData) {
-            console.log(formData);
-        // console.log(previewImage);
+    async function uploadImageSubmitHandler(formData) {
+        const dataForServer = {...formData, [INPUT_NAMES.UPLOAD_IMAGE]: previewImage};
+        console.log(dataForServer);
+        await createPost(dataForServer);
+
+        // console.log({...formData, uploadImage: previewImage});
+        // await createPost({...formData, uploadImage: previewImage});
+
     }
 
     return (
