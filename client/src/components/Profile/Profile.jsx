@@ -11,17 +11,16 @@ export const Profile = () => {
 
     const urlAfterDetailsClose = '/profile';
     const {auth, setUser} = useContext(AuthContext);
-    console.log(auth);
 
     return (
         <section className={styles['profile-section']}>
             <Outlet context={[urlAfterDetailsClose]}></Outlet>
             <header>
                 <div className={styles['profile-picture-container']}>
-                    <img src={auth[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
+                    <img src={auth?.[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
                 </div>
                 <div className={styles['profile-details']}>
-                    <p>{auth.username}</p>
+                    <p>{auth?.username}</p>
                     <button className={styles['profile-edit-btn']}>Edit profile</button>
                 </div>
             </header>
