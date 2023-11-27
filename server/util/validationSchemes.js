@@ -14,6 +14,8 @@ const validateRegisterSchema = joi.object({
 	email: joi.string().required().trim().email().lowercase(),
 
 	password: joi.string().required().trim().min(6).max(20),
+
+	avatar: joi.string().required().trim()
 });
 
 // Validate user on login
