@@ -1,10 +1,13 @@
 import { Outlet } from 'react-router-dom';
-import { PostCard } from './PostCard/PostCard';
+
+import { PATH } from '../../constants/paths';
+
 import styles from './Explore.module.css';
+import { PostCard } from './PostCard/PostCard';
 
 export const Explore = () => {
 
-    const urlAfterDetailsClose = '/explore'
+    const urlAfterDetailsClose = PATH.EXPLORE;
 
     return (
         <>
