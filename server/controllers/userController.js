@@ -38,7 +38,9 @@ userController.post('/login', isUserGuest, async (req, res, next) => {
 //  Logout
 userController.get('/logout', async (req, res, next) => {
     try {
-        await userLogout(req.userToken);
+        // TODO add blacklist
+        // Because of React.StrictMode the useEffect hooks makes two request and the set in blacklist trow and error for duplication
+        // await userLogout(req.userToken);
 
         res.cookie('jwtHeaderPayload', '', { expires: new Date(0) })
         res.cookie('jwtSignature', '', { httpOnly: true, expires: new Date(0) });
