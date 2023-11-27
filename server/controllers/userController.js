@@ -6,7 +6,7 @@ import { preload } from '../middlewares/preloader.js';
 const userController = Router();
 
 //  Register
-userController.post('/register', isUserGuest, async (req, res, next) => {
+userController.post('/register', async (req, res, next) => {
     try {
         await validateRegisterSchema.validateAsync(req.body);
 
@@ -21,7 +21,7 @@ userController.post('/register', isUserGuest, async (req, res, next) => {
 });
 
 //  Login
-userController.post('/login', isUserGuest, async (req, res, next) => {
+userController.post('/login', async (req, res, next) => {
     try {
         await validateLoginSchema.validateAsync(req.body);
 
