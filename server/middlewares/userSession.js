@@ -38,6 +38,10 @@ export default () => (req, res, next) => {
 		} catch (error) {
 			// Add status code and invoke global error handler
 			error.statusCode = 401;
+
+			// Delete auth cookies on client in case of error while validating them on the server
+			res.cookie('jwtHeaderPayload', '', { expires: new Date(0) })
+			res.cookie('jwtSignature', '', { httpOnly: true, expires: new Date(0) });
 			return next(error);
 		}
 	}
