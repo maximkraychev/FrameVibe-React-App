@@ -8,7 +8,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const roundsBcrypt = 10;
 
 // Register
-async function userRegister({ username, email, password }) {
+async function userRegister({ username, email, password, avatar}) {
 
     // TODO... make the requests with promise all
     // Check if the username or email is already taken
@@ -29,7 +29,8 @@ async function userRegister({ username, email, password }) {
     const user = await User.create({
         username,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        avatar
     });
 
     // Create token
@@ -43,6 +44,7 @@ async function userRegister({ username, email, password }) {
             _id: user._id,
             username: user.username,
             email: user.email,
+            avatar: user.avatar
         }
     };
 }
@@ -72,7 +74,8 @@ async function userLogin({ email, password }) {
         userDetails: {
             _id: user._id,
             username: user.username,
-            email: user.email
+            email: user.email,
+            avatar: user.avatar
         }
     };
 }
@@ -96,6 +99,7 @@ async function generateToken(user) {
         _id: user._id,
         username: user.username,
         email: user.email,
+        avatar: user.avatar
     }
 
     try {
