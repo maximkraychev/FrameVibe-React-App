@@ -1,27 +1,31 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
-import styles from './Register.module.css';
 import { PATH } from '../../../constants/paths';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
 import { useForm } from '../../../hooks/useForm';
 import { registerService } from '../../../services/authService';
 
+import styles from './Register.module.css';
+
 export const Register = () => {
 
+    const { auth, setUser } = useContext;
     const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm({
         [INPUT_NAMES.EMAIL]: '',
         [INPUT_NAMES.USERNAME]: '',
         [INPUT_NAMES.PASSWORD]: '',
         [INPUT_NAMES.REPASSWORD]: '',
-        [INPUT_NAMES.USER_AVATAR]: [INPUT_NAMES.USER_BASE_AVATAR_URL]
+        [INPUT_NAMES.USER_AVATAR]: INPUT_NAMES.USER_BASE_AVATAR_URL
     },
         onRegisterSubmit)
 
     async function onRegisterSubmit(data) {
         //TODO remove userDataForServer if we end up not using it
-        const {repassword, ...userDataForServer} = data;
+        const { repassword, ...userDataForServer } = data;
         await registerService(userDataForServer);
+        setUser();
         navigate(PATH.EXPLORE);
     }
 
