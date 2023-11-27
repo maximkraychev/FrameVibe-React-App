@@ -1,16 +1,17 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 
-import { PreviewPost } from './PreviewPost/PreviewPost';
 import { AuthContext } from '../../contexts/AuthContext';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
+import { PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
+import { PreviewPost } from './PreviewPost/PreviewPost';
 
 export const Profile = () => {
 
-    const urlAfterDetailsClose = '/profile';
     const {auth, setUser} = useContext(AuthContext);
+    const urlAfterDetailsClose = PATH.PROFILE;
 
     return (
         <section className={styles['profile-section']}>
