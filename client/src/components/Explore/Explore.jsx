@@ -1,17 +1,23 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { PATH } from '../../constants/paths';
+import { DetailsContext } from '../../contexts/DetailsContext';
 
 import styles from './Explore.module.css';
 import { PostCard } from './PostCard/PostCard';
 
 export const Explore = () => {
+    const navigate = useNavigate();
 
-    const urlAfterDetailsClose = PATH.EXPLORE;
+    function handleUrlOnDetailsClose() {
+        navigate(PATH.EXPLORE);
+    };
 
     return (
         <>
-            <Outlet context={[urlAfterDetailsClose]}></Outlet>
+            <DetailsContext.Provider value={handleUrlOnDetailsClose}>
+                <Outlet ></Outlet>
+            </DetailsContext.Provider>
             <section className={styles['explore']}>
                 <PostCard />
             </section>

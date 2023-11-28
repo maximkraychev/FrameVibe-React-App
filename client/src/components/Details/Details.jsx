@@ -1,20 +1,19 @@
-import { useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useContext } from 'react';
+
+import { useModalState } from '../../hooks/useModalState';
+import { DetailsContext } from '../../contexts/DetailsContext';
 
 import styles from './Details.module.css';
 import { Xmark } from '../Svg/Xmark';
 import { Modal } from '../Modal/Modal';
 
 export const Details = () => {
-    const navigate = useNavigate();
-    const [isVisible, setVisible] = useState(true);
-
-    const [urlAfterClose] = useOutletContext();
+    const { isVisible, reverseVisibilityState } = useModalState();
+    const handleUrlOnDetailsClose = useContext(DetailsContext);
 
     function changeVisibility() {
-        setVisible((oldValue) => !oldValue);
-        navigate(urlAfterClose);
-        // navigate(-1)  --> its not working if we come from a link directly to details
+        reverseVisibilityState();
+        handleUrlOnDetailsClose();
     }
 
     return (
