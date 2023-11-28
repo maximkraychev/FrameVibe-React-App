@@ -1,0 +1,26 @@
+.error-boundary-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-boundary-container h2 {
+    text-align: center;
+}
+
+.error-boundary-container p {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.error-boundary-container a {
+    background-color: var(--blue-dark-color);
+    color: var(--white-color);
+    padding: 0.5em 1.5em;
+    border-radius: 0.5em;
+    font-size: 1.5em;
+}
