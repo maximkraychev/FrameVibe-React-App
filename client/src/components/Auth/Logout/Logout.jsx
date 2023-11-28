@@ -8,13 +8,12 @@ import { PATH } from "../../../constants/paths";
 export const Logout = () => {
 
     const navigate = useNavigate();
-    const { auth, setUser } = useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     
     useEffect(() => {
-        console.log('test');
         logoutService()
             .then(() => {
-                setUser();
+                logout();
                 navigate(PATH.LOGIN);
             })
             .catch(err => {

@@ -4,13 +4,13 @@ import { useContext } from 'react';
 import { PATH } from '../../../constants/paths';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
 import { useForm } from '../../../hooks/useForm';
-import { registerService } from '../../../services/authService';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 import styles from './Register.module.css';
 
 export const Register = () => {
 
-    const { auth, setUser } = useContext;
+    const { register } = useContext(AuthContext);
     const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm({
         [INPUT_NAMES.EMAIL]: '',
@@ -22,11 +22,10 @@ export const Register = () => {
         onRegisterSubmit)
 
     async function onRegisterSubmit(data) {
-        //TODO remove userDataForServer if we end up not using it
         const { repassword, ...userDataForServer } = data;
-        await registerService(userDataForServer);
-        setUser();
+        await register(userDataForServer)
         navigate(PATH.EXPLORE);
+        //TODO handle error
     }
 
     return (

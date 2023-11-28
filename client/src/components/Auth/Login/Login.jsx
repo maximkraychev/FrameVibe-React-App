@@ -6,14 +6,13 @@ import { PATH } from '../../../constants/paths';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
 
 import { useForm } from '../../../hooks/useForm';
-import { loginService } from '../../../services/authService';
 import { AuthContext } from '../../../contexts/AuthContext';
 
 
 
 export const Login = () => {
 
-    const { auth, setUser } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm({
         [INPUT_NAMES.EMAIL]: '',
@@ -22,9 +21,9 @@ export const Login = () => {
         onLoginSubmit)
 
     async function onLoginSubmit(data) {
-        await loginService(data);
-        setUser();
+        await login(data);
         navigate(PATH.EXPLORE);
+        //TODO handle error 
     }
 
     return (
