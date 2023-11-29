@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { HeartSvg } from '../../Svg/Heart';
 import styles from './PostCard.module.css';
 
-export const PostCard = () => {
+export const PostCard = (prop) => {
     return (
         <>
             <div className={styles['card']}>
@@ -58,7 +58,7 @@ export const PostCard = () => {
                         </Link>
                     </div>
                     <p className={styles['username']}>Test</p>
-                    <button>View Profile</button>
+                    <button onClick={prop.testFunction}>View Profile</button>
                 </header>
                 <div className={styles['image-container']}>
                     <Link to={'/explore/ioashd'}>
