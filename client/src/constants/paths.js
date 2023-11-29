@@ -1,3 +1,7 @@
+export const PARAMS = {
+    POSTID: 'postId'
+}
+
 export const PATH = {
     EXPLORE: '/explore',
     REGISTER: '/register',
@@ -5,9 +9,12 @@ export const PATH = {
     LOGOUT: '/logout',
     UPLOAD: '/upload',
     PROFILE: '/profile',
-    IMAGE_DETAILS: ':ImageId',
-    NOT_FOUND: '*'
+    POST: `/p/:${PARAMS.POSTID}`,
+    POST_DETAILS: `:${PARAMS.POSTID}`,
+    NOT_FOUND: '*',
+    ACTIVE_POST: (id) => `/p/${id}`,
 };
+
 
 
 export const API_PATH = {
