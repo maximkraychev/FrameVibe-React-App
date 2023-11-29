@@ -1,14 +1,19 @@
 import { useContext } from "react"
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useParams } from "react-router-dom";
 
 import { AuthContext } from "../contexts/AuthContext"
-import { PATH } from "../constants/paths";
+import { PARAMS, PATH } from "../constants/paths";
 
 export const AuthGuard = () => {
     const { auth } = useContext(AuthContext);
+    const params = useParams();
+    const postId = params[PARAMS.POSTID]
 
     if (!auth) {
-        return <Navigate to={PATH.LOGIN}/>;
+        if (postId) {
+            return <Navigate to={PATH.ACTIVE_POST(postId)} />
+        }
+        return <Navigate to={PATH.LOGIN} />;
     }
 
     return <Outlet />;
