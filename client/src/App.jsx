@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { PATH } from './constants/paths';
+import { AuthGuard } from './guards/AuthGuard';
 
 import './global-css/global.css';
 import { Header } from './components/Header/Header';
@@ -13,7 +14,8 @@ import { Profile } from './components/Profile/Profile';
 import { Details } from './components/Details/Details';
 import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
-import { AuthGuard } from './guards/AuthGuard';
+import { PostWithModal } from './components/Details/PostWithModal';
+import { Post } from './components/Details/Post';
 
 function App() {
 
@@ -26,17 +28,18 @@ function App() {
           <Route path={PATH.REGISTER} element={<Register />} />
           <Route path={PATH.LOGIN} element={<Login />} />
           <Route path={PATH.LOGOUT} element={<Logout />} />
+          <Route path={PATH.POST} element={<Post />}/>
 
           <Route path={PATH.EXPLORE} element={<Explore />}>
             <Route element={<AuthGuard />}>
-              <Route path={PATH.IMAGE_DETAILS} element={<Details />} />
+              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
             </Route>
           </Route>
 
           <Route element={<AuthGuard />}>
             <Route path={PATH.UPLOAD} element={<UploadImage />} />
             <Route path={PATH.PROFILE} element={<Profile />}>
-              <Route path={PATH.IMAGE_DETAILS} element={<Details />} />
+              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
             </Route>
 
           </Route>
