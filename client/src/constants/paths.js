@@ -1,6 +1,6 @@
 export const PARAMS = {
     POSTID: 'postId',
-    USERID: 'useId'
+    USERNAME: 'username'
 }
 
 export const PATH = {
@@ -9,11 +9,12 @@ export const PATH = {
     LOGIN: '/login',
     LOGOUT: '/logout',
     UPLOAD: '/upload',
-    PROFILE: `/profile/:${PARAMS.USERID}`,
+    PROFILE: `/profile/:${PARAMS.USERNAME}`,
     POST: `/p/:${PARAMS.POSTID}`,
     POST_DETAILS: `:${PARAMS.POSTID}`,
     NOT_FOUND: '*',
     ACTIVE_POST: (id) => `/p/${id}`,
+    ACTIVE_PROFILE: (username) => `/profile/${username}`,
 };
 
 
@@ -24,4 +25,5 @@ export const API_PATH = {
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',
     CREATE_POST: '/post',
+    USER: '/users'
 }
