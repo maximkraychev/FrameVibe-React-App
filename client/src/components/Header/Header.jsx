@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 import { PATH } from '../../constants/paths';
@@ -37,11 +37,6 @@ export const Header = () => {
                 {/* Desktop view */}
                 <nav className={styles['desktop-nav']}>
 
-                    <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
-                        <ExploreSvg />
-                        <p>Explore</p>
-                    </NavLink>
-
                     {/* Guest */}
                     {!auth &&
                         <>
@@ -59,12 +54,17 @@ export const Header = () => {
                     {/* User */}
                     {auth &&
                         <>
+                            <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                                <ExploreSvg />
+                                <p>Explore</p>
+                            </NavLink>
+
                             <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <UploadSvg />
                                 <p>Upload Image</p>
                             </NavLink>
 
-                            <NavLink to={PATH.PROFILE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                            <NavLink to={PATH.ACTIVE_PROFILE(auth.username)} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <ProfileSvg />
                                 <p>Profile</p>
                             </NavLink>
@@ -80,9 +80,6 @@ export const Header = () => {
 
                 {/* Mobile view */}
                 <nav className={styles['mobile-nav']}>
-                    <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
-                        <ExploreSvg />
-                    </NavLink>
 
                     {/* Guest */}
                     {!auth &&
@@ -99,11 +96,15 @@ export const Header = () => {
                     {/* User */}
                     {auth &&
                         <>
+                            <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                                <ExploreSvg />
+                            </NavLink>
+
                             <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <UploadSvg />
                             </NavLink>
 
-                            <NavLink to={PATH.PROFILE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                            <NavLink to={PATH.ACTIVE_PROFILE(auth.username)} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <ProfileSvg />
                             </NavLink>
 
