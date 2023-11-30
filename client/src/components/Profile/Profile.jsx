@@ -1,19 +1,31 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useContext } from 'react';
+import { Link, Outlet, useParams } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { DetailsContext } from '../../contexts/DetailsContext';
 import { useModalUrlAndNavigation } from '../../hooks/useModalUrlAndNavigation';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
-import { PATH } from '../../constants/paths';
+import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
+import { getUserInfo } from '../../services/userService';
 
 export const Profile = () => {
 
     const { auth, setUser } = useContext(AuthContext);
     const { handleUrlOnDetailsClose } = useModalUrlAndNavigation(PATH.PROFILE);
+    const params = useParams();
+    const username = params[PARAMS.USERNAME];
+
+    useEffect(() => {
+
+        if (username != auth.username) {
+            getUserInfo(username)
+                .then(response => console.log(response));
+        }
+
+    }, [params]);
 
     return (
         <section className={styles['profile-section']}>
