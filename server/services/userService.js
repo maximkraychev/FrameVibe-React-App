@@ -89,6 +89,10 @@ async function userLogout(userToken) {
 //  Get user 
 const getUserById = (userId) => User.findById(userId).select('-password'); // Select all without password (-password)
 
+// Get user by username
+
+const getUserByUsername = (username) => User.findOne({username}).collation({ locale: 'en', strength: 2 }).select('-password');
+
 //  Asynchronously generating token
 async function generateToken(user) {
 
@@ -147,4 +151,5 @@ export {
     userLogin,
     userLogout,
     getUserById,
+    getUserByUsername
 };
