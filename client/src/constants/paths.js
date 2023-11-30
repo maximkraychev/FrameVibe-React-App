@@ -1,5 +1,6 @@
 export const PARAMS = {
-    POSTID: 'postId'
+    POSTID: 'postId',
+    USERID: 'useId'
 }
 
 export const PATH = {
@@ -8,7 +9,7 @@ export const PATH = {
     LOGIN: '/login',
     LOGOUT: '/logout',
     UPLOAD: '/upload',
-    PROFILE: '/profile',
+    PROFILE: `/profile/:${PARAMS.USERID}`,
     POST: `/p/:${PARAMS.POSTID}`,
     POST_DETAILS: `:${PARAMS.POSTID}`,
     NOT_FOUND: '*',
