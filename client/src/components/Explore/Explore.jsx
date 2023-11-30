@@ -1,30 +1,21 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-
-import { PATH } from '../../constants/paths';
-import { DetailsContext } from '../../contexts/DetailsContext';
-import { useModalUrlAndNavigation } from '../../hooks/useModalUrlAndNavigation';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Explore.module.css';
 import { PostCard } from './PostCard/PostCard';
+import { COMPONENT_NAMES } from '../../constants/componentsNames';
 
 export const Explore = () => {
-
-    const { handleUrlOnDetailsClose } = useModalUrlAndNavigation(PATH.EXPLORE);
-
-
     const navigate = useNavigate();
 
-    function testFunction() {
-        navigate('/p/test', { state: 'test' })
+    function showPostDetails() {
+        // navigate("../p/test", { relative: "path", state: COMPONENT_NAMES.EXPLORE });
+        navigate('/p/test', { state: COMPONENT_NAMES.EXPLORE });
     }
 
     return (
         <>
-            <DetailsContext.Provider value={handleUrlOnDetailsClose}>
-                <Outlet ></Outlet>
-            </DetailsContext.Provider>
             <section className={styles['explore']}>
-                <PostCard testFunction={testFunction} />
+                <PostCard showPostDetails={showPostDetails} />
             </section>
         </>
     );
