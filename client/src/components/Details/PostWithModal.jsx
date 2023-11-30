@@ -1,32 +1,24 @@
-import { useContext } from 'react';
-
-import { useModalState } from '../../hooks/useModalState';
-import { DetailsContext } from '../../contexts/DetailsContext';
-
-import styles from './Details.module.css';
-import { Xmark } from '../Svg/Xmark';
 import { Modal } from '../Modal/Modal';
 import { Details } from './Details';
 
 export const PostWithModal = () => {
-    const { isVisible, reverseVisibilityState } = useModalState();
-    const handleUrlOnDetailsClose = useContext(DetailsContext);
+    //TODO... you may use this method to show hide errors with modal
+    // const { isVisible, reverseVisibilityState } = useModalState();
+    // const handleUrlOnDetailsClose = useContext(DetailsContext);
+    // function changeVisibility() {
+    //     reverseVisibilityState();
 
-    function changeVisibility() {
-        reverseVisibilityState();
+    //     if (handleUrlOnDetailsClose) {
+    //         handleUrlOnDetailsClose();
+    //     }
+    // }
 
-        if (handleUrlOnDetailsClose) {
-            handleUrlOnDetailsClose();
-        }
-    }
-
+    //TODO... remove this component if is not used
     return (
         <>
-            {isVisible &&
-                <Modal showHide={changeVisibility}>
-                    <Details />
-                </Modal>
-            }
+            <Modal >
+                <Details />
+            </Modal>
         </>
     );
 };
