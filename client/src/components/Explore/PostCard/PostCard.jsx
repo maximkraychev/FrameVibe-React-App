@@ -53,17 +53,17 @@ export const PostCard = (prop) => {
             <div className={styles['card']}>
                 <header>
                     <div className={styles['avatar-container']}>
-                        <Link to={'someId'}>
+                        <p>
                             <img src="https://images.unsplash.com/photo-1698681375999-8faa3e824cd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI4fHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="avatar" />
-                        </Link>
+                        </p>
                     </div>
                     <p className={styles['username']}>Test</p>
-                    <button onClick={prop.testFunction}>View Profile</button>
+                    <button onClick={prop.showPostDetails}>View Profile</button>
                 </header>
-                <div className={styles['image-container']}>
-                    <Link to={'/explore/ioashd'}>
+                <div className={styles['image-container']} onClick={prop.showPostDetails}>
+                    <p>
                         <img src="https://images.unsplash.com/photo-1698778755357-63abc1fe986f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDMzfHRvd0paRnNrcEdnfHxlbnwwfHx8fHw%3D" alt="main-image" />
-                    </Link>
+                    </p>
                 </div>
                 <div className={styles['actions']}>
                     <HeartSvg />
