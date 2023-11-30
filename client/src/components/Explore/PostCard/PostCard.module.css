@@ -38,7 +38,7 @@
     object-fit: cover;
 }
 
-.card header p {
+.username {
     flex: 1 1 20%;
 }
 
@@ -61,6 +61,7 @@
 .image-container img {
     width: 100%;
     height: auto;
+    cursor: pointer;
 }
 
 /* actions */
