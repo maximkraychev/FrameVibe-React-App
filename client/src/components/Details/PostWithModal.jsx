@@ -11,8 +11,6 @@ import { Details } from './Details';
 export const PostWithModal = () => {
     const { isVisible, reverseVisibilityState } = useModalState();
     const handleUrlOnDetailsClose = useContext(DetailsContext);
-    
-    useHis
 
     function changeVisibility() {
         reverseVisibilityState();

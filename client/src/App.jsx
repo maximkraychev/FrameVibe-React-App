@@ -28,15 +28,13 @@ function App() {
           <Route path={PATH.REGISTER} element={<Register />} />
           <Route path={PATH.LOGIN} element={<Login />} />
           <Route path={PATH.LOGOUT} element={<Logout />} />
-          <Route path={PATH.POST} element={<Post />}/>
+          <Route path={PATH.POST} element={<Post />} />
 
-          <Route path={PATH.EXPLORE} element={<Explore />}>
-            <Route element={<AuthGuard />}>
-              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
-            </Route>
-          </Route>
 
           <Route element={<AuthGuard />}>
+            <Route path={PATH.EXPLORE} element={<Explore />}>
+              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
+            </Route>
             <Route path={PATH.UPLOAD} element={<UploadImage />} />
             <Route path={PATH.PROFILE} element={<Profile />}>
               <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
