@@ -11,10 +11,8 @@ import { Login } from './components/Auth/Login/Login';
 import { Register } from './components/Auth/Register/Register';
 import { UploadImage } from './components/UploadImage/UploadImage';
 import { Profile } from './components/Profile/Profile';
-import { Details } from './components/Details/Details';
 import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
-import { PostWithModal } from './components/Details/PostWithModal';
 import { Post } from './components/Details/Post';
 
 function App() {
@@ -24,25 +22,20 @@ function App() {
       <Header />
       <div className='section-container'>
         <Routes>
+
           <Route path='/' />
           <Route path={PATH.REGISTER} element={<Register />} />
           <Route path={PATH.LOGIN} element={<Login />} />
           <Route path={PATH.LOGOUT} element={<Logout />} />
           <Route path={PATH.POST} element={<Post />} />
-
+          <Route path={PATH.NOT_FOUND} element={<NotFound />} />
 
           <Route element={<AuthGuard />}>
-            <Route path={PATH.EXPLORE} element={<Explore />}>
-              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
-            </Route>
+            <Route path={PATH.EXPLORE} element={<Explore />} />
             <Route path={PATH.UPLOAD} element={<UploadImage />} />
-            <Route path={PATH.PROFILE} element={<Profile />}>
-              <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
-            </Route>
-
+            <Route path={PATH.PROFILE} element={<Profile />} />
           </Route>
 
-          <Route path={PATH.NOT_FOUND} element={<NotFound />} />
         </Routes>
       </div>
     </AuthProvider>
