@@ -4,10 +4,16 @@ export const useForm = (initialValues, onSubmitHandler) => {
     const [values, setValues] = useState(initialValues);
 
     const changeHandler = (e) => {
-        setValues(state => ({...state, [e.target.name]: e.target.value}))
+
+        if (e.target.files) {
+            setValues(state => ({ ...state, [e.target.name]: e.target.files[0] }));
+        } else {
+            setValues(state => ({ ...state, [e.target.name]: e.target.value }));
+        }
+
     }
 
-    const onSubmit= (e) => {
+    const onSubmit = (e) => {
         e.preventDefault()
 
         onSubmitHandler(values)

@@ -40,6 +40,7 @@ async function request(type, path, data) {
 
     } catch (err) {
         //TODO handle the error;
+        console.log(err);
         alert(err.message);
         // throw err;
     }
