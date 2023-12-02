@@ -3,6 +3,7 @@ import { userRegister, userLogin, userLogout, getUserById, getUserByUsername } f
 import { validateRegisterSchema, validateLoginSchema } from '../util/validationSchemes.js';
 import { isUserGuest, isUserLogged } from '../middlewares/guards.js';
 import { preload } from '../middlewares/preloader.js';
+import { getAllUserPosts } from '../services/postService.js';
 const userController = Router();
 
 //  Register
@@ -57,6 +58,18 @@ userController.get('/:username', isUserLogged, async (req, res, next) => {
         const user = await getUserByUsername(username);
 
         res.status(200).json(user);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Get user posts
+userController.get('/:userId/posts', isUserLogged, async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const userPosts = await getAllUserPosts(userId);
+ 
+        res.status(200).json(userPosts)
     } catch (err) {
         next(err);
     }
