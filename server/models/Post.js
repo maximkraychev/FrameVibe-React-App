@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const postSchema = new Schema({
 	imageURL: {
@@ -16,12 +16,12 @@ const postSchema = new Schema({
 		maxlength: [200, 'Description can\'t exceed 200 characters']
 	},
 	owner: {
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: 'User',
 		required: [true, 'Owner is required']
 	},
 	likes: [{
-		type: Types.ObjectId,
+		type: Schema.Types.ObjectId,
 		ref: 'User'
 	}]
 });
