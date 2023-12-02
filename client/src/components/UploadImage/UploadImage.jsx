@@ -4,6 +4,8 @@ import styles from './UploadImage.module.css';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { createPost } from '../../services/postService';
 import { useForm } from '../../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../constants/paths';
 
 const initialFormState = {
     [INPUT_NAMES.DESCRIPTION]: '',
@@ -13,6 +15,7 @@ const initialFormState = {
 export const UploadImage = () => {
     const { values, changeHandler, onSubmit } = useForm(initialFormState, uploadImageSubmitHandler);
     const [previewImage, setPreviewImage] = useState(null);
+    const navigation = useNavigate();
 
     const handleImageChange = (event) => {
         changeHandler(event);
@@ -34,28 +37,21 @@ export const UploadImage = () => {
     };
 
     async function uploadImageSubmitHandler(formData) {
-        console.log(formData);
+        // Using FormData sending the description adn the image to the back-end
         const dataForServer = new FormData();
         dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
-        dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, previewImage);
-        // console.log(dataForServer.get(INPUT_NAMES.DESCRIPTION));
-        // console.log(dataForServer.get(INPUT_NAMES.UPLOAD_IMAGE));
-
-        // const dataForServer = {...formData, [INPUT_NAMES.UPLOAD_IMAGE]: previewImage};
-        // console.log(dataForServer);
-        // await createPost(dataForServer);
-
-        // console.log({...formData, uploadImage: previewImage});
-        // await createPost({...formData, uploadImage: previewImage});
-
+        dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
+     
+        const newPostData = await createPost(dataForServer);
+        navigation(PATH.ACTIVE_POST(newPostData?._id));
     }
 
     return (
         <div className={styles['form-container']}>
-            <form className={styles['upload-image-form']} onSubmit={onSubmit}>
+            <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
                 <h2>Image Upload</h2>
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
-                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} value={values[INPUT_NAMES.UPLOAD_IMAGE]} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
+                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
                 {previewImage && (
                     <img
                         className={styles['image-preview']}
