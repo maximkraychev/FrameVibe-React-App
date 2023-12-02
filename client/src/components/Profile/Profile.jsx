@@ -46,9 +46,9 @@ export const Profile = () => {
 
     return (
         <section className={styles['profile-section']}>
-            <DetailsContext.Provider value={handleUrlOnDetailsClose}>
+            {/* <DetailsContext.Provider value={handleUrlOnDetailsClose}>
                 <Outlet></Outlet>
-            </DetailsContext.Provider>
+            </DetailsContext.Provider> */}
             <header>
                 <div className={styles['profile-picture-container']}>
                     <img src={currentUserProfile?.[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
@@ -63,24 +63,17 @@ export const Profile = () => {
 
                 {userPosts.length !== 0
                     ? userPosts.map(post => {
-                        return (<Link to={post._id} key={post._id}> <PreviewPost /> </Link>)
+                        return (
+                            <Link
+                                key={post._id}
+                                to={PATH.POST_FN(post._id)}
+                                state={{ post: post, user: currentUserProfile }}>
+                                <PreviewPost {...post} />
+                            </Link>)
                     })
                     : <h2 className={styles['no-posts-text']}>There are no posts yet.</h2>
                 }
 
-
-
-                {/* <Link to={'asd23'}>
-                    <PreviewPost />
-                </Link>
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost />
-                <PreviewPost /> */}
             </div>
         </section>
     );
