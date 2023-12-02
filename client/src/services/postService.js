@@ -4,3 +4,7 @@ import { API_PATH } from '../constants/paths.js';
 export const createPost = async (data) => {
     return api.post(API_PATH.CREATE_POST, data);
 }
+
+export const getAllUserPosts = async (userId) => {
+    return api.get(API_PATH.USER_POSTS_FN(userId));
+}
