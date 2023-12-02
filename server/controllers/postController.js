@@ -1,10 +1,13 @@
 import { Router } from 'express';
-
 import { cloudinary } from '../config/cloudinary.js';
+import { multer } from '../config/multer.js'
+
 import { validatePostSchema } from '../util/validationSchemes.js';
 import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
 import { isOwner } from '../middlewares/guards.js';
+
+
 
 const postController = Router();
 
@@ -34,31 +37,37 @@ const postController = Router();
 //     }
 // });
 
-// POST 
-postController.post('/', async (req, res, next) => {
+// POST
+postController.post('/', multer.single('uploadImage'), async (req, res, next) => {
     try {
-        const data = req.body;
 
-        await validatePostSchema.validateAsync(data);
-        console.log('-----------upload image');
-        console.log(data.uploadImage);
+        // Getting the description and file using multer
+        const postData = { description: req.body.description, uploadImage: req.file }
 
-        const result = await cloudinary.uploader.upload(data.uploadImage);
-        console.log('---------------------result');
-        console.log(result);
+        // Validating the fields
+        await validatePostSchema.validateAsync(postData);
+        
+        // This is the way showed in the documentation
+        const result = await new Promise((resolve) => {
 
+            cloudinary.uploader.upload_stream({ folder: 'post-images' }, (error, uploadResult) => {
+                return resolve(uploadResult)
+            }).end(postData.uploadImage.buffer);
+
+        });
+
+        // Set the proper format for database
         const imgDataForDataBase = {
-            description: data.description,
-            imageURL: result.secure.url,
+            description: postData.description,
+            imageURL: result.secure_url,
             imageId: result.public_id
         }
 
-        console.log('------DATA for database');
-        console.log(imgDataForDataBase);
+        // Save to database 
+        const newPost = await createPost(imgDataForDataBase, req.user._id);
 
-        const newProduct = await createPost(imgDataForDataBase, req.user._id);
-
-        res.status(201).json(newProduct);
+        // Return the created post
+        res.status(201).json(newPost);
     } catch (err) {
         next(err);
     }
