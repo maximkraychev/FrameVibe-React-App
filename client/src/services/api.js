@@ -4,20 +4,17 @@ async function request(type, path, data) {
 
     const options = {
         method: type,
-        credentials: 'include',                                                
+        credentials: 'include',
         headers: {}
     }
 
-    if (data != undefined) {
+    if (data instanceof FormData) {
+        // options.headers['Content-Type'] = 'multipart/form-data';
+        options.body = data;
+    } else if (data != undefined) {
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
-
-    //TODO logic for sending token
-    // const token = getUserData()?.accessToken;
-    // if (token) {
-    //     options.headers['X-Authorization'] = token;
-    // }
 
     try {
         const response = await fetch(API_PATH.BASE + path, options);
@@ -55,5 +52,5 @@ export {
     get,
     post,
     put,
-    del as delete 
+    del as delete
 }
