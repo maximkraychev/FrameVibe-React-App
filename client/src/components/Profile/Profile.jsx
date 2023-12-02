@@ -4,16 +4,18 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { DetailsContext } from '../../contexts/DetailsContext';
 import { useModalUrlAndNavigation } from '../../hooks/useModalUrlAndNavigation';
+import { getAllUserPosts } from '../../services/postService';
+import { getUserInfo } from '../../services/userService';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
-import { getUserInfo } from '../../services/userService';
 
 export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
+    const [userPosts, setUserPosts] = useState([]);
     const { auth, setUser } = useContext(AuthContext);
     const { handleUrlOnDetailsClose } = useModalUrlAndNavigation(PATH.PROFILE);
     const params = useParams();
@@ -28,35 +30,17 @@ export const Profile = () => {
                 user = await getUserInfo(username);
             }
 
+            const arrivedPosts = await getAllUserPosts(user._id);
+
             setCurrentUserProfile({
                 avatar: user.avatar,
                 email: user.email,
                 username: user.username,
-                _id: user.id
+                _id: user._id
             })
-
-            
-
+            setUserPosts(arrivedPosts);
+            console.log(arrivedPosts);
         })();
-
-        // if (username != auth.username) {
-        //     getUserInfo(username)
-        //         .then(response => {
-        //             setCurrentUserProfile({
-        //                 avatar: response.avatar,
-        //                 email: response.email,
-        //                 username: response.username,
-        //                 _id: response.id
-        //             })
-        //         });
-        // } else {
-        //     setCurrentUserProfile({
-        //         avatar: auth.avatar,
-        //         email: auth.email,
-        //         username: auth.username,
-        //         _id: auth.id
-        //     })
-        // }
 
     }, [params]);
 
@@ -76,7 +60,17 @@ export const Profile = () => {
             </header>
 
             <div className={styles['user-posts']}>
-                <Link to={'asd23'}>
+
+                {userPosts.length !== 0
+                    ? userPosts.map(post => {
+                        return (<Link to={post._id} key={post._id}> <PreviewPost /> </Link>)
+                    })
+                    : <h2 className={styles['no-posts-text']}>There are no posts yet.</h2>
+                }
+
+
+
+                {/* <Link to={'asd23'}>
                     <PreviewPost />
                 </Link>
                 <PreviewPost />
@@ -86,7 +80,7 @@ export const Profile = () => {
                 <PreviewPost />
                 <PreviewPost />
                 <PreviewPost />
-                <PreviewPost />
+                <PreviewPost /> */}
             </div>
         </section>
     );
