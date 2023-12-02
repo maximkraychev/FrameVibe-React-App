@@ -58,6 +58,14 @@
     gap: 0.2em;
 }
 
+.no-posts-text {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    justify-self: center;
+    align-self: center;
+    padding-block: 5em;
+}
+
 @media (width > 600px) {
     .user-posts {
         grid-template-columns: repeat(3, 1fr);
