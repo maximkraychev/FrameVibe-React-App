@@ -43,7 +43,7 @@ export const UploadImage = () => {
         dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
      
         const newPostData = await createPost(dataForServer);
-        navigation(PATH.ACTIVE_POST(newPostData?._id));
+        navigation(PATH.POST_FN(newPostData?._id));
     }
 
     return (

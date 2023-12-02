@@ -19,26 +19,44 @@ export const Profile = () => {
     const params = useParams();
 
     useEffect(() => {
-        const username = params[PARAMS.USERNAME];
 
-        if (username != auth.username) {
-            getUserInfo(username)
-                .then(response => {
-                    setCurrentUserProfile({
-                        avatar: response.avatar,
-                        email: response.email,
-                        username: response.username,
-                        _id: response.id
-                    })
-                });
-        } else {
+        (async function loadUserAndPosts() {
+            const username = params[PARAMS.USERNAME];
+            let user = auth;
+
+            if (username != auth.username) {
+                user = await getUserInfo(username);
+            }
+
             setCurrentUserProfile({
-                avatar: auth.avatar,
-                email: auth.email,
-                username: auth.username,
-                _id: auth.id
+                avatar: user.avatar,
+                email: user.email,
+                username: user.username,
+                _id: user.id
             })
-        }
+
+            
+
+        })();
+
+        // if (username != auth.username) {
+        //     getUserInfo(username)
+        //         .then(response => {
+        //             setCurrentUserProfile({
+        //                 avatar: response.avatar,
+        //                 email: response.email,
+        //                 username: response.username,
+        //                 _id: response.id
+        //             })
+        //         });
+        // } else {
+        //     setCurrentUserProfile({
+        //         avatar: auth.avatar,
+        //         email: auth.email,
+        //         username: auth.username,
+        //         _id: auth.id
+        //     })
+        // }
 
     }, [params]);
 

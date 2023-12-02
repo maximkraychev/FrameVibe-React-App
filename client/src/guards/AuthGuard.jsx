@@ -11,7 +11,7 @@ export const AuthGuard = () => {
 
     if (!auth) {
         if (postId) {
-            return <Navigate to={PATH.ACTIVE_POST(postId)} />
+            return <Navigate to={PATH.POST_FN(postId)} />
         }
         return <Navigate to={PATH.LOGIN} />;
     }

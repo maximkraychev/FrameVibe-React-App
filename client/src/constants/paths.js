@@ -13,8 +13,8 @@ export const PATH = {
     POST: `/p/:${PARAMS.POSTID}`,
     POST_DETAILS: `:${PARAMS.POSTID}`,
     NOT_FOUND: '*',
-    ACTIVE_POST: (id) => `/p/${id}`,
-    ACTIVE_PROFILE: (username) => `/profile/${username}`,
+    POST_FN: (id) => `/p/${id}`,
+    PROFILE_FN: (username) => `/profile/${username}`,
 };
 
 
@@ -25,5 +25,6 @@ export const API_PATH = {
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',
     CREATE_POST: '/post',
-    USER: '/users'
+    USER_FN: (username) => `/users/${username}`,
+    USER_POSTS_FN: (id) => `/users/${id}/posts`
 }
