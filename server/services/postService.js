@@ -3,8 +3,11 @@ import { Post } from '../models/Post.js';
 // GET ONE
 const getSinglePost = (postId) => Post.findById(postId);
 
-// GET ALL
+// GET ALL BY USER
 const getAllUserPosts = (userId) => Post.find({ owner: userId });
+
+// GET ALL 
+const getAllPosts = () => Post.find({}).populate('owner');
 
 // CREATE 
 const createPost = (product, userId) => Post.create({ ...product, owner: userId });
@@ -18,6 +21,7 @@ const deletePost = (productId) => Post.findByIdAndDelete(productId, { returnDocu
 export {
     getSinglePost,
     getAllUserPosts,
+    getAllPosts,
     createPost,
     updatePost,
     deletePost,
