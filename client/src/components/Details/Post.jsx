@@ -17,7 +17,8 @@ export const Post = () => {
                     <Modal>
                         <Details />
                     </Modal>
-                    {state[STATE_FIELDS.COMPONENT]()}
+                    {/* TODO there is a problem calling the component like this after the StrictMode is removed */}
+                    {state[STATE_FIELDS.COMPONENT]()}      
                 </>
             }
 
