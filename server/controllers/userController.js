@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { userRegister, userLogin, userLogout, getUserById, getUserByUsername } from '../services/userService.js'
+import { userRegister, userLogin, userLogout, getUserById, getUserByUsernameOrId } from '../services/userService.js'
 import { validateRegisterSchema, validateLoginSchema } from '../util/validationSchemes.js';
 import { isUserGuest, isUserLogged } from '../middlewares/guards.js';
 import { preload } from '../middlewares/preloader.js';
@@ -52,12 +52,12 @@ userController.get('/logout', async (req, res, next) => {
 });
 
 //  Profile
-userController.get('/:username', isUserLogged, async (req, res, next) => {
+userController.get('/:userOrId', isUserLogged, async (req, res, next) => {
     try {
-        const { username } = req.params;
-        const user = await getUserByUsername(username);
+        const { userOrId } = req.params;
+        const userData = await getUserByUsernameOrId(userOrId);
 
-        res.status(200).json(user);
+        res.status(200).json(userData);
     } catch (err) {
         next(err);
     }
