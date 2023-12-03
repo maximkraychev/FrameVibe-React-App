@@ -1,30 +1,27 @@
-import { useFindBackgroundComponent } from "../../hooks/useFindBackgroundComponent";
-import { useLocation, useParams } from "react-router-dom";
+import { useContext } from "react";
+
+import { StateContext } from "../../contexts/StateContext";
+import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
 
 import styles from './Post.module.css';
 import { Details } from "./Details";
 import { Modal } from "../Modal/Modal";
-import { PARAMS } from "../../constants/paths";
 
 export const Post = () => {
-    const backgroundComponent = useFindBackgroundComponent(); // This is a reference to component;
-    const location = useLocation();
-    const params = useParams();
-    const postState = location.state
-    console.log(postState);
+    const { state } = useContext(StateContext);
 
     return (
         <>
-            {backgroundComponent &&
+            {state[STATE_FIELDS.COMPONENT] &&
                 <>
                     <Modal>
-                        <Details postId={params[PARAMS.POSTID]} postState={postState}/>
+                        <Details />
                     </Modal>
-                    {backgroundComponent()}
+                    {state[STATE_FIELDS.COMPONENT]()}
                 </>
             }
 
-            {!backgroundComponent &&
+            {!state[STATE_FIELDS.COMPONENT] &&
                 <div className={styles['post-container']}>
                     <Details />
                 </div>
