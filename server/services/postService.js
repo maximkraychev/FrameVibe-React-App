@@ -1,7 +1,7 @@
 import { Post } from '../models/Post.js';
 
 // GET ONE
-const getSinglePost = (productId) => Post.findById(productId);
+const getSinglePost = (postId) => Post.findById(postId);
 
 // GET ALL
 const getAllUserPosts = (userId) => Post.find({ owner: userId });
