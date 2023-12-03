@@ -16,15 +16,16 @@ const postController = Router();
 
 
 // GET
-// productController.get('/:productId', preload(getSingleProduct), isOwner, async (req, res, next) => {
-//     try {
-//         const product = await getSingleProduct(req.params.productId);
-
-//         res.status(200).json(product);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+postController.get('/:postId', async (req, res, next) => {
+    try {
+        const { postId } = req.params
+        const post = await getSinglePost(postId);
+        console.log(post);
+        res.status(200).json(post);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // GET ALL
 // productController.get('/', async (req, res, next) => {
@@ -46,7 +47,7 @@ postController.post('/', multer.single('uploadImage'), async (req, res, next) =>
 
         // Validating the fields
         await validatePostSchema.validateAsync(postData);
-        
+
         // This is the way showed in the documentation
         const result = await new Promise((resolve) => {
 
