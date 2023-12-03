@@ -8,7 +8,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const roundsBcrypt = 10;
 
 // Register
-async function userRegister({ username, email, password, avatar}) {
+async function userRegister({ username, email, password, avatar }) {
 
     // TODO... make the requests with promise all
     // Check if the username or email is already taken
@@ -91,7 +91,12 @@ const getUserById = (userId) => User.findById(userId).select('-password'); // Se
 
 // Get user by username
 
-const getUserByUsername = (username) => User.findOne({username}).collation({ locale: 'en', strength: 2 }).select('-password');
+const getUserByUsernameOrId = (identifier) => User.findOne({
+    $or: [
+        { _id: identifier },
+        { username: identifier },
+    ],
+}).collation({ locale: 'en', strength: 2 }).select('-password');
 
 //  Asynchronously generating token
 async function generateToken(user) {
@@ -151,5 +156,5 @@ export {
     userLogin,
     userLogout,
     getUserById,
-    getUserByUsername
+    getUserByUsernameOrId
 };
