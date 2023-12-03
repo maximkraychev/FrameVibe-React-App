@@ -25,6 +25,7 @@ export const API_PATH = {
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',
     CREATE_POST: '/post',
-    USER_FN: (username) => `/users/${username}`,
-    USER_POSTS_FN: (id) => `/users/${id}/posts`
+    USER_FN: (identifier) => `/users/${identifier}`,
+    USER_POSTS_FN: (id) => `/users/${id}/posts`,
+    SINGLE_POST_FN: (postId) => `/post/${postId}`,
 }
