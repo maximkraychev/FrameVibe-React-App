@@ -42,9 +42,9 @@
     flex: 1 1 20%;
 }
 
-.card header button {
+.card header a {
     flex: 0 1 auto;
-    display: inline-block;
+    /* display: inline-block; */
     justify-self: flex-end;
     padding: 0.7em 1em;
     border-radius: 0.7em;
@@ -53,6 +53,9 @@
     color: var(--white-color);
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
 }
 
 
