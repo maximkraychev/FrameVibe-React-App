@@ -33,11 +33,11 @@ export const Details = (props) => {
 
                 setPost(currentPost);
 
-                if (currentPost.owner instanceof String) {
+                if (currentPost.owner instanceof Object) {
+                    setUser(currentPost.owner);
+                } else {
                     const postOwner = await getUserInfoByUsernameOrId(currentPost.owner);
                     setUser(postOwner);
-                } else if (currentPost.owner instanceof Object) {
-                    setUser(currentPost.owner);
                 }
 
             })();
