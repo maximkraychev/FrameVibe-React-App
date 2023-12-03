@@ -1,21 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+
+import { StateContext } from '../../contexts/StateContext';
+import { getAllPosts } from '../../services/postService';
+import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 
 import styles from './Explore.module.css';
 import { PostCard } from './PostCard/PostCard';
-import { COMPONENT_NAMES } from '../../constants/componentsNames';
 
 export const Explore = () => {
-    const navigate = useNavigate();
 
-    function showPostDetails() {
-        // navigate("../p/test", { relative: "path", state: COMPONENT_NAMES.EXPLORE });
-        navigate('/p/test', { state: COMPONENT_NAMES.EXPLORE });
-    }
+    const { state, changePostState, changeBackgroundComponent } = useContext(StateContext);
+
+    useEffect(() => {
+        getAllPosts()
+            .then(posts => changePostState(posts))
+            .catch(err => {
+                console.log(err);
+                //TODO handle error
+            })
+
+            return () => changeBackgroundComponent(Explore);
+    }, [])
 
     return (
         <>
             <section className={styles['explore']}>
-                <PostCard showPostDetails={showPostDetails} />
+                {state[STATE_FIELDS.POSTS].map(post => <PostCard key={post._id} {...post} />)}
             </section>
         </>
     );
