@@ -28,4 +28,5 @@ export const API_PATH = {
     USER_FN: (identifier) => `/users/${identifier}`,
     USER_POSTS_FN: (id) => `/users/${id}/posts`,
     SINGLE_POST_FN: (postId) => `/post/${postId}`,
+    ALL_POSTS: '/post',
 }
