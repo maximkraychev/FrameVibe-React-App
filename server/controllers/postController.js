@@ -3,7 +3,7 @@ import { cloudinary } from '../config/cloudinary.js';
 import { multer } from '../config/multer.js'
 
 import { validatePostSchema } from '../util/validationSchemes.js';
-import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost } from '../services/postService.js';
+import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost, getAllPosts } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
 import { isOwner } from '../middlewares/guards.js';
 
@@ -28,15 +28,17 @@ postController.get('/:postId', async (req, res, next) => {
 });
 
 // GET ALL
-// productController.get('/', async (req, res, next) => {
-//     try {
-//         const products = await getAllProducts(req.user._id);
+postController.get('/', async (req, res, next) => {
+    try {
+        //TODO handle not to take all posts. Maybe load only 10 and when user is close to the end load another 10
+        const posts = await getAllPosts();
+        console.log(posts);
 
-//         res.status(200).json(products);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        res.status(200).json(posts);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // POST
 postController.post('/', multer.single('uploadImage'), async (req, res, next) => {
