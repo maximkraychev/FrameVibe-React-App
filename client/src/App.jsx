@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from './contexts/AuthContext';
+import { StateProvider } from './contexts/StateContext';
 import { PATH } from './constants/paths';
 import { AuthGuard } from './guards/AuthGuard';
 
@@ -19,25 +20,27 @@ function App() {
 
   return (
     <AuthProvider>
-      <Header />
-      <div className='section-container'>
-        <Routes>
+      <StateProvider>
+        <Header />
+        <div className='section-container'>
+          <Routes>
 
-          <Route path='/' />
-          <Route path={PATH.REGISTER} element={<Register />} />
-          <Route path={PATH.LOGIN} element={<Login />} />
-          <Route path={PATH.LOGOUT} element={<Logout />} />
-          <Route path={PATH.POST} element={<Post />} />
-          <Route path={PATH.NOT_FOUND} element={<NotFound />} />
+            <Route path='/' />
+            <Route path={PATH.REGISTER} element={<Register />} />
+            <Route path={PATH.LOGIN} element={<Login />} />
+            <Route path={PATH.LOGOUT} element={<Logout />} />
+            <Route path={PATH.POST} element={<Post />} />
+            <Route path={PATH.NOT_FOUND} element={<NotFound />} />
 
-          <Route element={<AuthGuard />}>
-            <Route path={PATH.EXPLORE} element={<Explore />} />
-            <Route path={PATH.UPLOAD} element={<UploadImage />} />
-            <Route path={PATH.PROFILE} element={<Profile />} />
-          </Route>
+            <Route element={<AuthGuard />}>
+              <Route path={PATH.EXPLORE} element={<Explore />} />
+              <Route path={PATH.UPLOAD} element={<UploadImage />} />
+              <Route path={PATH.PROFILE} element={<Profile />} />
+            </Route>
 
-        </Routes>
-      </div>
+          </Routes>
+        </div>
+      </StateProvider>
     </AuthProvider>
   );
 }
