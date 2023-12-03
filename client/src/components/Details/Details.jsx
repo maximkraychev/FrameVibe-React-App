@@ -20,7 +20,7 @@ export const Details = (props) => {
     useEffect(() => {
 
         try {
-            (async function getData () {
+            (async function getData() {
                 let currentPost = null;
 
                 if (state[STATE_FIELDS.POSTS]?.length !== 0) {
@@ -31,12 +31,13 @@ export const Details = (props) => {
                     currentPost = await getSinglePost(params[PARAMS.POSTID]);
                 }
 
-                console.log(currentPost);
                 setPost(currentPost);
 
-                if (currentPost.owner) {
+                if (currentPost.owner instanceof String) {
                     const postOwner = await getUserInfoByUsernameOrId(currentPost.owner);
                     setUser(postOwner);
+                } else if (currentPost.owner instanceof Object) {
+                    setUser(currentPost.owner);
                 }
 
             })();
