@@ -67,14 +67,14 @@
         height: 4em;
     }
 
-    .logo,
-    a {
+    .logo {
         display: block;
-        height: 100%;
+        height: 80%;
     }
 
-    .logo {
-        height: 80%;
+    .logo a {
+        display: block;
+        height: 100%;
     }
 
     /* .desktop-nav */
