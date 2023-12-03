@@ -12,3 +12,7 @@ export const getAllUserPosts = async (userId) => {
 export const getSinglePost = async (postId) => {
     return api.get(API_PATH.SINGLE_POST_FN(postId));
 }
+
+export const getAllPosts = async () => {
+    return api.get(API_PATH.ALL_POSTS);
+}
