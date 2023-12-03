@@ -1,11 +1,11 @@
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
-import { DetailsContext } from '../../contexts/DetailsContext';
-import { useModalUrlAndNavigation } from '../../hooks/useModalUrlAndNavigation';
+import { StateContext } from '../../contexts/StateContext';
+import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { getAllUserPosts } from '../../services/postService';
-import { getUserInfo } from '../../services/userService';
+import { getUserInfoByUsernameOrId } from '../../services/userService';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PARAMS, PATH } from '../../constants/paths';
 
@@ -15,40 +15,45 @@ import { PreviewPost } from './PreviewPost/PreviewPost';
 export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
-    const [userPosts, setUserPosts] = useState([]);
+    const { state, changePostState, changeBackgroundComponent } = useContext(StateContext);
     const { auth, setUser } = useContext(AuthContext);
-    const { handleUrlOnDetailsClose } = useModalUrlAndNavigation(PATH.PROFILE);
     const params = useParams();
 
     useEffect(() => {
 
-        (async function loadUserAndPosts() {
-            const username = params[PARAMS.USERNAME];
-            let user = auth;
+        try {
+            (async function loadUserAndPosts() {
+                const username = params[PARAMS.USERNAME];
+                let user = auth;
 
-            if (username != auth.username) {
-                user = await getUserInfo(username);
-            }
+                if (username != auth.username && username) {
+                    user = await getUserInfoByUsernameOrId(username);
+                }
 
-            const arrivedPosts = await getAllUserPosts(user._id);
+                const arrivedPosts = await getAllUserPosts(user._id);
 
-            setCurrentUserProfile({
-                avatar: user.avatar,
-                email: user.email,
-                username: user.username,
-                _id: user._id
-            })
-            setUserPosts(arrivedPosts);
-            console.log(arrivedPosts);
-        })();
+                setCurrentUserProfile({
+                    avatar: user.avatar,
+                    email: user.email,
+                    username: user.username,
+                    _id: user._id
+                })
+
+                changePostState(arrivedPosts);
+            })();
+
+            return () => changeBackgroundComponent(Profile);
+
+        } catch (err) {
+            console.log(err);
+            //TODO .handle the error
+        }
 
     }, [params]);
 
     return (
         <section className={styles['profile-section']}>
-            {/* <DetailsContext.Provider value={handleUrlOnDetailsClose}>
-                <Outlet></Outlet>
-            </DetailsContext.Provider> */}
+
             <header>
                 <div className={styles['profile-picture-container']}>
                     <img src={currentUserProfile?.[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
@@ -61,13 +66,14 @@ export const Profile = () => {
 
             <div className={styles['user-posts']}>
 
-                {userPosts.length !== 0
-                    ? userPosts.map(post => {
+                {state[STATE_FIELDS.POSTS].length !== 0
+                    ? state[STATE_FIELDS.POSTS].map(post => {
                         return (
                             <Link
                                 key={post._id}
                                 to={PATH.POST_FN(post._id)}
-                                state={{ post: post, user: currentUserProfile }}>
+                                // state={{ post: post, user: currentUserProfile, background: COMPONENT_NAMES.PROFILE }}
+                                >
                                 <PreviewPost {...post} />
                             </Link>)
                     })
