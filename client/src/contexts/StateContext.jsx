@@ -7,14 +7,14 @@ export const StateContext = createContext();
 
 const initialValues = {
     [STATE_FIELDS.POSTS]: [],
-    [STATE_FIELDS.MODAL]: false,
-    [STATE_FIELDS.COMPONENT]: '',
+    [STATE_FIELDS.DETAILS_VISIBILITY]: false,
+    [STATE_FIELDS.DETAIL_POST]: '',
 };
 
 export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(stateReducer, initialValues);
 
-    function changePostState(x) {
+    function changePostsState(x) {
         let value = x;
 
         if (x instanceof Function) {
@@ -25,21 +25,33 @@ export const StateProvider = ({ children }) => {
         dispatch(dataForReducer);
     }
 
-    function changeModalState(boolean) {
-        const dataForReducer = { type: STATE_FIELDS.MODAL, value: boolean }
+    function changeDetailsModalState(x) {
+        let value = x;
+
+        if (x instanceof Function) {
+            value = x(state[STATE_FIELDS.DETAILS_VISIBILITY]);
+        }
+
+        const dataForReducer = { type: STATE_FIELDS.DETAILS_VISIBILITY, value }
         dispatch(dataForReducer);
     }
 
-    function changeBackgroundComponent(component) {
-        const dataForReducer = { type: STATE_FIELDS.COMPONENT, value: component }
+    function changeDetailsLoadedPost(x) {
+        let value = x;
+
+        if (x instanceof Function) {
+            value = x(state[STATE_FIELDS.DETAIL_POST]);
+        }
+
+        const dataForReducer = { type: STATE_FIELDS.DETAIL_POST, value }
         dispatch(dataForReducer);
     }
 
     const values = {
         state,
-        changePostState,
-        changeModalState,
-        changeBackgroundComponent
+        changePostsState,
+        changeDetailsModalState,
+        changeDetailsLoadedPost
     };
 
     return (
