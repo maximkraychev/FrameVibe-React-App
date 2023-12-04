@@ -5,7 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { getAllUserPosts } from '../../services/postService';
-import { getUserInfoByUsernameOrId } from '../../services/userService';
+import { getUserInfoByUsername } from '../../services/userService';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PARAMS, PATH } from '../../constants/paths';
 
@@ -27,9 +27,10 @@ export const Profile = () => {
                 let user = auth;
 
                 if (username != auth.username && username) {
-                    user = await getUserInfoByUsernameOrId(username);
+                    console.log(username);
+                    user = await getUserInfoByUsername(username);
                 }
-
+              
                 const arrivedPosts = await getAllUserPosts(user._id);
 
                 setCurrentUserProfile({

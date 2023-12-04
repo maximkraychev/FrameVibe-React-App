@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { StateContext } from '../../contexts/StateContext';
 import { getSinglePost } from '../../services/postService';
-import { getUserInfoByUsernameOrId } from '../../services/userService';
+import { getUserInfoById } from '../../services/userService';
 import { PARAMS } from '../../constants/paths';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 
@@ -36,7 +36,7 @@ export const Details = (props) => {
                 if (currentPost.owner instanceof Object) {
                     setUser(currentPost.owner);
                 } else {
-                    const postOwner = await getUserInfoByUsernameOrId(currentPost.owner);
+                    const postOwner = await getUserInfoById(currentPost.owner);
                     setUser(postOwner);
                 }
 
