@@ -1,15 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useDetailsModal } from '../../hooks/useDetailsModal';
 import styles from './Modal.module.css';
 
-export const Modal = ({ children, ...props }) => {
-    const navigation = useNavigate();
+export const Modal = ({ children }) => {
+    const { closeHandlerDetailsModal } = useDetailsModal();
 
-    function goBack() {
-        navigation(-1);
-    }
 
     return (
-        <div className={styles['dimmer']} onClick={props.showHide ? props.showHide : goBack}>
+        <div className={styles['dimmer']} onClick={closeHandlerDetailsModal}>
             <div className={styles['modal-container']}>
                 {children}
             </div>
