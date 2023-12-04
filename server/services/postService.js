@@ -1,7 +1,7 @@
 import { Post } from '../models/Post.js';
 
 // GET ONE
-const getSinglePost = (postId) => Post.findById(postId);
+const getSinglePost = (postId) => Post.findById(postId).populate('owner');
 
 // GET ALL BY USER
 const getAllUserPosts = (userId) => Post.find({ owner: userId });
