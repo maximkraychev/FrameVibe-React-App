@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { userRegister, userLogin, userLogout, getUserById, getUserByUsernameOrId } from '../services/userService.js'
+import { userRegister, userLogin, userLogout, getUserById, getUserByUsername } from '../services/userService.js'
 import { validateRegisterSchema, validateLoginSchema } from '../util/validationSchemes.js';
 import { isUserGuest, isUserLogged } from '../middlewares/guards.js';
 import { preload } from '../middlewares/preloader.js';
@@ -51,12 +51,24 @@ userController.get('/logout', async (req, res, next) => {
     }
 });
 
-//  Profile
-userController.get('/:userOrId', isUserLogged, async (req, res, next) => {
+//  Profile by userId
+userController.get('/:userId', async (req, res, next) => {
     try {
-        const { userOrId } = req.params;
-        const userData = await getUserByUsernameOrId(userOrId);
+        const { userId } = req.params;
+        const userData = await getUserById(userId);
 
+        res.status(200).json(userData);
+    } catch (err) {
+        next(err);
+    }
+});
+
+//  Profile by username
+userController.get('/:username/username', async (req, res, next) => {
+    try {
+        const { username } = req.params;
+        const userData = await getUserByUsername(username);
+        
         res.status(200).json(userData);
     } catch (err) {
         next(err);
@@ -68,7 +80,7 @@ userController.get('/:userId/posts', isUserLogged, async (req, res, next) => {
     try {
         const { userId } = req.params;
         const userPosts = await getAllUserPosts(userId);
- 
+
         res.status(200).json(userPosts)
     } catch (err) {
         next(err);
