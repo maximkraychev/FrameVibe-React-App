@@ -1,5 +1,5 @@
 export const STATE_FIELDS = {
     POSTS: 'posts',
-    MODAL: 'modal',
-    COMPONENT: 'component'
+    DETAILS_VISIBILITY: 'details',
+    DETAIL_POST: 'detailPost'
 };
