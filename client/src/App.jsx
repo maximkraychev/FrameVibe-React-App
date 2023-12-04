@@ -20,9 +20,9 @@ function App() {
 
   return (
     <AuthProvider>
-      <StateProvider>
-        <Header />
-        <div className='section-container'>
+      <Header />
+      <div className='section-container'>
+        <StateProvider>
           <Routes>
 
             <Route path='/' />
@@ -39,8 +39,8 @@ function App() {
             </Route>
 
           </Routes>
-        </div>
-      </StateProvider>
+        </StateProvider>
+      </div>
     </AuthProvider>
   );
 }
