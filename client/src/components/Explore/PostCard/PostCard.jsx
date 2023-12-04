@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
 import { HeartSvg } from '../../Svg/Heart';
 import styles from './PostCard.module.css';
+import { useDetailsModal } from '../../../hooks/useDetailsModal';
 
-export const PostCard = ({ owner, imageURL, description, likes, _id }) => {
+export const PostCard = ({ post }) => {
+
+    const { initHandlerDetailsModal } = useDetailsModal();
+    const { owner, imageURL, description, likes, _id } = post;
+
     return (
         <>
             <div className={styles['card']}>
@@ -16,7 +21,7 @@ export const PostCard = ({ owner, imageURL, description, likes, _id }) => {
                     <Link to={`/profile/${owner.username}`}>View Profile</Link>
                 </header>
                 <div className={styles['image-container']}>
-                    <Link to={`/p/${_id}`}>
+                    <Link to={`/p/${_id}`} onClick={initHandlerDetailsModal.bind(null, post)}>
                         <img src={imageURL} alt="main-image" />
                     </Link>
                 </div>
