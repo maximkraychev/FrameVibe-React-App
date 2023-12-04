@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { StateContext } from '../../contexts/StateContext';
+import { useDetailsModal } from '../../hooks/useDetailsModal';
 import { getSinglePost } from '../../services/postService';
 import { getUserInfoById } from '../../services/userService';
 import { PARAMS } from '../../constants/paths';
@@ -10,78 +11,79 @@ import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import styles from './Details.module.css';
 import { Xmark } from '../Svg/Xmark';
 
-export const Details = (props) => {
+export const Details = () => {
 
     const { state } = useContext(StateContext);
+    const { closeHandlerDetailsModal } = useDetailsModal();
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const params = useParams();
 
     useEffect(() => {
 
-        try {
-            (async function getData() {
-                let currentPost = null;
+        if (!state[STATE_FIELDS.DETAIL_POST]) {
 
-                if (state[STATE_FIELDS.POSTS]?.length !== 0) {
-                    currentPost = state[STATE_FIELDS.POSTS].find((post) => post._id == params[PARAMS.POSTID]);
-                }
+            try {
+                (async function getData() {
+                    if (params[PARAMS.POSTID]) {
+                        const currentPost = await getSinglePost(params[PARAMS.POSTID]);
+                        setPost(currentPost);
+                        setUser(currentPost.owner);
+                    }
 
-                if (!currentPost && params[PARAMS.POSTID]) {
-                    currentPost = await getSinglePost(params[PARAMS.POSTID]);
-                }
+                })();
 
-                setPost(currentPost);
+            } catch (err) {
+                console.log(err);
+                //TODO handle the error
+            }
 
-                if (currentPost.owner instanceof Object) {
-                    setUser(currentPost.owner);
-                } else {
-                    const postOwner = await getUserInfoById(currentPost.owner);
-                    setUser(postOwner);
-                }
-
-            })();
-
-        } catch (err) {
-            console.log(err);
-            //TODO handle the error
+        } else {
+            setPost(state[STATE_FIELDS.DETAIL_POST])
+            setUser(state[STATE_FIELDS.DETAIL_POST].owner)
         }
 
     }, [])
 
     return (
         <>
-            <div className={styles['details-container']}>
-                <div className={styles['owner-mobile']}>
-                    <div className={styles['avatar-container-mobile']}>
-                        <img src={user?.avatar} alt="avatar" />
-                    </div>
-                    <p>{user?.username}</p>
-                    {props.changeVisibility && <Xmark onClick={changeVisibility} />}
-                </div>
-
-                <div className={styles['image-container']}>
-                    <img src={post?.imageURL} alt="main-image" />
-                </div>
-
-                <div className={styles['description-container']}>
-                    <div className={styles['owner-desktop']}>
-                        <div className={styles['avatar-container-desktop']}>
+            {post &&
+                <div className={styles['details-container']}>
+                    <div className={styles['owner-mobile']}>
+                        <div className={styles['avatar-container-mobile']}>
                             <img src={user?.avatar} alt="avatar" />
                         </div>
                         <p>{user?.username}</p>
-                        {props.changeVisibility && <Xmark onClick={changeVisibility} />}
-                    </div>
-                    <div className={styles['description']}>
-                        <p>
-                            {post?.description}
-                        </p>
+                        {state[STATE_FIELDS.DETAILS_VISIBILITY] && <Xmark onClick={closeHandlerDetailsModal} />}
                     </div>
 
-                    {/* TODO..comments <div className={styles['comments']}></div> */}
+                    <div className={styles['image-container']}>
+                        <img src={post?.imageURL} alt="main-image" />
+                    </div>
 
+                    <div className={styles['description-container']}>
+                        <div className={styles['owner-desktop']}>
+                            <div className={styles['avatar-container-desktop']}>
+                                <img src={user?.avatar} alt="avatar" />
+                            </div>
+                            <p>{user?.username}</p>
+                            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <Xmark onClick={closeHandlerDetailsModal} />}
+                        </div>
+                        <div className={styles['description']}>
+                            <p>
+                                {post?.description}
+                            </p>
+                        </div>
+
+                        {/* TODO..comments <div className={styles['comments']}></div> */}
+
+                    </div>
                 </div>
-            </div>
+            }
+
+            {!post &&
+                <h4 className={styles['not-found-post']}>We couldn't locate the post you're looking for. It may have been deleted or doesn't exist.</h4>
+            }
         </>
     );
 };
