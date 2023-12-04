@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
+import { useDetailsModal } from '../../hooks/useDetailsModal';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { getAllUserPosts } from '../../services/postService';
 import { getUserInfoByUsername } from '../../services/userService';
@@ -11,30 +12,36 @@ import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
-import { COMPONENT_NAMES } from '../../constants/componentsNames';
+import { PostWithModal } from '../Details/PostWithModal';
 
 export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
-    const { state, changePostState, changeBackgroundComponent } = useContext(StateContext);
-    const { auth, setUser } = useContext(AuthContext);
+    const { state, changePostsState } = useContext(StateContext);
+    const { initHandlerDetailsModal } = useDetailsModal()
+    const { auth } = useContext(AuthContext);
     const params = useParams();
 
     useEffect(() => {
 
         try {
             (async function loadUserAndPosts() {
+                // Take the username from url
                 const username = params[PARAMS.USERNAME];
                 let user = null;
 
+                // If username is the same with our auth user take the data from the state else fetch the user data
                 if (username != auth.username && username) {
                     user = await getUserInfoByUsername(username);
                 } else {
                     user = auth;
                 }
 
+                // Take all user posts and populate their owner
                 const arrivedPosts = await getAllUserPosts(user._id);
+                const arrivedPostWithPopulatedOwner = arrivedPosts.map(post => ({ ...post, owner: user }));
 
+                // Set current user
                 setCurrentUserProfile({
                     avatar: user.avatar,
                     email: user.email,
@@ -42,10 +49,9 @@ export const Profile = () => {
                     _id: user._id
                 })
 
-                changePostState(arrivedPosts);
+                // Set posts
+                changePostsState(arrivedPostWithPopulatedOwner);
             })();
-
-            return () => changeBackgroundComponent(COMPONENT_NAMES.PROFILE);
 
         } catch (err) {
             console.log(err);
@@ -75,8 +81,8 @@ export const Profile = () => {
                             <Link
                                 key={post._id}
                                 to={PATH.POST_FN(post._id)}
-                                // state={{ post: post, user: currentUserProfile, background: COMPONENT_NAMES.PROFILE }}
-                                >
+                                onClick={initHandlerDetailsModal.bind(null, post)}
+                            >
                                 <PreviewPost {...post} />
                             </Link>)
                     })
@@ -84,6 +90,8 @@ export const Profile = () => {
                 }
 
             </div>
+
+            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <PostWithModal />}
         </section>
     );
 };
