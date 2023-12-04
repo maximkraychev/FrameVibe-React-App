@@ -11,6 +11,7 @@ import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
+import { COMPONENT_NAMES } from '../../constants/componentsNames';
 
 export const Profile = () => {
 
@@ -24,13 +25,14 @@ export const Profile = () => {
         try {
             (async function loadUserAndPosts() {
                 const username = params[PARAMS.USERNAME];
-                let user = auth;
+                let user = null;
 
                 if (username != auth.username && username) {
-                    console.log(username);
                     user = await getUserInfoByUsername(username);
+                } else {
+                    user = auth;
                 }
-              
+
                 const arrivedPosts = await getAllUserPosts(user._id);
 
                 setCurrentUserProfile({
@@ -43,7 +45,7 @@ export const Profile = () => {
                 changePostState(arrivedPosts);
             })();
 
-            return () => changeBackgroundComponent(Profile);
+            return () => changeBackgroundComponent(COMPONENT_NAMES.PROFILE);
 
         } catch (err) {
             console.log(err);
