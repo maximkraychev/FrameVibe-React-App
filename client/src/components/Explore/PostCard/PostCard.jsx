@@ -13,7 +13,7 @@ export const PostCard = ({ owner, imageURL, description, likes, _id }) => {
                         </p>
                     </div>
                     <p className={styles['username']}>{owner.username}</p>
-                    <Link to={`/profile/${owner._id}`}>View Profile</Link>
+                    <Link to={`/profile/${owner.username}`}>View Profile</Link>
                 </header>
                 <div className={styles['image-container']}>
                     <Link to={`/p/${_id}`}>
