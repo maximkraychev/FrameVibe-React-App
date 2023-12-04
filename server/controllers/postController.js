@@ -20,7 +20,7 @@ postController.get('/:postId', async (req, res, next) => {
     try {
         const { postId } = req.params
         const post = await getSinglePost(postId);
-        console.log(post);
+
         res.status(200).json(post);
     } catch (err) {
         next(err);
@@ -32,7 +32,6 @@ postController.get('/', async (req, res, next) => {
     try {
         //TODO handle not to take all posts. Maybe load only 10 and when user is close to the end load another 10
         const posts = await getAllPosts();
-        console.log(posts);
 
         res.status(200).json(posts);
     } catch (err) {
