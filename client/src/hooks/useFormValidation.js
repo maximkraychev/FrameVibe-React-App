@@ -6,7 +6,6 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
     const [errorMessages, setErrorMessages] = useState(() => {
         // Takes initial fields (object), get the keys, pars them to array with objects with structure {field: null}
         const arrWithObjects = Object.keys(fields).map(field => ({ [field]: null }));
-
         // Parse the array to object
         return Object.assign({}, ...arrWithObjects)
     });
@@ -31,8 +30,14 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
         setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errMsg }));
     }
 
+
+    function setManualError(field, errorMessage) {
+        setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errorMessage }));
+    }
+
     return {
         errorMessages,
-        checkFieldForError
+        checkFieldForError,
+        setManualError
     }
 }
