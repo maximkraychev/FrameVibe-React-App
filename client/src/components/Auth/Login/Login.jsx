@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../../contexts/AuthContext';
@@ -15,7 +15,7 @@ import { SubmitBtn } from '../../SubmitBtn/SubmitBtn';
 const initialValues = {
     [INPUT_NAMES.EMAIL]: '',
     [INPUT_NAMES.PASSWORD]: '',
-}
+};
 
 export const Login = () => {
 
@@ -25,7 +25,9 @@ export const Login = () => {
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, LOGIN_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
-    let timeout = [];
+    useEffect(() => {
+        setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
+    }, [values, errorMessages]);
 
     async function onLoginSubmit(data) {
         await login(data);
@@ -36,27 +38,13 @@ export const Login = () => {
     function onInputChange(e) {
         changeHandler(e);
 
-
-        // Set up timeout so the function below does not trigger unless the user have stop typing for 0.5sec
-        // console.log(timeout);
-        // if (timeout.length > 0) {
-        //     timeout.forEach(x => clearTimeout(x));
-        // }
-
-        // timeout = setTimeout(() => {
-            if (errorMessages[e.target.name]) {
-                errorCheck(e);
-            }
-
-            
-        // }, 500)
-
+        if (errorMessages[e.target.name]) {
+            errorCheck(e);
+        }
     }
 
     function errorCheck(e) {
-        // TODO find a way to use values from useForm (If i try here there is delay until the values are changed)
         checkFieldForError(e.target.name, e.target.value);
-        setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
     }
 
     return (
