@@ -1,0 +1,19 @@
+.submit-btn {
+    border-radius: 1em; 
+    padding: 1em 2em;
+    color: var(--white-color);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.active {
+    border: 1px solid var(--blue-dark-color);
+    background-color: var(--blue-dark-color);
+}
+
+.disabled {
+    border: 1px solid var(--blue-light-color);
+    background-color: var(--blue-light-color);
+}
