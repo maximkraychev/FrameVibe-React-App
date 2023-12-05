@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { userRegister, userLogin, userLogout, getUserById, getUserByUsername } from '../services/userService.js'
+import { userRegister, userLogin, userLogout, getUserById, getUserByUsername, getUserByEmail } from '../services/userService.js'
 import { validateRegisterSchema, validateLoginSchema } from '../util/validationSchemes.js';
 import { isUserGuest, isUserLogged } from '../middlewares/guards.js';
 import { preload } from '../middlewares/preloader.js';
@@ -74,6 +74,19 @@ userController.get('/:username/username', async (req, res, next) => {
         next(err);
     }
 });
+
+// Profile by email
+userController.get('/:email/email', async (req, res, next) => {
+    try {
+        const { email } = req.params;
+        const userData = await getUserByEmail(email);
+        
+        res.status(200).json(userData);
+    } catch (err) {
+        next(err);
+    }
+});
+
 
 // Get user posts
 userController.get('/:userId/posts', isUserLogged, async (req, res, next) => {
