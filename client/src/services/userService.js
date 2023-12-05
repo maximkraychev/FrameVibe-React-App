@@ -8,3 +8,7 @@ export const getUserInfoById = async (userId) => {
 export const getUserInfoByUsername = async (username) => {
     return api.get(API_PATH.USER_BY_USERNAME_FN(username));
 };
+
+export const getUserInfoByEmail = async (email) => {
+    return api.get(API_PATH.USER_BY_EMAIL_FN(email));
+}
