@@ -92,6 +92,9 @@ const getUserById = (userId) => User.findById(userId).select('-password'); // Se
 // Get user by username
 const getUserByUsername = (username) => User.findOne({ username }).collation({ locale: 'en', strength: 2 }).select('-password');
 
+// Get user by email
+const getUserByEmail = (email) => User.findOne({ email }).collation({ locale: 'en', strength: 2 }).select('-password');
+
 
 //  Asynchronously generating token
 async function generateToken(user) {
@@ -151,5 +154,6 @@ export {
     userLogin,
     userLogout,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    getUserByEmail
 };
