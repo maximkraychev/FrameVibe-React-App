@@ -20,11 +20,15 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
         // Take only the first err or if there are not return null
         const errMsg = arrWithErrors.length > 0 ? arrWithErrors[0] : null;
 
-        // Change the state
-        if (errMsg) {
-            // Change the state only if we have an error that way we wont force react to rerender
-            setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errMsg }))
+
+        if (errMsg == null && Object.values(errorMessages).every(x => x == null)) { 
+            // This way if we don't have a new Error to show and currently don't have error 
+            // just return so react wont rerender
+            return;
         }
+
+        // Change the state
+        setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errMsg }));
     }
 
     return {
