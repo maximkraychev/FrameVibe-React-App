@@ -27,6 +27,7 @@ export const API_PATH = {
     CREATE_POST: '/post',
     USER_BY_ID_FN: (userId) => `/users/${userId}`,
     USER_BY_USERNAME_FN: (username) => `/users/${username}/username`,
+    USER_BY_EMAIL_FN: (email) => `/users/${email}/email`,
     USER_POSTS_FN: (id) => `/users/${id}/posts`,
     SINGLE_POST_FN: (postId) => `/post/${postId}`,
     ALL_POSTS: '/post',
