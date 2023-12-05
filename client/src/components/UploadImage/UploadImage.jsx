@@ -1,25 +1,39 @@
-import { useState } from 'react';
-
-import styles from './UploadImage.module.css';
-import { INPUT_NAMES } from '../../constants/formInputNaming';
-import { createPost } from '../../services/postService';
-import { useForm } from '../../hooks/useForm';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { useForm } from '../../hooks/useForm';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { createPost } from '../../services/postService';
+import { submitBtnStateCheck } from '../../util/submitBtnStateCheck';
+import { UPLOAD_FORM_VALIDATION } from '../../util/formValidations';
+import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PATH } from '../../constants/paths';
 
-const initialFormState = {
-    [INPUT_NAMES.DESCRIPTION]: '',
+import styles from './UploadImage.module.css';
+import { SubmitBtn } from '../SubmitBtn/SubmitBtn';
+
+const initialValues = {
+    // The current form validation abstraction does not allow empty fields
+    // Hacky way: initial value to be one space
+    // TODO find a way to fix it!
+    [INPUT_NAMES.DESCRIPTION]: ' ',
     [INPUT_NAMES.UPLOAD_IMAGE]: ''
 }
 
 export const UploadImage = () => {
-    const { values, changeHandler, onSubmit } = useForm(initialFormState, uploadImageSubmitHandler);
+    const { values, changeHandler, onSubmit } = useForm(initialValues, uploadImageSubmitHandler);
     const [previewImage, setPreviewImage] = useState(null);
     const navigation = useNavigate();
+    const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
+    const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
-    const handleImageChange = (event) => {
-        changeHandler(event);
-        const file = event.target.files[0];
+    useEffect(() => {
+        setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
+    }, [values, errorMessages]);
+
+    const handleImageChange = (e) => {
+        onChangeHandler(e);
+        const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
 
@@ -41,9 +55,21 @@ export const UploadImage = () => {
         const dataForServer = new FormData();
         dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
         dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
-     
+
         const newPostData = await createPost(dataForServer);
         navigation(PATH.POST_FN(newPostData?._id));
+    }
+
+    function onChangeHandler(e) {
+        changeHandler(e);
+
+        if (errorMessages[e.target.name]) {
+            errorCheck(e);
+        }
+    }
+
+    function errorCheck(e) {
+        checkFieldForError(e.target.name, e.target.value);
     }
 
     return (
@@ -51,7 +77,7 @@ export const UploadImage = () => {
             <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
                 <h2>Image Upload</h2>
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
-                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
+                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange}/>
                 {previewImage && (
                     <img
                         className={styles['image-preview']}
@@ -59,8 +85,13 @@ export const UploadImage = () => {
                         alt="Preview"
                     />
                 )}
-                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={changeHandler} rows="6" cols="50"></textarea>
-                <input type="submit" value={'Upload'} />
+                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onChangeHandler} onBlur={errorCheck} rows="6" cols="50"></textarea>
+
+
+                {errorMessages[INPUT_NAMES.UPLOAD_IMAGE] && <h2>Error image</h2>}
+                {errorMessages[INPUT_NAMES.DESCRIPTION] && <h2>Error description</h2>}
+
+                <SubmitBtn value={'Upload'} active={submitButtonState} />
             </form>
         </div>
     );
