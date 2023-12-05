@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 
 import { PATH } from '../../../constants/paths';
-import { INPUT_NAMES } from '../../../constants/formInputNaming';
+import { INPUT_BASE, INPUT_NAMES } from '../../../constants/formInputNaming';
 import { useForm } from '../../../hooks/useForm';
 import { AuthContext } from '../../../contexts/AuthContext';
 
@@ -17,7 +17,7 @@ export const Register = () => {
         [INPUT_NAMES.USERNAME]: '',
         [INPUT_NAMES.PASSWORD]: '',
         [INPUT_NAMES.REPASSWORD]: '',
-        [INPUT_NAMES.USER_AVATAR]: INPUT_NAMES.USER_BASE_AVATAR_URL
+        [INPUT_NAMES.USER_AVATAR]: INPUT_BASE.USER_BASE_AVATAR_URL
     },
         onRegisterSubmit)
 
