@@ -9,18 +9,24 @@ export const useDetailsModal = () => {
     function initHandlerDetailsModal(post, e) {
         e.preventDefault();
         history.pushState({}, '', `/p/${post._id}`);
-        changeDetailsLoadedPost({...post})
-        changeDetailsModalState(state => !state);
+        changeDetailsLoadedPost({ ...post })
+        changeDetailsModalState(true);
     }
 
     function closeHandlerDetailsModal() {
-        changeDetailsModalState(state => !state);
+        changeDetailsModalState(false);
         changeDetailsLoadedPost('');
         navigate(-1);
     }
 
+    function clearDetailsModalState() {
+        changeDetailsModalState(false);
+        changeDetailsLoadedPost('');
+    }
+
     return {
         initHandlerDetailsModal,
-        closeHandlerDetailsModal
+        closeHandlerDetailsModal,
+        clearDetailsModalState
     }
 }
