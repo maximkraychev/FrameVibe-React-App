@@ -5,7 +5,7 @@ import { AuthContext } from '../../../contexts/AuthContext';
 import { useForm } from '../../../hooks/useForm';
 import { useFormValidation } from '../../../hooks/useFormValidation';
 import { submitBtnStateCheck } from '../../../util/submitBtnStateCheck';
-import { getUserInfoByEmail } from '../../../services/userService';
+import { getUserInfoByEmail, getUserInfoByUsername } from '../../../services/userService';
 import { REGISTER_FORM_VALIDATIONS } from '../../../util/formValidations';
 import { PATH } from '../../../constants/paths';
 import { INPUT_BASE, INPUT_NAMES } from '../../../constants/formInputNaming';
@@ -37,7 +37,7 @@ export const Register = () => {
     const timeouts = useRef({
         [INPUT_NAMES.EMAIL]: null,
         [INPUT_NAMES.USERNAME]: null
-    })
+    });
 
     async function onRegisterSubmit(data) {
         const { repassword, ...userDataForServer } = data;
@@ -49,44 +49,32 @@ export const Register = () => {
     function onInputChange(e) {
         changeHandler(e);
         const value = e.target.value;
-        const name = e.target.name
+        const name = e.target.name;
 
-
+        // In case of Email we need to make async request
         if (name == INPUT_NAMES.EMAIL) {
-
             if (timeouts[INPUT_NAMES.EMAIL]) clearTimeout(timeouts[INPUT_NAMES.EMAIL]);
 
-            timeouts[INPUT_NAMES.EMAIL] = setTimeout(async () => {
-                let user = null;
-                if (value !== '') {
-                    user = await getUserInfoByEmail(value);
-                }
-
-                if (user) {
-                    checkFieldForError(INPUT_NAMES.EMAIL, null, { error: 'This email is already taken!' });
-                }
-            }, 1000);
+            timeouts[INPUT_NAMES.EMAIL] = checkFieldForError(name, value, { async: getUserInfoByEmail, error: 'This email is already taken!' });
         }
 
-
+        // In case of Username we need to make async request
         if (name == INPUT_NAMES.USERNAME) {
 
             if (timeouts[INPUT_NAMES.USERNAME]) clearTimeout(timeouts[INPUT_NAMES.USERNAME]);
 
-            timeouts[INPUT_NAMES.USERNAME] = setTimeout(async () => {
-                let user = null;
-                if (value !== '') {
-                    user = await getUserInfoByEmail(value);
-                }
-
-                if (user) {
-                    checkFieldForError(INPUT_NAMES.USERNAME, null, { error: 'This username is already taken!' });
-                }
-            }, 1000);
+            timeouts[INPUT_NAMES.USERNAME] = checkFieldForError(name, value, { async: getUserInfoByUsername, error: 'This username is already taken!' })
         }
 
-        if (errorMessages[e.target.name]) {
-            checkFieldForError(e.target.name, e.target.value);
+        // In case of rePassword we need to give also the current password
+        if (name == INPUT_NAMES.REPASSWORD) {
+            checkFieldForError(name, value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
+            return;
+        }
+
+        // If we have error for that field test again we the new value 
+        if (errorMessages[name]) {
+            checkFieldForError(name, value);
         }
     }
 
@@ -95,7 +83,7 @@ export const Register = () => {
         if (errorMessages[e.target.name] && errorMessages[e.target.name].includes('is already taken!')) return;
 
         if (e.target.name == INPUT_NAMES.REPASSWORD) {
-            checkFieldForError(e.target.name, e.target.value, { repassword: values[INPUT_NAMES.REPASSWORD] });
+            checkFieldForError(e.target.name, e.target.value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
             return;
         }
 
@@ -104,9 +92,10 @@ export const Register = () => {
 
     return (
         <div className={styles['form-container']}>
-            <form className={styles['login-form']} method='POST' onSubmit={onSubmit}>
+            <form className={styles['register-form']} method='POST' onSubmit={onSubmit}>
                 <h2>Create Account</h2>
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.EMAIL]}</p>
                 <input
                     type="email"
                     name={INPUT_NAMES.EMAIL}
@@ -116,6 +105,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.USERNAME]}</p>
                 <input
                     type="text"
                     name={INPUT_NAMES.USERNAME}
@@ -125,6 +115,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.PASSWORD]}</p>
                 <input
                     type="password"
                     name={INPUT_NAMES.PASSWORD}
@@ -134,6 +125,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.REPASSWORD]}</p>
                 <input
                     type="password"
                     name={INPUT_NAMES.REPASSWORD}
@@ -143,10 +135,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
-                {errorMessages[INPUT_NAMES.EMAIL] && <h2>{errorMessages[INPUT_NAMES.EMAIL]}</h2>}
-                {errorMessages[INPUT_NAMES.PASSWORD] && <h2>{errorMessages[INPUT_NAMES.PASSWORD]}</h2>}
-                {errorMessages[INPUT_NAMES.REPASSWORD] && <h2>{errorMessages[INPUT_NAMES.REPASSWORD]}</h2>}
-
+                <p className={styles['error-field']}></p>
                 <SubmitBtn value={'Sign up'} active={submitButtonState} />
 
                 <p className={styles['option']}>
