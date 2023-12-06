@@ -19,9 +19,14 @@ export const useForm = (initialValues, onSubmitHandler) => {
         onSubmitHandler(values)
     }
 
+    const changeValueByField = (field, value) => {
+        setValues(state => ({ ...state, [field]: value }));
+    }
+
     return {
         values,
         changeHandler,
-        onSubmit
+        onSubmit,
+        changeValueByField
     }
 }
