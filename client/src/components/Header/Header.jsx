@@ -29,7 +29,7 @@ export const Header = () => {
             <div className={'section-container ' + styles['header-container']}>
 
                 <h1 className={styles['logo']}>
-                    <Link to="/">
+                    <Link to={PATH.EXPLORE}>
                         <img src={logoIcon} alt="logo" />
                     </Link>
                 </h1>
