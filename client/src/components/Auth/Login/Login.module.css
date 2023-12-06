@@ -11,13 +11,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5em;
     max-width: 20em;
     min-height: 30em;
     background-color: var(--pure-white-color);
     border-radius: 1.5em;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
         0 10px 10px rgba(0, 0, 0, 0.22);
+    padding-block: 0.5em;
 }
 
 .login-form h2 {
@@ -37,18 +37,6 @@
     outline: 2px solid var(--blue-light-color);
 }
 
-/* .login-form input[type="submit"] {
-    border-radius: 1em; 
-    padding: 1em 2em;
-    border: 1px solid var(--blue-dark-color);
-    background-color: var(--blue-dark-color);
-    color: var(--white-color);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-} */
-
 .option {
     display: flex;
     flex-direction: column;
@@ -57,6 +45,17 @@
 
 .option a {
     color: var(--blue-dark-color);
+}
+
+.error-field {
+    color: red;
+    min-height: 1em;
+    margin-top: 0.5em;
+    width: 80%;
+}
+
+.api-error {
+    text-align: center;
 }
 
 @media (width > 479px) {

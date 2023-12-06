@@ -21,6 +21,7 @@ export const Login = () => {
 
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onLoginSubmit);
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, LOGIN_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
@@ -30,9 +31,12 @@ export const Login = () => {
     }, [values, errorMessages]);
 
     async function onLoginSubmit(data) {
-        await login(data);
-        navigate(PATH.EXPLORE);
-        //TODO handle error 
+        try {
+            await login(data);
+            navigate(PATH.EXPLORE);
+        } catch (err) {
+            setSubmitError(err.message);
+        }
     }
 
     function onInputChange(e) {
@@ -52,6 +56,7 @@ export const Login = () => {
             <form className={styles['login-form']}>
                 <h2>Sign in</h2>
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.EMAIL]}</p>
                 <input
                     type="email"
                     placeholder='Email'
@@ -61,6 +66,7 @@ export const Login = () => {
                     onBlur={errorCheck}
                 />
 
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.PASSWORD]}</p>
                 <input
                     type="password"
                     placeholder='Password'
@@ -70,11 +76,9 @@ export const Login = () => {
                     onBlur={errorCheck}
                 />
 
-                {errorMessages[INPUT_NAMES.EMAIL] && <h2>Error email</h2>}
-                {errorMessages[INPUT_NAMES.PASSWORD] && <h2>Error password</h2>}
-
-                {/* <input type="submit" value={'Sign in'} /> */}
+                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                 <SubmitBtn value={'Sign in'} active={submitButtonState} />
+
                 <p className={styles['option']}>
                     You don&apos;t have an account? <Link to={PATH.REGISTER}>Register here!</Link>
                 </p>
