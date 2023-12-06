@@ -33,7 +33,7 @@ export const CreatePost = () => {
     }, [values, errorMessages]);
 
     const handleImageChange = (e) => {
-        onChangeHandler(e);
+        onInputChange(e);
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -65,7 +65,7 @@ export const CreatePost = () => {
         }
     }
 
-    function onChangeHandler(e) {
+    function onInputChange(e) {
         changeHandler(e);
 
         if (errorMessages[e.target.name]) {
@@ -93,7 +93,7 @@ export const CreatePost = () => {
                 )}
 
                 <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
-                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onChangeHandler} onBlur={errorCheck} rows="6" cols="50"></textarea>
+                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
 
                 <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                 <SubmitBtn value={'Upload'} active={submitButtonState} />
