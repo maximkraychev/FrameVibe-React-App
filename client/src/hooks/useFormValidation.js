@@ -10,17 +10,32 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
         return Object.assign({}, ...arrWithObjects)
     });
 
-    function checkFieldForError(field, value) {
-        // Run the validation and return error message for every one that did not pass
-        const arrWithErrors = arrWithValidationAndMessages[field]
-            .map(errCheckerFn => errCheckerFn(value))
-            .filter(error => error !== null)
+    function checkFieldForError(field, value, options) {
+
+        let arrWithErrors = [];
+        let errMsg = null;
+
+
+        if (options && options.error) {
+            setErrorMessages(errMsgs => ({ ...errMsgs, [field]: options.error }));
+            return;
+
+        } else if (options && options.repassword) {
+            arrWithErrors = arrWithValidationAndMessages[field]
+                .map(errCheckerFn => errCheckerFn(value, options.rePassword))
+                .filter(error => error !== null)
+
+        } else {
+            // Run the validation and return error message for every one that did not pass
+            arrWithErrors = arrWithValidationAndMessages[field]
+                .map(errCheckerFn => errCheckerFn(value))
+                .filter(error => error !== null)
+        }
 
         // Take only the first err or if there are not return null
-        const errMsg = arrWithErrors.length > 0 ? arrWithErrors[0] : null;
+        errMsg = arrWithErrors.length > 0 ? arrWithErrors[0] : null;
 
-
-        if (errMsg == null && Object.values(errorMessages).every(x => x == null)) { 
+        if (errMsg == null && Object.values(errorMessages).every(x => x == null)) {
             // This way if we don't have a new Error to show and currently don't have error 
             // just return so react wont rerender
             return;
@@ -30,14 +45,8 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
         setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errMsg }));
     }
 
-
-    function setManualError(field, errorMessage) {
-        setErrorMessages(errMsgs => ({ ...errMsgs, [field]: errorMessage }));
-    }
-
     return {
         errorMessages,
-        checkFieldForError,
-        setManualError
+        checkFieldForError
     }
 }
