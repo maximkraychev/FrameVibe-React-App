@@ -10,19 +10,29 @@ export const useFormValidation = (fields, arrWithValidationAndMessages) => {
         return Object.assign({}, ...arrWithObjects)
     });
 
-    function checkFieldForError(field, value, options) {
+    function checkFieldForError(field, value, options = {}) {
 
         let arrWithErrors = [];
         let errMsg = null;
 
 
-        if (options && options.error) {
-            setErrorMessages(errMsgs => ({ ...errMsgs, [field]: options.error }));
-            return;
+        if (options.async && options.error) {
 
-        } else if (options && options.repassword) {
+            return setTimeout(async () => {
+                let user = null;
+
+                if (value !== '') {
+                    user = await options.async(value);
+                }
+
+                if (user) {
+                    setErrorMessages(errMsgs => ({ ...errMsgs, [field]: options.error }));
+                }
+            }, 1000)
+
+        } else if (options.passwordRef) {
             arrWithErrors = arrWithValidationAndMessages[field]
-                .map(errCheckerFn => errCheckerFn(value, options.rePassword))
+                .map(errCheckerFn => errCheckerFn(value, options.passwordRef))
                 .filter(error => error !== null)
 
         } else {
