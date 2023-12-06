@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-// In this hook are stored the errors for form
+// In this hook is storing the errors for form
 
 export const useFormValidation = (fields, arrWithValidationAndMessages) => {
     const [errorMessages, setErrorMessages] = useState(() => {
