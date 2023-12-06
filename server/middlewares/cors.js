@@ -4,7 +4,7 @@ export default () => (req, res, next) => {
 
 	res.setHeader(
 		'Access-Control-Allow-Methods',
-		'GET, POST, PUT, DELETE, OPTIONS, HEAD'
+		'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD'
 	);
 	
 	res.setHeader(
