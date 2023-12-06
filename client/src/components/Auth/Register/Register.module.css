@@ -5,13 +5,13 @@
     justify-content: center;
 }
 
-.login-form {
+.register-form {
     flex: 0 1 20em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5em;
+    /* gap: 1em; */
     max-width: 20em;
     min-height: 30em;
     background-color: var(--pure-white-color);
@@ -20,35 +20,23 @@
         0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
-.login-form h2 {
+.register-form h2 {
     color: var(--blue-dark-color);
 }
 
-.login-form input[type="email"],
-.login-form input[type="text"],
-.login-form input[type="password"] {
+.register-form input[type="email"],
+.register-form input[type="text"],
+.register-form input[type="password"] {
     background-color: var(--darker-white-color);
     border: none;
     padding: 0.8em 1em;
     width: 80%;
 }
 
-.login-form input[type="email"]:focus,
-.login-form input[type="text"]:focus,
-.login-form input[type="password"]:focus {
+.register-form input[type="email"]:focus,
+.register-form input[type="text"]:focus,
+.register-form input[type="password"]:focus {
     outline: 2px solid var(--blue-light-color);
-}
-
-.login-form input[type="submit"] {
-    border-radius: 1em;
-    padding: 1em 2em;
-    border: 1px solid var(--blue-dark-color);
-    background-color: var(--blue-dark-color);
-    color: var(--white-color);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
 }
 
 .option {
@@ -61,8 +49,15 @@
     color: var(--blue-dark-color);
 }
 
+.error-field {
+    color: red;
+    height: 1.5em;
+    margin-top: 0.5em;
+    width: 80%;
+}
+
 @media (width > 479px) {
-    .login-form {
+    .register-form {
         flex-basis: 25em;
         max-width: 25em;
         min-height: 32em;
