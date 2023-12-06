@@ -2,10 +2,10 @@ import { Router } from 'express';
 import { cloudinary } from '../config/cloudinary.js';
 import { multer } from '../config/multer.js'
 
-import { validatePostSchema } from '../util/validationSchemes.js';
+import { validatePostOnEditSchema, validatePostSchema } from '../util/validationSchemes.js';
 import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost, getAllPosts } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
-import { isOwner } from '../middlewares/guards.js';
+import { isOwner, isUserLogged } from '../middlewares/guards.js';
 
 
 
@@ -19,7 +19,7 @@ const postController = Router();
 postController.get('/:postId', async (req, res, next) => {
     try {
         const { postId } = req.params
-        const post = await getSinglePost(postId);
+        const post = await getSinglePost(postId).populate('owner');
 
         res.status(200).json(post);
     } catch (err) {
@@ -28,10 +28,10 @@ postController.get('/:postId', async (req, res, next) => {
 });
 
 // GET ALL
-postController.get('/', async (req, res, next) => {
+postController.get('/', isUserLogged, async (req, res, next) => {
     try {
         //TODO handle not to take all posts. Maybe load only 10 and when user is close to the end load another 10
-        const posts = await getAllPosts();
+        const posts = await getAllPosts().populate('owner');
 
         res.status(200).json(posts);
     } catch (err) {
@@ -40,7 +40,7 @@ postController.get('/', async (req, res, next) => {
 });
 
 // POST
-postController.post('/', multer.single('uploadImage'), async (req, res, next) => {
+postController.post('/', multer.single('uploadImage'), isUserLogged, async (req, res, next) => {
     try {
 
         // Getting the description and file using multer
@@ -75,18 +75,20 @@ postController.post('/', multer.single('uploadImage'), async (req, res, next) =>
     }
 });
 
-// PUT
-// productController.put('/:productId', preload(getSingleProduct), isOwner, async (req, res, next) => {
-//     try {
-//         await validateProductSchema.validateAsync(req.body);
-//         const productId = req.params.productId;
-//         const editedProduct = await updateProduct(productId, req.body);
+// PATCH
+postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, async (req, res, next) => {
+    try {
+        await validatePostOnEditSchema.validateAsync(req.body);
+        const data = req.body;
+        const postId = req.params.postId;
 
-//         res.status(200).json(editedProduct);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        const editedPost = await updatePost(postId, { description: data.description });
+
+        res.status(200).json(editedPost);
+    } catch (err) {
+        next(err);
+    }
+});
 
 // DELETE
 // productController.delete('/:productId', preload(getSingleProduct), isOwner, async (req, res, next) => {
