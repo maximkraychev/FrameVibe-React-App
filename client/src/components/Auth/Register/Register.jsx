@@ -26,7 +26,9 @@ export const Register = () => {
 
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit)
+    const [rePasswordErrorState, setRePasswordErrorState] = useState(false);
+    const [submitError, setSubmitError] = useState('');
+    const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit);
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
@@ -39,11 +41,15 @@ export const Register = () => {
         [INPUT_NAMES.USERNAME]: null
     });
 
+
     async function onRegisterSubmit(data) {
-        const { repassword, ...userDataForServer } = data;
-        await register(userDataForServer)
-        navigate(PATH.EXPLORE);
-        //TODO handle error
+        try {
+            const { repassword, ...userDataForServer } = data;
+            await register(userDataForServer);
+            navigate(PATH.EXPLORE);
+        } catch (err) {
+            setSubmitError(err.message);
+        }
     }
 
     function onInputChange(e) {
@@ -72,6 +78,13 @@ export const Register = () => {
             return;
         }
 
+        // This is for the case where we started with repass and then add value to pass. This way as long as the are identical there wont be an error
+        if (name == INPUT_NAMES.PASSWORD) {
+            checkFieldForError(name, value);
+            checkFieldForError(INPUT_NAMES.REPASSWORD, values[INPUT_NAMES.REPASSWORD], { passwordRef: value });
+            return;
+        }
+
         // If we have error for that field test again we the new value 
         if (errorMessages[name]) {
             checkFieldForError(name, value);
@@ -84,6 +97,7 @@ export const Register = () => {
 
         if (e.target.name == INPUT_NAMES.REPASSWORD) {
             checkFieldForError(e.target.name, e.target.value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
+            setRePasswordErrorState(true);
             return;
         }
 
@@ -125,7 +139,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.REPASSWORD]}</p>
+                <p className={styles['error-field']}>{rePasswordErrorState && errorMessages[INPUT_NAMES.REPASSWORD]}</p>
                 <input
                     type="password"
                     name={INPUT_NAMES.REPASSWORD}
@@ -135,7 +149,7 @@ export const Register = () => {
                     onBlur={errorCheck}
                 />
 
-                <p className={styles['error-field']}></p>
+                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                 <SubmitBtn value={'Sign up'} active={submitButtonState} />
 
                 <p className={styles['option']}>
