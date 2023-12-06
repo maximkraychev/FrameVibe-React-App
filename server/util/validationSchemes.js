@@ -7,6 +7,11 @@ const validatePostSchema = joi.object({
 	uploadImage: joi.required(),
 });
 
+// Validate post on edit
+const validatePostOnEditSchema = joi.object({
+	description: joi.string().trim().max(200)
+});
+
 // Validate user on registration
 const validateRegisterSchema = joi.object({
 	username: joi.string().required().trim().min(3).max(50),
@@ -30,4 +35,4 @@ const validateCommentSchema = joi.object({
 	comment: joi.string().trim().required().max(200)
 });
 
-export { validatePostSchema, validateRegisterSchema, validateLoginSchema, validateCommentSchema };
+export { validatePostSchema, validateRegisterSchema, validateLoginSchema, validateCommentSchema, validatePostOnEditSchema };
