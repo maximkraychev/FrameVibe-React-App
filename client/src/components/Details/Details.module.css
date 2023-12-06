@@ -10,14 +10,16 @@
    flex-direction: column;
 }
 
+.x-container {
+    margin-left: auto;
+}
+
 .owner-mobile svg,
 .owner-desktop svg {
     height: 2em;
     aspect-ratio: 1 / 1;
     cursor: pointer;
     fill: var(--blue-dark-color);
-    margin-left: auto;
-    align-self: flex-start;
 }
 
 /* owner-mobile bar for mobile */
