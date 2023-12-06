@@ -33,4 +33,5 @@ export const API_PATH = {
     USER_POSTS_FN: (id) => `/users/${id}/posts`,
     SINGLE_POST_FN: (postId) => `/post/${postId}`,
     ALL_POSTS: '/post',
+    UPDATE_POST_FN: (postId) => `/post/${postId}`,
 }
