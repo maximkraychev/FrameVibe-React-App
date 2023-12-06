@@ -39,6 +39,6 @@ export const REGISTER_FORM_VALIDATIONS = {
     ],
     [INPUT_NAMES.REPASSWORD]: [
         (value) => value !== '' ? null : 'RePassword is required!',
-        (value, valueForPassword) => value === valueForPassword ? null : 'Passwords don\'t match!'
+        (value, passwordRef) => value === passwordRef ? null : 'Passwords don\'t match!'
     ],
 }
