@@ -16,3 +16,7 @@ export const getSinglePost = async (postId) => {
 export const getAllPosts = async () => {
     return api.get(API_PATH.ALL_POSTS);
 }
+
+export const updatePost = async (postId, post) => {
+    return api.patch(API_PATH.UPDATE_POST_FN(postId), post);
+}
