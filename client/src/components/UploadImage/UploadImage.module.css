@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5em;
+    /* gap: 1.5em; */
     max-width: 20em;
     min-height: 30em;
     background-color: var(--pure-white-color);
@@ -35,6 +35,7 @@
     color: var(--white-color);
     padding: 0.25em 0.5em;
     cursor: pointer;
+    margin-block: 0.5em;
 }
 
 .upload-image-form textarea {
@@ -58,6 +59,17 @@
 .image-preview {
     max-width: 100%;
     max-height: 200px;
+}
+
+.error-field {
+    color: red;
+    min-height: 1em;
+    margin-top: 0.5em;
+    width: 80%;
+}
+
+.api-error {
+    text-align: center;
 }
 
 @media (width > 479px) {

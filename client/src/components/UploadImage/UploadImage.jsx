@@ -23,6 +23,7 @@ const initialValues = {
 export const UploadImage = () => {
     const { values, changeHandler, onSubmit } = useForm(initialValues, uploadImageSubmitHandler);
     const [previewImage, setPreviewImage] = useState(null);
+    const [submitError, setSubmitError] = useState('');
     const navigation = useNavigate();
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
@@ -51,13 +52,17 @@ export const UploadImage = () => {
     };
 
     async function uploadImageSubmitHandler(formData) {
-        // Using FormData sending the description adn the image to the back-end
-        const dataForServer = new FormData();
-        dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
-        dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
-
-        const newPostData = await createPost(dataForServer);
-        navigation(PATH.POST_FN(newPostData?._id));
+        try {
+            // Using FormData sending the description adn the image to the back-end
+            const dataForServer = new FormData();
+            dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
+            dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
+    
+            const newPostData = await createPost(dataForServer);
+            navigation(PATH.POST_FN(newPostData?._id));
+        } catch(err) {
+            setSubmitError(err.message);
+        }
     }
 
     function onChangeHandler(e) {
@@ -77,7 +82,8 @@ export const UploadImage = () => {
             <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
                 <h2>Image Upload</h2>
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
-                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange}/>
+                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
+
                 {previewImage && (
                     <img
                         className={styles['image-preview']}
@@ -85,12 +91,11 @@ export const UploadImage = () => {
                         alt="Preview"
                     />
                 )}
+
+                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
                 <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onChangeHandler} onBlur={errorCheck} rows="6" cols="50"></textarea>
 
-
-                {errorMessages[INPUT_NAMES.UPLOAD_IMAGE] && <h2>Error image</h2>}
-                {errorMessages[INPUT_NAMES.DESCRIPTION] && <h2>Error description</h2>}
-
+                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                 <SubmitBtn value={'Upload'} active={submitButtonState} />
             </form>
         </div>
