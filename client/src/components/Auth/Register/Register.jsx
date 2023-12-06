@@ -27,7 +27,7 @@ export const Register = () => {
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
     const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit)
-    const { errorMessages, checkFieldForError, setManualError } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
+    const { errorMessages, checkFieldForError } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export const Register = () => {
                 }
 
                 if (user) {
-                    setManualError(INPUT_NAMES.EMAIL, 'This email is already taken!');
+                    checkFieldForError(INPUT_NAMES.EMAIL, null, { error: 'This email is already taken!' });
                 }
             }, 1000);
         }
@@ -80,7 +80,7 @@ export const Register = () => {
                 }
 
                 if (user) {
-                    setManualError(INPUT_NAMES.USERNAME, 'This username is already taken!');
+                    checkFieldForError(INPUT_NAMES.USERNAME, null, { error: 'This username is already taken!' });
                 }
             }, 1000);
         }
@@ -93,6 +93,11 @@ export const Register = () => {
     function errorCheck(e) {
         // :( hacky way try to find a better solution; 
         if (errorMessages[e.target.name] && errorMessages[e.target.name].includes('is already taken!')) return;
+
+        if (e.target.name == INPUT_NAMES.REPASSWORD) {
+            checkFieldForError(e.target.name, e.target.value, { repassword: values[INPUT_NAMES.REPASSWORD] });
+            return;
+        }
 
         checkFieldForError(e.target.name, e.target.value);
     }
@@ -140,6 +145,7 @@ export const Register = () => {
 
                 {errorMessages[INPUT_NAMES.EMAIL] && <h2>{errorMessages[INPUT_NAMES.EMAIL]}</h2>}
                 {errorMessages[INPUT_NAMES.PASSWORD] && <h2>{errorMessages[INPUT_NAMES.PASSWORD]}</h2>}
+                {errorMessages[INPUT_NAMES.REPASSWORD] && <h2>{errorMessages[INPUT_NAMES.REPASSWORD]}</h2>}
 
                 <SubmitBtn value={'Sign up'} active={submitButtonState} />
 
