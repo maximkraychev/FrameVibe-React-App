@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { StateContext } from '../../contexts/StateContext';
 import { useDetailsModal } from '../../hooks/useDetailsModal';
 import { getSinglePost } from '../../services/postService';
-import { getUserInfoById } from '../../services/userService';
-import { PARAMS } from '../../constants/paths';
+import { PARAMS, PATH } from '../../constants/paths';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 
 import styles from './Details.module.css';
@@ -14,7 +13,7 @@ import { Xmark } from '../Svg/Xmark';
 export const Details = () => {
 
     const { state } = useContext(StateContext);
-    const { closeHandlerDetailsModal } = useDetailsModal();
+    const { closeHandlerDetailsModal, clearDetailsModalState } = useDetailsModal();
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const params = useParams();
@@ -54,8 +53,11 @@ export const Details = () => {
                             <img src={user?.avatar} alt="avatar" />
                         </div>
                         <p>{user?.username}</p>
-                        {state[STATE_FIELDS.DETAILS_VISIBILITY] && <Xmark onClick={closeHandlerDetailsModal} />}
+                        <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearDetailsModalState}>Edit</Link>
+                        <Link>Delete</Link>
+                        {state[STATE_FIELDS.DETAILS_VISIBILITY] && <p className={styles['x-container']} onClick={closeHandlerDetailsModal}><Xmark /> </p>}
                     </div>
+
 
                     <div className={styles['image-container']}>
                         <img src={post?.imageURL} alt="main-image" />
@@ -67,7 +69,10 @@ export const Details = () => {
                                 <img src={user?.avatar} alt="avatar" />
                             </div>
                             <p>{user?.username}</p>
-                            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <Xmark onClick={closeHandlerDetailsModal} />}
+                            <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearDetailsModalState}>Edit</Link>
+                            <Link>Delete</Link>
+
+                            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <p className={styles['x-container']} onClick={closeHandlerDetailsModal}><Xmark /> </p>}
                         </div>
                         <div className={styles['description']}>
                             <p>
