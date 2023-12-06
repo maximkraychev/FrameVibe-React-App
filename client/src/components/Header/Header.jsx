@@ -59,9 +59,9 @@ export const Header = () => {
                                 <p>Explore</p>
                             </NavLink>
 
-                            <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                            <NavLink to={PATH.POST_CREATE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <UploadSvg />
-                                <p>Upload Image</p>
+                                <p>Create post</p>
                             </NavLink>
 
                             <NavLink to={PATH.PROFILE_FN(auth.username)} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
@@ -100,7 +100,7 @@ export const Header = () => {
                                 <ExploreSvg />
                             </NavLink>
 
-                            <NavLink to={PATH.UPLOAD} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
+                            <NavLink to={PATH.POST_CREATE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <UploadSvg />
                             </NavLink>
 

@@ -10,11 +10,12 @@ import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
 import { Register } from './components/Auth/Register/Register';
-import { UploadImage } from './components/UploadImage/UploadImage';
+import { CreatePost } from './components/CreatePost/CreatePost';
 import { Profile } from './components/Profile/Profile';
 import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
 import { Post } from './components/Details/Post';
+import { EditPost } from './components/Details/EditPost';
 
 function App() {
 
@@ -34,8 +35,9 @@ function App() {
 
             <Route element={<AuthGuard />}>
               <Route path={PATH.EXPLORE} element={<Explore />} />
-              <Route path={PATH.UPLOAD} element={<UploadImage />} />
+              <Route path={PATH.POST_CREATE} element={<CreatePost />} />
               <Route path={PATH.PROFILE} element={<Profile />} />
+              <Route path={PATH.POST_EDIT} element={<EditPost />} />
             </Route>
 
           </Routes>

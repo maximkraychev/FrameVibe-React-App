@@ -8,13 +8,15 @@ export const PATH = {
     REGISTER: '/register',
     LOGIN: '/login',
     LOGOUT: '/logout',
-    UPLOAD: '/upload',
+    POST_CREATE: '/create-post',
     PROFILE: `/profile/:${PARAMS.USERNAME}`,
     POST: `/p/:${PARAMS.POSTID}`,
+    POST_EDIT: `/p/:${PARAMS.POSTID}/edit`,
     POST_DETAILS: `:${PARAMS.POSTID}`,
     NOT_FOUND: '*',
     POST_FN: (id) => `/p/${id}`,
     PROFILE_FN: (username) => `/profile/${username}`,
+    POST_EDIT_FN: (id) => `/p/${id}/edit`,
 };
 
 

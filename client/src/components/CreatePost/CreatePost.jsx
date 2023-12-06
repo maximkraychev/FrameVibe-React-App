@@ -9,7 +9,7 @@ import { UPLOAD_FORM_VALIDATION } from '../../util/formValidations';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PATH } from '../../constants/paths';
 
-import styles from './UploadImage.module.css';
+import styles from './CreatePost.module.css';
 import { SubmitBtn } from '../SubmitBtn/SubmitBtn';
 
 const initialValues = {
@@ -20,7 +20,7 @@ const initialValues = {
     [INPUT_NAMES.UPLOAD_IMAGE]: ''
 }
 
-export const UploadImage = () => {
+export const CreatePost = () => {
     const { values, changeHandler, onSubmit } = useForm(initialValues, uploadImageSubmitHandler);
     const [previewImage, setPreviewImage] = useState(null);
     const [submitError, setSubmitError] = useState('');
@@ -80,7 +80,7 @@ export const UploadImage = () => {
     return (
         <div className={styles['form-container']}>
             <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
-                <h2>Image Upload</h2>
+                <h2>Create Post</h2>
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
                 <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
 
