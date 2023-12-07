@@ -43,10 +43,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 0.5em;
 }
 
 .option a {
-    color: var(--blue-dark-color);
+    color: var(--blue-medium-color);
 }
 
 .error-field {
