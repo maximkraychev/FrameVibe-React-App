@@ -4,6 +4,7 @@ export const PARAMS = {
 }
 
 export const PATH = {
+    BASE: 'http://localhost:5173',  //TODO change before deploy
     EXPLORE: '/explore',
     REGISTER: '/register',
     LOGIN: '/login',
@@ -17,13 +18,14 @@ export const PATH = {
     POST_FN: (id) => `/p/${id}`,
     POST_EDIT_FN: (id) => `/p/${id}/edit`,
     PROFILE_FN: (username) => `/profile/${username}`,
-    PROFILE_OPEN_POST_FN: (username, postId) => `/profile/${username}/${postId}`
+    PROFILE_OPEN_POST_FN: (username, postId) => `/profile/${username}/${postId}`,
+    CLIPBOARD_COPY_PATH_FN: (postId) => `http://localhost:5173/p/${postId}`
 };
 
 
 
 export const API_PATH = {
-    BASE: 'http://localhost:3000',
+    BASE: 'http://localhost:3000',  //TODO change before deploy
     REGISTER: '/users/register',
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',
