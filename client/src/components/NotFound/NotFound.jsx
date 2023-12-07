@@ -12,7 +12,7 @@ export const NotFound = () => {
                     <h2>404</h2>
                     <h5>Oops! Page Not Be Found</h5>
                     <p>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily unavailable</p>
-                    <Link to={PATH.EXPLORE}>Back to homepage</Link>
+                    <Link to={PATH.EXPLORE}>Go Back</Link>
                 </div>
             </div>
         </div>
