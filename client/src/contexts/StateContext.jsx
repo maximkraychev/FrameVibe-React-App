@@ -5,27 +5,49 @@ import { STATE_FIELDS } from '../constants/stateFieldsConstants';
 
 export const StateContext = createContext();
 
+// STATE_FIELDS.POSTS
+
 const initialValues = {
-    [STATE_FIELDS.POSTS]: [],
+    [STATE_FIELDS.POSTS_EXPLORE]: [],
+    [STATE_FIELDS.POSTS_PROFILE]: [],
     [STATE_FIELDS.DETAILS_VISIBILITY]: false,
-    [STATE_FIELDS.DETAIL_POST]: '',
+    [STATE_FIELDS.POST_MODAL]: '',
 };
 
 export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(stateReducer, initialValues);
 
-    function changePostsState(x) {
+    // Post Profile
+
+    function changePostsStateProfile(x) {
         let value = x;
 
         if (x instanceof Function) {
-            value = x(state[STATE_FIELDS.POSTS]);
+            value = x(state[STATE_FIELDS.POSTS_PROFILE]);
         }
 
-        const dataForReducer = { type: STATE_FIELDS.POSTS, value }
+        const dataForReducer = { type: STATE_FIELDS.POSTS_PROFILE, value }
         dispatch(dataForReducer);
     }
 
-    function changeDetailsModalState(x) {
+
+    // Post Explore
+
+
+    function changePostsStateExplore(x) {
+        let value = x;
+
+        if (x instanceof Function) {
+            value = x(state[STATE_FIELDS.POSTS_EXPLORE]);
+        }
+
+        const dataForReducer = { type: STATE_FIELDS.POSTS_EXPLORE, value }
+        dispatch(dataForReducer);
+    }
+
+    // Modal State
+
+    function changeDetailsModalVisibility(x) {
         let value = x;
 
         if (x instanceof Function) {
@@ -36,22 +58,24 @@ export const StateProvider = ({ children }) => {
         dispatch(dataForReducer);
     }
 
-    function changeDetailsLoadedPost(x) {
+    function changeLoadedModalPost(x) {
         let value = x;
 
         if (x instanceof Function) {
-            value = x(state[STATE_FIELDS.DETAIL_POST]);
+            value = x(state[STATE_FIELDS.POST_MODAL]);
         }
 
-        const dataForReducer = { type: STATE_FIELDS.DETAIL_POST, value }
+        const dataForReducer = { type: STATE_FIELDS.POST_MODAL, value }
         dispatch(dataForReducer);
     }
 
+
     const values = {
         state,
-        changePostsState,
-        changeDetailsModalState,
-        changeDetailsLoadedPost
+        changePostsStateProfile,
+        changePostsStateExplore,
+        changeDetailsModalVisibility,
+        changeLoadedModalPost
     };
 
     return (
