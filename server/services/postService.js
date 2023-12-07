@@ -16,7 +16,7 @@ const createPost = (product, userId) => Post.create({ ...product, owner: userId 
 const updatePost = (postId, post) => Post.findByIdAndUpdate(postId, { $set: post }, { runValidators: true, new: true });
 
 // DELETE 
-const deletePost = (productId) => Post.findByIdAndDelete(productId, { returnDocument: true });
+const deletePost = (postId) => Post.findByIdAndDelete(postId, { returnDocument: true });
 
 export {
     getSinglePost,
