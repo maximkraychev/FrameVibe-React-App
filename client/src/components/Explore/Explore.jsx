@@ -6,17 +6,23 @@ import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 
 import styles from './Explore.module.css';
 import { PostCard } from './PostCard/PostCard';
-import { PostWithModal } from '../Details/PostWithModal';
+import { AuthContext } from '../../contexts/AuthContext';
+import { usePostStateExplore } from '../../hooks/usePostStateExplore';
+import { Outlet } from 'react-router-dom';
 
 export const Explore = () => {
 
-    const { state, changePostsState } = useContext(StateContext);
+    // const { state, changePostsStateExplore } = useContext(StateContext);
+    const { setUser } = useContext(AuthContext);
+    const { state, changeExplorePosts } = usePostStateExplore();
 
     useEffect(() => {
+
         getAllPosts()
-            .then(posts => changePostsState(posts))
+            .then(posts => changeExplorePosts(posts))
             .catch(err => {
                 console.log(err);
+                setUser()
                 //TODO handle error
             })
 
@@ -25,9 +31,9 @@ export const Explore = () => {
     return (
         <>
             <section className={styles['explore']}>
-                {state[STATE_FIELDS.POSTS].map(post => <PostCard key={post._id} post={post} />)}
+                {state[STATE_FIELDS.POSTS_EXPLORE].map(post => <PostCard key={post._id} post={post} />)}
             </section>
-            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <PostWithModal />}
+            <Outlet></Outlet>
         </>
     );
 };

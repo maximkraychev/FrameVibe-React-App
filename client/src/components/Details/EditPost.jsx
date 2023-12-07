@@ -12,6 +12,8 @@ import { UPLOAD_FORM_VALIDATION } from "../../util/formValidations";
 
 import styles from './EditPost.module.css';
 import { SubmitBtn } from "../SubmitBtn/SubmitBtn";
+import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
+import { usePostModal } from "../../hooks/usePostModal";
 
 const initialValues = {
     [INPUT_NAMES.DESCRIPTION]: ''
@@ -27,6 +29,7 @@ export const EditPost = () => {
     const navigation = useNavigate();
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const { loadPostForModal } = usePostModal()
 
     useEffect(() => {
         let post = null;
@@ -35,18 +38,17 @@ export const EditPost = () => {
             // Check for postId 
             if (!params[PARAMS.POSTID]) return;
 
-            // Check if we already have the post in the StateContext
-            const postFromState = state.posts.find((post) => post._id === params[PARAMS.POSTID]);
+            // Check if we already have the post in the StateContext in Explore
+            let postFromState = state[STATE_FIELDS.POSTS_EXPLORE].find((post) => post._id === params[PARAMS.POSTID]);
+
+            // If we still don't have the post check the state from Profile
+            if (!postFromState) {
+                post = state[STATE_FIELDS.POSTS_PROFILE].find((post) => post._id === params[PARAMS.POSTID]);
+            }
 
             // If we have the post from state make a new reference
             if (postFromState) {
                 post = { ...postFromState }
-            }
-
-            // If the post owner is populated replace it only with userId
-            if (post?.owner?._id) {
-                const ownerId = post.owner._id;
-                post.owner = ownerId;
             }
 
             // If we don't have the post make a new request for it
@@ -84,6 +86,7 @@ export const EditPost = () => {
         try {
             const postForServer = { ...currentPost, ...values };
             const updatedPost = await updatePost(postForServer._id, values);
+            loadPostForModal(updatedPost);
             navigation(PATH.POST_FN(updatedPost._id));
         } catch (err) {
             setSubmitError(err.message);

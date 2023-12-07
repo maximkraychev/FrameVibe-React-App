@@ -1,9 +1,9 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
-import { useDetailsModal } from '../../hooks/useDetailsModal';
+import { usePostModal } from '../../hooks/usePostModal';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { getAllUserPosts } from '../../services/postService';
 import { getUserInfoByUsername } from '../../services/userService';
@@ -12,13 +12,12 @@ import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
-import { PostWithModal } from '../Details/PostWithModal';
 
 export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
-    const { state, changePostsState } = useContext(StateContext);
-    const { initHandlerDetailsModal } = useDetailsModal()
+    const { state, changePostsStateProfile } = useContext(StateContext);
+    const { loadPostForModal } = usePostModal()
     const { auth } = useContext(AuthContext);
     const params = useParams();
 
@@ -50,7 +49,7 @@ export const Profile = () => {
                 })
 
                 // Set posts
-                changePostsState(arrivedPostWithPopulatedOwner);
+                changePostsStateProfile(arrivedPostWithPopulatedOwner);
             })();
 
         } catch (err) {
@@ -58,7 +57,7 @@ export const Profile = () => {
             //TODO .handle the error
         }
 
-    }, [params]);
+    }, [params[PARAMS.USERNAME]]);
 
     return (
         <section className={styles['profile-section']}>
@@ -75,13 +74,13 @@ export const Profile = () => {
 
             <div className={styles['user-posts']}>
 
-                {state[STATE_FIELDS.POSTS].length !== 0
-                    ? state[STATE_FIELDS.POSTS].map(post => {
+                {state[STATE_FIELDS.POSTS_PROFILE].length !== 0
+                    ? state[STATE_FIELDS.POSTS_PROFILE].map(post => {
                         return (
                             <Link
                                 key={post._id}
-                                to={PATH.POST_FN(post._id)}
-                                onClick={initHandlerDetailsModal.bind(null, post)}
+                                to={PATH.PROFILE_OPEN_POST_FN(post.owner.username ,post._id)}
+                                onClick={loadPostForModal.bind(null, post)}
                             >
                                 <PreviewPost {...post} />
                             </Link>)
@@ -91,7 +90,7 @@ export const Profile = () => {
 
             </div>
 
-            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <PostWithModal />}
+            <Outlet></Outlet>
         </section>
     );
 };

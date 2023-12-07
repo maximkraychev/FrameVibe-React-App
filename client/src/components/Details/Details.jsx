@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { StateContext } from '../../contexts/StateContext';
-import { useDetailsModal } from '../../hooks/useDetailsModal';
+import { AuthContext } from '../../contexts/AuthContext';
+import { usePostModal } from '../../hooks/usePostModal';
 import { getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
@@ -13,14 +14,15 @@ import { Xmark } from '../Svg/Xmark';
 export const Details = () => {
 
     const { state } = useContext(StateContext);
-    const { closeHandlerDetailsModal, clearDetailsModalState } = useDetailsModal();
+    const { closePostModal, clearLoadedPostForModal } = usePostModal();
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const params = useParams();
+    const { auth } = useContext(AuthContext)
 
     useEffect(() => {
 
-        if (!state[STATE_FIELDS.DETAIL_POST]) {
+        if (!state[STATE_FIELDS.POST_MODAL]) {
 
             try {
                 (async function getData() {
@@ -38,8 +40,13 @@ export const Details = () => {
             }
 
         } else {
-            setPost(state[STATE_FIELDS.DETAIL_POST])
-            setUser(state[STATE_FIELDS.DETAIL_POST].owner)
+            setPost(state[STATE_FIELDS.POST_MODAL])
+            setUser(state[STATE_FIELDS.POST_MODAL].owner)
+        }
+
+        return () => {
+            console.log('----------');
+            clearLoadedPostForModal()
         }
 
     }, [])
@@ -53,9 +60,9 @@ export const Details = () => {
                             <img src={user?.avatar} alt="avatar" />
                         </div>
                         <p>{user?.username}</p>
-                        <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearDetailsModalState}>Edit</Link>
+                        <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearLoadedPostForModal}>Edit</Link>
                         <Link>Delete</Link>
-                        {state[STATE_FIELDS.DETAILS_VISIBILITY] && <p className={styles['x-container']} onClick={closeHandlerDetailsModal}><Xmark /> </p>}
+                        {state[STATE_FIELDS.POST_MODAL] && <p className={styles['x-container']} onClick={closePostModal}><Xmark /> </p>}
                     </div>
 
 
@@ -69,10 +76,10 @@ export const Details = () => {
                                 <img src={user?.avatar} alt="avatar" />
                             </div>
                             <p>{user?.username}</p>
-                            <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearDetailsModalState}>Edit</Link>
+                            <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearLoadedPostForModal}>Edit</Link>
                             <Link>Delete</Link>
 
-                            {state[STATE_FIELDS.DETAILS_VISIBILITY] && <p className={styles['x-container']} onClick={closeHandlerDetailsModal}><Xmark /> </p>}
+                            {state[STATE_FIELDS.POST_MODAL] && <p className={styles['x-container']} onClick={closePostModal}><Xmark /> </p>}
                         </div>
                         <div className={styles['description']}>
                             <p>
