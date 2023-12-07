@@ -6,7 +6,7 @@ import { getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Details.module.css';
-import { Xmark } from '../Svg/Xmark';
+import { CloseDetailsBtn } from '../CloseDetailsBtn/CloseDetailsBtn';
 
 export const Details = () => {
 
@@ -16,7 +16,6 @@ export const Details = () => {
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const { auth } = useContext(AuthContext);
-    const [xMarkVisibility, setXMarkVisibility] = useState(false);
 
     useEffect(() => {
 
@@ -46,19 +45,7 @@ export const Details = () => {
             setUser(location.state?.owner);
         }
 
-        // This will decide if the X svg-s will be showed 
-        if (location.pathname.startsWith('/explore') || location.pathname.startsWith('/profile')) {
-            setXMarkVisibility(true)
-        }
-
     }, []);
-
-
-    function handlerForClosingTheModalPost() {
-        navigation(-1);
-    }
-
-
 
     return (
         <>
@@ -71,7 +58,7 @@ export const Details = () => {
                         <p>{user?.username}</p>
                         <Link to={PATH.POST_EDIT_FN(post?._id)} >Edit</Link>
                         <Link>Delete</Link>
-                        {xMarkVisibility && <p className={styles['x-container']} onClick={handlerForClosingTheModalPost}><Xmark /> </p>}
+                        <CloseDetailsBtn />
                     </div>
 
 
@@ -87,8 +74,7 @@ export const Details = () => {
                             <p>{user?.username}</p>
                             <Link to={PATH.POST_EDIT_FN(post?._id)} >Edit</Link>
                             <Link>Delete</Link>
-
-                            {xMarkVisibility && <p className={styles['x-container']} onClick={handlerForClosingTheModalPost}><Xmark /> </p>}
+                            <CloseDetailsBtn />
                         </div>
                         <div className={styles['description']}>
                             <p>
