@@ -1,55 +1,64 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { StateContext } from '../../contexts/StateContext';
 import { AuthContext } from '../../contexts/AuthContext';
-import { usePostModal } from '../../hooks/usePostModal';
 import { getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
-import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 
 import styles from './Details.module.css';
 import { Xmark } from '../Svg/Xmark';
 
 export const Details = () => {
 
-    const { state } = useContext(StateContext);
-    const { closePostModal, clearLoadedPostForModal } = usePostModal();
+    const params = useParams();
+    const location = useLocation();
+    const navigation = useNavigate();
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
-    const params = useParams();
-    const { auth } = useContext(AuthContext)
+    const { auth } = useContext(AuthContext);
+    const [xMarkVisibility, setXMarkVisibility] = useState(false);
 
     useEffect(() => {
 
-        if (!state[STATE_FIELDS.POST_MODAL]) {
+        // If we don't have a post in state make a request for post
+        if (!location.state) {
 
-            try {
-                (async function getData() {
+            (async function getData() {
+                try {
                     if (params[PARAMS.POSTID]) {
                         const currentPost = await getSinglePost(params[PARAMS.POSTID]);
+
                         setPost(currentPost);
                         setUser(currentPost.owner);
                     }
 
-                })();
+                } catch (err) {
+                    console.log(err);
+                    navigation('/not-found');
+                    //TODO handle the error
+                }
+            })();
 
-            } catch (err) {
-                console.log(err);
-                //TODO handle the error
-            }
 
         } else {
-            setPost(state[STATE_FIELDS.POST_MODAL])
-            setUser(state[STATE_FIELDS.POST_MODAL].owner)
+            // If we have  a post in state set the current post and user
+            setPost(location.state);
+            setUser(location.state?.owner);
         }
 
-        return () => {
-            console.log('----------');
-            clearLoadedPostForModal()
+        // This will decide if the X svg-s will be showed 
+        if (location.pathname.startsWith('/explore') || location.pathname.startsWith('/profile')) {
+            setXMarkVisibility(true)
         }
 
-    }, [])
+    }, []);
+
+
+    function handlerForClosingTheModalPost() {
+        navigation(-1);
+    }
+
+
 
     return (
         <>
@@ -60,9 +69,9 @@ export const Details = () => {
                             <img src={user?.avatar} alt="avatar" />
                         </div>
                         <p>{user?.username}</p>
-                        <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearLoadedPostForModal}>Edit</Link>
+                        <Link to={PATH.POST_EDIT_FN(post?._id)} >Edit</Link>
                         <Link>Delete</Link>
-                        {state[STATE_FIELDS.POST_MODAL] && <p className={styles['x-container']} onClick={closePostModal}><Xmark /> </p>}
+                        {xMarkVisibility && <p className={styles['x-container']} onClick={handlerForClosingTheModalPost}><Xmark /> </p>}
                     </div>
 
 
@@ -76,10 +85,10 @@ export const Details = () => {
                                 <img src={user?.avatar} alt="avatar" />
                             </div>
                             <p>{user?.username}</p>
-                            <Link to={PATH.POST_EDIT_FN(post?._id)} onClick={clearLoadedPostForModal}>Edit</Link>
+                            <Link to={PATH.POST_EDIT_FN(post?._id)} >Edit</Link>
                             <Link>Delete</Link>
 
-                            {state[STATE_FIELDS.POST_MODAL] && <p className={styles['x-container']} onClick={closePostModal}><Xmark /> </p>}
+                            {xMarkVisibility && <p className={styles['x-container']} onClick={handlerForClosingTheModalPost}><Xmark /> </p>}
                         </div>
                         <div className={styles['description']}>
                             <p>
