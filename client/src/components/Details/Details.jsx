@@ -3,13 +3,15 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
-import { getSinglePost } from '../../services/postService';
+import { deletePost, getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Details.module.css';
 import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
 import { DeletePostModal } from '../Modal/DeletePostModal/DeletePostModal';
 import { Share } from '../Share/Share';
+import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
+import { usePostStateExplore } from '../../hooks/usePostStateExplore';
 
 export const Details = () => {
 
@@ -19,7 +21,8 @@ export const Details = () => {
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const { auth } = useContext(AuthContext);
-    const { changeModalState } = useContext(StateContext)
+    const { state, changeModalState } = useContext(StateContext);
+    const { changeExplorePosts } = usePostStateExplore()
 
     useEffect(() => {
 
@@ -54,16 +57,35 @@ export const Details = () => {
     function showDeleteModal(e) {
         e.preventDefault();
         changeModalState(true);
-        console.log('show');
     }
 
     function hideDeleteModal() {
         changeModalState(false);
-        console.log('hide');
     }
 
     function deletePostHandler() {
-        console.log('delete');
+
+        (async function deleteCurrentPost() {
+            try {
+                // Delete the post
+                const deletedPost = await deletePost(post._id);
+
+                // Remove the post from Explore state 
+                if (state[STATE_FIELDS.POSTS_EXPLORE].length > 0) {
+                    const filtratedPosts = state[STATE_FIELDS.POSTS_EXPLORE].filter(post => post._id !== deletedPost._id);
+                    changeExplorePosts(filtratedPosts);
+                }
+
+                // Hide Delete modal
+                hideDeleteModal();
+
+                // navigate to Explore
+                navigation(PATH.EXPLORE);
+            } catch (err) {
+                console.log(err);
+                //TODO handle it;
+            }
+        })();
     }
 
     return (
@@ -98,10 +120,14 @@ export const Details = () => {
 
                         <div className={styles['btn-container']}>
                             <Share />
-                            <Link to={PATH.POST_EDIT_FN(post?._id)}  className={styles['edit-btn']}>Edit</Link>
-                            <Link onClick={showDeleteModal} className={styles['delete-btn']}>Delete</Link>
+                            {post?.owner?._id == auth?._id &&
+                                <>
+                                    <Link to={PATH.POST_EDIT_FN(post?._id)} className={styles['edit-btn']}>Edit</Link>
+                                    <Link onClick={showDeleteModal} className={styles['delete-btn']}>Delete</Link>
+                                </>
+                            }
                         </div>
-                        
+
                         <div className={styles['description']}>
                             <p>
                                 {post?.description}
