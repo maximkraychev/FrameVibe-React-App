@@ -9,17 +9,42 @@
    display: flex;
    flex-direction: column;
 }
-
-.x-container {
-    margin-left: auto;
-}
-
+.btn-container svg,
 .owner-mobile svg,
 .owner-desktop svg {
     height: 2em;
     aspect-ratio: 1 / 1;
     cursor: pointer;
     fill: var(--blue-dark-color);
+}
+
+
+ /* btn */
+.btn-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.btn-container a {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.5em;
+    /* font-size: 1.2em; */
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color: var(--red-color);
+    color: var(--darker-white-color);
+}
+
+.edit-btn {
+    background-color: var(--blue-dark-color);
+    color: var(--darker-white-color);
 }
 
 /* owner-mobile bar for mobile */
