@@ -57,10 +57,11 @@ export const CreatePost = () => {
             const dataForServer = new FormData();
             dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
             dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
-    
+
             const newPostData = await createPost(dataForServer);
-            navigation(PATH.POST_FN(newPostData?._id));
-        } catch(err) {
+            
+            navigation(PATH.POST_FN(newPostData?._id), { state: newPostData });
+        } catch (err) {
             setSubmitError(err.message);
         }
     }
