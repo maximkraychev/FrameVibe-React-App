@@ -16,6 +16,7 @@ import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
 import { Post } from './components/Details/Post';
 import { EditPost } from './components/Details/EditPost';
+import { PostWithModal } from './components/Details/PostWithModal';
 
 function App() {
 
@@ -34,9 +35,15 @@ function App() {
             <Route path={PATH.NOT_FOUND} element={<NotFound />} />
 
             <Route element={<AuthGuard />}>
-              <Route path={PATH.EXPLORE} element={<Explore />} />
+              <Route path={PATH.EXPLORE} element={<Explore />}>
+                <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
+              </Route>
+
+              <Route path={PATH.PROFILE} element={<Profile />}>
+                <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
+              </Route>
+              
               <Route path={PATH.POST_CREATE} element={<CreatePost />} />
-              <Route path={PATH.PROFILE} element={<Profile />} />
               <Route path={PATH.POST_EDIT} element={<EditPost />} />
             </Route>
 
