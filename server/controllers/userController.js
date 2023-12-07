@@ -92,7 +92,7 @@ userController.get('/:email/email', async (req, res, next) => {
 userController.get('/:userId/posts', isUserLogged, async (req, res, next) => {
     try {
         const { userId } = req.params;
-        const userPosts = await getAllUserPosts(userId);
+        const userPosts = await getAllUserPosts(userId).populate('owner');
 
         res.status(200).json(userPosts)
     } catch (err) {
