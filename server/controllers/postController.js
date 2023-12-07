@@ -3,7 +3,7 @@ import { cloudinary } from '../config/cloudinary.js';
 import { multer } from '../config/multer.js'
 
 import { validatePostOnEditSchema, validatePostSchema } from '../util/validationSchemes.js';
-import { getSinglePost, getAllUserPosts, createPost, updatePost, deletePost, getAllPosts } from '../services/postService.js';
+import { getSinglePost, createPost, updatePost, deletePost, getAllPosts } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
 import { isOwner, isUserLogged } from '../middlewares/guards.js';
 
@@ -67,7 +67,7 @@ postController.post('/', multer.single('uploadImage'), isUserLogged, async (req,
 
         // Save to database 
         const newPost = await (await createPost(imgDataForDataBase, req.user._id)).populate('owner');
-   
+
         // Return the created post
         res.status(201).json(newPost);
     } catch (err) {
@@ -83,7 +83,7 @@ postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, 
         const postId = req.params.postId;
 
         const editedPost = await updatePost(postId, { description: data.description }).populate('owner');
-       
+
         res.status(200).json(editedPost);
     } catch (err) {
         next(err);
@@ -91,15 +91,28 @@ postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, 
 });
 
 // DELETE
-// productController.delete('/:productId', preload(getSingleProduct), isOwner, async (req, res, next) => {
-//     try {
-//         const productId = req.params.productId;
-//         const deletedProduct = await deleteProduct(productId);
+postController.delete('/:postId', preload(getSinglePost), isOwner, async (req, res, next) => {
+    try {
+        const postId = req.params.postId;
+        const post = res.locals.preload;
 
-//         res.status(200).json(deletedProduct);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        // Deleting the post image
+        const deletedPostImageState = await new Promise((resolve) => {             //{ result: 'ok' }
+            cloudinary.uploader.destroy(post.imageId)
+                .then(result => resolve(result))
+        });
+
+        // Check if image is deleted and delete post from database
+        if (deletedPostImageState.result == 'ok') {
+            const deletedProduct = await deletePost(postId);
+            res.status(200).json(deletedProduct);
+        } else {
+            throw new Error('Oops! Something went wrong while trying to delete the image.Please try again later or contact support for assistance.')
+        }
+
+    } catch (err) {
+        next(err);
+    }
+});
 
 export { postController };
