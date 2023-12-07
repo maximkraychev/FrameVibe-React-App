@@ -13,7 +13,6 @@ import { UPLOAD_FORM_VALIDATION } from "../../util/formValidations";
 import styles from './EditPost.module.css';
 import { SubmitBtn } from "../SubmitBtn/SubmitBtn";
 import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
-import { usePostModal } from "../../hooks/usePostModal";
 
 const initialValues = {
     [INPUT_NAMES.DESCRIPTION]: ''
@@ -29,7 +28,6 @@ export const EditPost = () => {
     const navigation = useNavigate();
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
-    const { loadPostForModal } = usePostModal()
 
     useEffect(() => {
         let post = null;
@@ -86,8 +84,8 @@ export const EditPost = () => {
         try {
             const postForServer = { ...currentPost, ...values };
             const updatedPost = await updatePost(postForServer._id, values);
-            loadPostForModal(updatedPost);
-            navigation(PATH.POST_FN(updatedPost._id));
+          
+            navigation(PATH.POST_FN(updatedPost._id), {state: updatedPost});
         } catch (err) {
             setSubmitError(err.message);
         }
