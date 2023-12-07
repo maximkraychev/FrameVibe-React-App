@@ -10,15 +10,13 @@ export const StateContext = createContext();
 const initialValues = {
     [STATE_FIELDS.POSTS_EXPLORE]: [],
     [STATE_FIELDS.POSTS_PROFILE]: [],
-    [STATE_FIELDS.DETAILS_VISIBILITY]: false,
-    [STATE_FIELDS.POST_MODAL]: '',
+    [STATE_FIELDS.MODAL]: false,
 };
 
 export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(stateReducer, initialValues);
 
     // Post Profile
-
     function changePostsStateProfile(x) {
         let value = x;
 
@@ -32,8 +30,6 @@ export const StateProvider = ({ children }) => {
 
 
     // Post Explore
-
-
     function changePostsStateExplore(x) {
         let value = x;
 
@@ -46,36 +42,22 @@ export const StateProvider = ({ children }) => {
     }
 
     // Modal State
-
-    function changeDetailsModalVisibility(x) {
+    function changeModalState(x) {
         let value = x;
 
         if (x instanceof Function) {
-            value = x(state[STATE_FIELDS.DETAILS_VISIBILITY]);
+            value = x(state[STATE_FIELDS.MODAL]);
         }
 
-        const dataForReducer = { type: STATE_FIELDS.DETAILS_VISIBILITY, value }
+        const dataForReducer = { type: STATE_FIELDS.MODAL, value }
         dispatch(dataForReducer);
     }
-
-    function changeLoadedModalPost(x) {
-        let value = x;
-
-        if (x instanceof Function) {
-            value = x(state[STATE_FIELDS.POST_MODAL]);
-        }
-
-        const dataForReducer = { type: STATE_FIELDS.POST_MODAL, value }
-        dispatch(dataForReducer);
-    }
-
 
     const values = {
         state,
         changePostsStateProfile,
         changePostsStateExplore,
-        changeDetailsModalVisibility,
-        changeLoadedModalPost
+        changeModalState,
     };
 
     return (

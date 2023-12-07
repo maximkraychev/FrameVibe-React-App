@@ -7,9 +7,7 @@ export const stateReducer = (currentState, action) => {
             return { ...currentState, [action.type]: action.value }
         case STATE_FIELDS.POSTS_PROFILE:
             return { ...currentState, [action.type]: action.value }
-        case STATE_FIELDS.DETAILS_VISIBILITY:
-            return { ...currentState, [action.type]: action.value }
-        case STATE_FIELDS.POST_MODAL:
+        case STATE_FIELDS.MODAL:
             return { ...currentState, [action.type]: action.value }
         default:
             return { ...currentState }
