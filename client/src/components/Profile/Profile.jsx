@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
-import { usePostModal } from '../../hooks/usePostModal';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { getAllUserPosts } from '../../services/postService';
 import { getUserInfoByUsername } from '../../services/userService';
@@ -17,28 +16,37 @@ export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
     const { state, changePostsStateProfile } = useContext(StateContext);
-    const { loadPostForModal } = usePostModal()
     const { auth } = useContext(AuthContext);
     const params = useParams();
 
     useEffect(() => {
 
-        try {
-            (async function loadUserAndPosts() {
+        (async function loadUserAndPosts() {
+            try {
                 // Take the username from url
                 const username = params[PARAMS.USERNAME];
+
+                if (!username) {
+                    throw new Error('We couldn\'t find a username')
+                }
+
                 let user = null;
 
                 // If username is the same with our auth user take the data from the state else fetch the user data
-                if (username != auth.username && username) {
-                    user = await getUserInfoByUsername(username);
-                } else {
+                if (username === auth.username) {
                     user = auth;
+                } else {
+                    user = await getUserInfoByUsername(username);
                 }
 
-                // Take all user posts and populate their owner
+                // Throw error if there are no user
+                if (!user) {
+                    throw new Error('We couldn\'t find such user');
+                }
+
+                // Take all user posts
                 const arrivedPosts = await getAllUserPosts(user._id);
-                const arrivedPostWithPopulatedOwner = arrivedPosts.map(post => ({ ...post, owner: user }));
+
 
                 // Set current user
                 setCurrentUserProfile({
@@ -49,13 +57,14 @@ export const Profile = () => {
                 })
 
                 // Set posts
-                changePostsStateProfile(arrivedPostWithPopulatedOwner);
-            })();
+                changePostsStateProfile(arrivedPosts);
 
-        } catch (err) {
-            console.log(err);
-            //TODO .handle the error
-        }
+            } catch (err) {
+                console.log(err);
+                //TODO .handle the error
+            }
+        })();
+
 
     }, [params[PARAMS.USERNAME]]);
 
@@ -79,8 +88,8 @@ export const Profile = () => {
                         return (
                             <Link
                                 key={post._id}
-                                to={PATH.PROFILE_OPEN_POST_FN(post.owner.username ,post._id)}
-                                onClick={loadPostForModal.bind(null, post)}
+                                to={PATH.PROFILE_OPEN_POST_FN(post.owner.username, post._id)}
+                                state={post}
                             >
                                 <PreviewPost {...post} />
                             </Link>)
