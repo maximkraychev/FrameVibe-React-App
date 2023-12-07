@@ -24,9 +24,10 @@
     display: flex;
     flex-wrap: nowrap;
     gap: 1em;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     margin-top: 1em;
+    padding-left: 0.5em;
 }
 
 .btn-container a {
