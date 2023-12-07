@@ -20,3 +20,7 @@ export const getAllPosts = async () => {
 export const updatePost = async (postId, post) => {
     return api.patch(API_PATH.UPDATE_POST_FN(postId), post);
 }
+
+export const deletePost = async (postId) => {
+    return api.delete(API_PATH.DELETE_POST_FN(postId));
+}
