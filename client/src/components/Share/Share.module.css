@@ -1,0 +1,16 @@
+.share-svg-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.clipboard-msg{
+    position: absolute;
+    top: 120%;
+    left: -50%;
+    z-index: 50;
+    background-color: #4CAF50;
+    opacity: 0.8;
+    border-radius: 0.5em;
+    padding: 0.5em 0.5em;
+}
