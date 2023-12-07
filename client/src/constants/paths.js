@@ -15,8 +15,9 @@ export const PATH = {
     POST_DETAILS: `:${PARAMS.POSTID}`,
     NOT_FOUND: '*',
     POST_FN: (id) => `/p/${id}`,
-    PROFILE_FN: (username) => `/profile/${username}`,
     POST_EDIT_FN: (id) => `/p/${id}/edit`,
+    PROFILE_FN: (username) => `/profile/${username}`,
+    PROFILE_OPEN_POST_FN: (username, postId) => `/profile/${username}/${postId}`
 };
 
 
