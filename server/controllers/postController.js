@@ -66,8 +66,8 @@ postController.post('/', multer.single('uploadImage'), isUserLogged, async (req,
         }
 
         // Save to database 
-        const newPost = await createPost(imgDataForDataBase, req.user._id);
-
+        const newPost = await (await createPost(imgDataForDataBase, req.user._id)).populate('owner');
+   
         // Return the created post
         res.status(201).json(newPost);
     } catch (err) {
@@ -82,8 +82,8 @@ postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, 
         const data = req.body;
         const postId = req.params.postId;
 
-        const editedPost = await updatePost(postId, { description: data.description });
-
+        const editedPost = await updatePost(postId, { description: data.description }).populate('owner');
+       
         res.status(200).json(editedPost);
     } catch (err) {
         next(err);
