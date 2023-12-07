@@ -11,7 +11,7 @@ import { INPUT_NAMES } from "../../constants/formInputNaming";
 import { UPLOAD_FORM_VALIDATION } from "../../util/formValidations";
 
 import styles from './EditPost.module.css';
-import { SubmitBtn } from "../SubmitBtn/SubmitBtn";
+import { SubmitBtn } from "../Buttons/SubmitBtn/SubmitBtn";
 import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
 
 const initialValues = {

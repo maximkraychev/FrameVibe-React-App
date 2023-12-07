@@ -6,7 +6,7 @@ import { getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Details.module.css';
-import { CloseDetailsBtn } from '../CloseDetailsBtn/CloseDetailsBtn';
+import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
 
 export const Details = () => {
 

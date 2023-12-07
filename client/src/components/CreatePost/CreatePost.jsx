@@ -10,7 +10,7 @@ import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PATH } from '../../constants/paths';
 
 import styles from './CreatePost.module.css';
-import { SubmitBtn } from '../SubmitBtn/SubmitBtn';
+import { SubmitBtn } from '../Buttons/SubmitBtn/SubmitBtn';
 
 const initialValues = {
     // The current form validation abstraction does not allow empty fields
@@ -59,7 +59,7 @@ export const CreatePost = () => {
             dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
 
             const newPostData = await createPost(dataForServer);
-            
+
             navigation(PATH.POST_FN(newPostData?._id), { state: newPostData });
         } catch (err) {
             setSubmitError(err.message);

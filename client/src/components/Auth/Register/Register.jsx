@@ -11,7 +11,7 @@ import { PATH } from '../../../constants/paths';
 import { INPUT_BASE, INPUT_NAMES } from '../../../constants/formInputNaming';
 
 import styles from './Register.module.css';
-import { SubmitBtn } from '../../SubmitBtn/SubmitBtn';
+import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
 
 
 const initialValues = {

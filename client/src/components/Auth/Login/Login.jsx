@@ -10,7 +10,7 @@ import { INPUT_NAMES } from '../../../constants/formInputNaming';
 import { PATH } from '../../../constants/paths';
 
 import styles from './Login.module.css';
-import { SubmitBtn } from '../../SubmitBtn/SubmitBtn';
+import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
 
 const initialValues = {
     [INPUT_NAMES.EMAIL]: '',
