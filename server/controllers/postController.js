@@ -3,9 +3,9 @@ import { cloudinary } from '../config/cloudinary.js';
 import { multer } from '../config/multer.js'
 
 import { validatePostOnEditSchema, validatePostSchema } from '../util/validationSchemes.js';
-import { getSinglePost, createPost, updatePost, deletePost, getAllPosts } from '../services/postService.js';
+import { getSinglePost, createPost, updatePost, deletePost, getAllPosts, updatePostPut } from '../services/postService.js';
 import { preload } from '../middlewares/preloader.js';
-import { isOwner, isUserLogged } from '../middlewares/guards.js';
+import { isOwner, isUserLogged, notOwner } from '../middlewares/guards.js';
 
 
 
@@ -75,7 +75,7 @@ postController.post('/', multer.single('uploadImage'), isUserLogged, async (req,
     }
 });
 
-// PATCH
+// PATCH DESCRIPTION
 postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, async (req, res, next) => {
     try {
         await validatePostOnEditSchema.validateAsync(req.body);
@@ -91,7 +91,7 @@ postController.patch('/:postId', isUserLogged, preload(getSinglePost), isOwner, 
 });
 
 // DELETE
-postController.delete('/:postId', preload(getSinglePost), isOwner, async (req, res, next) => {
+postController.delete('/:postId', isUserLogged, preload(getSinglePost), isOwner, async (req, res, next) => {
     try {
         const postId = req.params.postId;
         const post = res.locals.preload;
@@ -113,6 +113,46 @@ postController.delete('/:postId', preload(getSinglePost), isOwner, async (req, r
     } catch (err) {
         next(err);
     }
+});
+
+// LIKE
+postController.put('/:postId/like', isUserLogged, preload(getSinglePost), notOwner, async (req, res, next) => {
+    try {
+        const user = req.user;
+        const post = res.locals.preload;
+
+        // Check if the current user have already like this post;
+        if (post.likes.includes(user._id)) {
+            res.status(403).json({ message: 'Oops! It seems you\'ve already liked this post' });
+            return;
+        }
+
+        post.likes.push(user._id);
+
+        const updatedPost = await updatePostPut(post._id, post).populate('owner');
+        res.status(200).json(updatedPost);
+    } catch (err) {
+        next(err);
+    }
+
+});
+
+// DISLIKE
+
+postController.put('/:postId/dislike', isUserLogged, preload(getSinglePost), notOwner, async (req, res, next) => {
+    try {
+        const user = req.user;
+        const post = res.locals.preload;
+    
+        // Remove the userId from likes
+        post.likes = post.likes.filter(id => id.toString() !== user._id.toString());
+
+        const updatedPost = await updatePostPut(post._id, post).populate('owner');
+        res.status(200).json(updatedPost);
+    } catch (err) {
+        next(err);
+    }
+
 });
 
 export { postController };
