@@ -76,14 +76,18 @@
     gap: 1em;
 }
 
-.actions svg {
+/* .actions svg {
     height: 100%;
     width: auto;
     cursor: pointer;
-}
+} */
 
-.actions svg:hover {
+/* .actions svg:hover {
     fill: var(--blue-dark-color);
+} */
+
+.svg-container {
+    height: 100%;
 }
 
 .actions .description {
