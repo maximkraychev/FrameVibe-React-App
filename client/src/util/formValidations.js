@@ -38,7 +38,7 @@ export const REGISTER_FORM_VALIDATIONS = {
         (value) => value.length > 20 ? 'Password cannot be more then 20 characters long!' : null
     ],
     [INPUT_NAMES.REPASSWORD]: [
-        (value) => value !== '' ? null : 'RePassword is required!',
-        (value, passwordRef) => value === passwordRef ? null : 'Passwords don\'t match!'
+        (value, passwordRef) => value === passwordRef ? null : 'Passwords don\'t match!',
+        (value) => value !== '' ? null : 'RePassword is required!'
     ],
 }
