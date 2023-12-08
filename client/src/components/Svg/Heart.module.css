@@ -1,0 +1,13 @@
+.heart {
+    fill: #769FCD;
+    height: 100%;
+    width: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.heart:hover {
+    size: 120%;
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+}
