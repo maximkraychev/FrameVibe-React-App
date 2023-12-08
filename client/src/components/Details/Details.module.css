@@ -3,12 +3,14 @@
 }
 
 .details-container {
-   height: 100%;
-   border-radius: 0.5em;
-   overflow: hidden;
-   display: flex;
-   flex-direction: column;
+    height: 100%;
+    border-radius: 0.5em;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 }
+
 .btn-container svg,
 .owner-mobile svg,
 .owner-desktop svg {
@@ -19,7 +21,7 @@
 }
 
 
- /* btn */
+/* btn */
 .btn-container {
     display: flex;
     flex-wrap: nowrap;
@@ -99,6 +101,11 @@
 
 /* description */
 
+.description-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .description {
     flex: 1 1 25%;
     background-color: var(--white-color);
@@ -107,7 +114,25 @@
     /* 
     TODO.. its not working
     overflow-y: scroll; 
-    */ 
+    */
+}
+
+.like-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1em;
+    justify-self: flex-end;
+    max-height: 3em;
+    margin-block: 1em;
+    padding-left: 0.5em;
+}
+
+.like-container span {
+    height: 2em;
+}
+
+.like-container p {
+    font-size: 1.4em;
 }
 
 
@@ -119,7 +144,7 @@
 }
 
 
-@media (width >= 600px) {
+@media (width >=600px) {
     .owner-mobile {
         display: none;
     }
@@ -143,8 +168,12 @@
         flex: 1 1 40%;
         background-color: var(--white-color);
     }
-    
+
     .image-container img {
         object-fit: contain;
+    }
+
+    .like-container {
+        margin-block: 3em;
     }
 }

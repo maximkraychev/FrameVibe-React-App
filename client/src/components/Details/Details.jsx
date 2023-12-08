@@ -3,15 +3,19 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
-import { deletePost, getSinglePost } from '../../services/postService';
+import { deletePost, dislikePost, getSinglePost, likePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
 import { usePostStateExplore } from '../../hooks/usePostStateExplore';
+import { usePostStateProfile } from '../../hooks/usePostStateProfile';
 
 import styles from './Details.module.css';
 import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
 import { DeletePostModal } from '../Modal/DeletePostModal/DeletePostModal';
 import { Share } from '../Buttons/Share/Share';
+import { HeartSolidSvg } from '../Svg/HeartSolid';
+import { HeartSvg } from '../Svg/Heart';
+import { useSyncStateWithNewPost } from '../../hooks/useSyncStateWithNewPost';
 
 
 export const Details = () => {
@@ -23,7 +27,10 @@ export const Details = () => {
     const [user, setUser] = useState({});
     const { auth } = useContext(AuthContext);
     const { state, changeModalState } = useContext(StateContext);
-    const { changeExplorePosts } = usePostStateExplore()
+    const { changeExplorePosts } = usePostStateExplore();
+    const [isLiked, setIsLiked] = useState(false);
+    const { syncState } = useSyncStateWithNewPost();
+
 
     useEffect(() => {
 
@@ -54,6 +61,12 @@ export const Details = () => {
         }
 
     }, []);
+
+    useEffect(() => {
+        if (auth) {
+            setIsLiked(() => post.likes?.includes(auth._id));
+        }
+    }, [post]);
 
     function showDeleteModal(e) {
         e.preventDefault();
@@ -87,6 +100,49 @@ export const Details = () => {
                 //TODO handle it;
             }
         })();
+    }
+
+
+    // Like functionality
+
+    async function onLike() {
+
+        try {
+            // If owner return
+            if ((auth && auth._id === post?.owner?._id)) return;
+
+            const updatedPost = await likePost(post?._id);
+
+            // Set Like state
+            setIsLiked(false);
+            // Set current post state
+            setPost(updatedPost);
+            //Set global state
+            syncState(updatedPost);
+        } catch (err) {
+            console.log(err);
+            //TODO handle the error;
+        }
+
+    }
+
+    async function onDisLike() {
+        try {
+            // If owner return
+            if ((auth && auth._id === post?.owner?._id)) return;
+
+            const updatedPost = await dislikePost(post?._id);
+
+            // Set Like state
+            setIsLiked(false);
+            // Set current post state
+            setPost(updatedPost);
+            //Set global state
+            syncState(updatedPost);
+        } catch (err) {
+            console.log(err);
+            //TODO handle the error;
+        }
     }
 
     return (
@@ -136,6 +192,23 @@ export const Details = () => {
                         </div>
 
                         {/* TODO..comments <div className={styles['comments']}></div> */}
+
+                        <div className={styles['like-container']}>
+                            {isLiked
+                                ? <span
+                                    className={styles['svg-container']}
+                                    onClick={onDisLike}>
+                                    <HeartSolidSvg />
+                                </span>
+                                : <span
+                                    className={styles['svg-container']}
+                                    onClick={onLike}>
+                                    <HeartSvg />
+                                </span>
+                            }
+
+                            {post.likes && <p>{post.likes?.length} likes</p>}
+                        </div>
 
                     </div>
                 </div>
