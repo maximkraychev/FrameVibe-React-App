@@ -8,9 +8,11 @@ import { submitBtnStateCheck } from '../../util/submitBtnStateCheck';
 import { UPLOAD_FORM_VALIDATION } from '../../util/formValidations';
 import { INPUT_NAMES } from '../../constants/formInputNaming';
 import { PATH } from '../../constants/paths';
+import { SITE_TITLE } from '../../constants/titles';
 
 import styles from './CreatePost.module.css';
 import { SubmitBtn } from '../Buttons/SubmitBtn/SubmitBtn';
+import { PageTitle } from '../PageTitle/PageTitle';
 
 const initialValues = {
     // The current form validation abstraction does not allow empty fields
@@ -45,7 +47,7 @@ export const CreatePost = () => {
             reader.onerror = (e) => {
                 console.error('Error reading the file:', e.target.error);
                 // TODO find a way to broke it and figure out what values we've got and handle it
-            
+
             };
 
             reader.readAsDataURL(invalidBlob);
@@ -77,27 +79,29 @@ export const CreatePost = () => {
     }
 
     return (
-        <div className={styles['form-container']}>
-            <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
-                <h2>Create Post</h2>
-                <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
-                <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
+        <PageTitle title={SITE_TITLE.CREATE_POST}>
+            <div className={styles['form-container']}>
+                <form className={styles['upload-image-form']} onSubmit={onSubmit} encType="multipart/form-data">
+                    <h2>Create Post</h2>
+                    <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
+                    <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.UPLOAD_IMAGE] && errorMessages[INPUT_NAMES.UPLOAD_IMAGE]}</p>
-                {previewImage && (
-                    <img
-                        className={styles['image-preview']}
-                        src={previewImage}
-                        alt="Preview"
-                    />
-                )}
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.UPLOAD_IMAGE] && errorMessages[INPUT_NAMES.UPLOAD_IMAGE]}</p>
+                    {previewImage && (
+                        <img
+                            className={styles['image-preview']}
+                            src={previewImage}
+                            alt="Preview"
+                        />
+                    )}
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.DESCRIPTION] && errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
-                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={showError} rows="6" cols="50"></textarea>
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.DESCRIPTION] && errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
+                    <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={showError} rows="6" cols="50"></textarea>
 
-                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                <SubmitBtn value={'Upload'} active={submitButtonState} />
-            </form>
-        </div>
+                    <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
+                    <SubmitBtn value={'Upload'} active={submitButtonState} />
+                </form>
+            </div>
+        </PageTitle>
     );
 };

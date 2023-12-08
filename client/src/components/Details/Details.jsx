@@ -4,10 +4,11 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
 import { deletePost, dislikePost, getSinglePost, likePost } from '../../services/postService';
+import { usePostStateExplore } from '../../hooks/usePostStateExplore';
 import { PARAMS, PATH } from '../../constants/paths';
 import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
-import { usePostStateExplore } from '../../hooks/usePostStateExplore';
-import { usePostStateProfile } from '../../hooks/usePostStateProfile';
+import { SITE_TITLE } from '../../constants/titles';
+
 
 import styles from './Details.module.css';
 import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
@@ -16,6 +17,7 @@ import { Share } from '../Buttons/Share/Share';
 import { HeartSolidSvg } from '../Svg/HeartSolid';
 import { HeartSvg } from '../Svg/Heart';
 import { useSyncStateWithNewPost } from '../../hooks/useSyncStateWithNewPost';
+import { PageTitle } from '../PageTitle/PageTitle';
 
 
 export const Details = () => {
@@ -146,7 +148,8 @@ export const Details = () => {
     }
 
     return (
-        <>
+        <PageTitle title={SITE_TITLE.DETAILS}>
+
             <DeletePostModal hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
 
             {post &&
@@ -217,6 +220,7 @@ export const Details = () => {
             {!post &&
                 <h4 className={styles['not-found-post']}>We couldn't locate the post you're looking for. It may have been deleted or doesn't exist.</h4>
             }
-        </>
+
+        </PageTitle>
     );
 };

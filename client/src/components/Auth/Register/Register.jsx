@@ -9,9 +9,11 @@ import { getUserInfoByEmail, getUserInfoByUsername } from '../../../services/use
 import { REGISTER_FORM_VALIDATIONS } from '../../../util/formValidations';
 import { PATH } from '../../../constants/paths';
 import { INPUT_BASE, INPUT_NAMES } from '../../../constants/formInputNaming';
+import { SITE_TITLE } from '../../../constants/titles';
 
 import styles from './Register.module.css';
 import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
+import { PageTitle } from '../../PageTitle/PageTitle';
 
 
 const initialValues = {
@@ -91,57 +93,59 @@ export const Register = () => {
     }
 
     return (
-        <div className={styles['form-container']}>
-            <form className={styles['register-form']} method='POST' onSubmit={onSubmit}>
-                <h2>Create Account</h2>
+        <PageTitle title={SITE_TITLE.REGISTER}>
+            <div className={styles['form-container']}>
+                <form className={styles['register-form']} method='POST' onSubmit={onSubmit}>
+                    <h2>Create Account</h2>
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
-                <input
-                    type="email"
-                    name={INPUT_NAMES.EMAIL}
-                    placeholder='Email'
-                    value={values[INPUT_NAMES.EMAIL]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
+                    <input
+                        type="email"
+                        name={INPUT_NAMES.EMAIL}
+                        placeholder='Email'
+                        value={values[INPUT_NAMES.EMAIL]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.USERNAME] && errorMessages[INPUT_NAMES.USERNAME]}</p>
-                <input
-                    type="text"
-                    name={INPUT_NAMES.USERNAME}
-                    placeholder='Username'
-                    value={values[INPUT_NAMES.USERNAME]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.USERNAME] && errorMessages[INPUT_NAMES.USERNAME]}</p>
+                    <input
+                        type="text"
+                        name={INPUT_NAMES.USERNAME}
+                        placeholder='Username'
+                        value={values[INPUT_NAMES.USERNAME]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
-                <input
-                    type="password"
-                    name={INPUT_NAMES.PASSWORD}
-                    placeholder='Password'
-                    value={values[INPUT_NAMES.PASSWORD]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
+                    <input
+                        type="password"
+                        name={INPUT_NAMES.PASSWORD}
+                        placeholder='Password'
+                        value={values[INPUT_NAMES.PASSWORD]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.REPASSWORD] && errorMessages[INPUT_NAMES.REPASSWORD]}</p>
-                <input
-                    type="password"
-                    name={INPUT_NAMES.REPASSWORD}
-                    placeholder='RePassword'
-                    value={values[INPUT_NAMES.REPASSWORD]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.REPASSWORD] && errorMessages[INPUT_NAMES.REPASSWORD]}</p>
+                    <input
+                        type="password"
+                        name={INPUT_NAMES.REPASSWORD}
+                        placeholder='RePassword'
+                        value={values[INPUT_NAMES.REPASSWORD]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                <SubmitBtn value={'Sign up'} active={submitButtonState} />
+                    <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
+                    <SubmitBtn value={'Sign up'} active={submitButtonState} />
 
-                <p className={styles['option']}>
-                    You have an account? <Link to={PATH.LOGIN}>Login here!</Link>
-                </p>
-            </form>
-        </div>
+                    <p className={styles['option']}>
+                        You have an account? <Link to={PATH.LOGIN}>Login here!</Link>
+                    </p>
+                </form>
+            </div>
+        </PageTitle>
     );
 };

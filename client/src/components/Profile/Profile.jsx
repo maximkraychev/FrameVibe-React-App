@@ -11,6 +11,8 @@ import { PARAMS, PATH } from '../../constants/paths';
 
 import styles from './Profile.module.css';
 import { PreviewPost } from './PreviewPost/PreviewPost';
+import { PageTitle } from '../PageTitle/PageTitle';
+import { SITE_TITLE } from '../../constants/titles';
 
 export const Profile = () => {
 
@@ -69,37 +71,41 @@ export const Profile = () => {
     }, [params[PARAMS.USERNAME]]);
 
     return (
-        <section className={styles['profile-section']}>
+        <PageTitle title={SITE_TITLE.PROFILE_FN(currentUserProfile.username)}>
 
-            <header>
-                <div className={styles['profile-picture-container']}>
-                    <img src={currentUserProfile?.[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
+            <section className={styles['profile-section']}>
+
+                <header>
+                    <div className={styles['profile-picture-container']}>
+                        <img src={currentUserProfile?.[INPUT_NAMES.USER_AVATAR]} alt="avatar" />
+                    </div>
+                    <div className={styles['profile-details']}>
+                        <p>{currentUserProfile?.[INPUT_NAMES.USERNAME]}</p>
+                        <button className={styles['profile-edit-btn']}>Edit profile</button>
+                    </div>
+                </header>
+
+                <div className={styles['user-posts']}>
+
+                    {state[STATE_FIELDS.POSTS_PROFILE].length !== 0
+                        ? state[STATE_FIELDS.POSTS_PROFILE].map(post => {
+                            return (
+                                <Link
+                                    key={post._id}
+                                    to={PATH.PROFILE_OPEN_POST_FN(post.owner.username, post._id)}
+                                    state={post}
+                                >
+                                    <PreviewPost {...post} />
+                                </Link>)
+                        })
+                        : <h2 className={styles['no-posts-text']}>There are no posts yet.</h2>
+                    }
+
                 </div>
-                <div className={styles['profile-details']}>
-                    <p>{currentUserProfile?.[INPUT_NAMES.USERNAME]}</p>
-                    <button className={styles['profile-edit-btn']}>Edit profile</button>
-                </div>
-            </header>
 
-            <div className={styles['user-posts']}>
+                <Outlet></Outlet>
+            </section>
 
-                {state[STATE_FIELDS.POSTS_PROFILE].length !== 0
-                    ? state[STATE_FIELDS.POSTS_PROFILE].map(post => {
-                        return (
-                            <Link
-                                key={post._id}
-                                to={PATH.PROFILE_OPEN_POST_FN(post.owner.username, post._id)}
-                                state={post}
-                            >
-                                <PreviewPost {...post} />
-                            </Link>)
-                    })
-                    : <h2 className={styles['no-posts-text']}>There are no posts yet.</h2>
-                }
-
-            </div>
-
-            <Outlet></Outlet>
-        </section>
+        </PageTitle>
     );
 };

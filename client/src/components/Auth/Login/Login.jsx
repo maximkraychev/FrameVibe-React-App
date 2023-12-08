@@ -8,9 +8,11 @@ import { submitBtnStateCheck } from '../../../util/submitBtnStateCheck';
 import { LOGIN_FORM_VALIDATIONS } from '../../../util/formValidations';
 import { INPUT_NAMES } from '../../../constants/formInputNaming';
 import { PATH } from '../../../constants/paths';
+import { SITE_TITLE } from '../../../constants/titles';
 
 import styles from './Login.module.css';
 import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
+import { PageTitle } from '../../PageTitle/PageTitle';
 
 const initialValues = {
     [INPUT_NAMES.EMAIL]: '',
@@ -50,37 +52,39 @@ export const Login = () => {
     }
 
     return (
-        <div className={styles['form-container']} onSubmit={onSubmit}>
-            <form className={styles['login-form']}>
-                <h2>Sign in</h2>
+        <PageTitle title={SITE_TITLE.LOGIN}>
+            <div className={styles['form-container']} onSubmit={onSubmit}>
+                <form className={styles['login-form']}>
+                    <h2>Sign in</h2>
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
-                <input
-                    type="email"
-                    placeholder='Email'
-                    name={INPUT_NAMES.EMAIL}
-                    value={values[INPUT_NAMES.EMAIL]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
+                    <input
+                        type="email"
+                        placeholder='Email'
+                        name={INPUT_NAMES.EMAIL}
+                        value={values[INPUT_NAMES.EMAIL]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
-                <input
-                    type="password"
-                    placeholder='Password'
-                    name={INPUT_NAMES.PASSWORD}
-                    value={values[INPUT_NAMES.PASSWORD]}
-                    onChange={onInputChange}
-                    onBlur={showError}
-                />
+                    <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
+                    <input
+                        type="password"
+                        placeholder='Password'
+                        name={INPUT_NAMES.PASSWORD}
+                        value={values[INPUT_NAMES.PASSWORD]}
+                        onChange={onInputChange}
+                        onBlur={showError}
+                    />
 
-                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                <SubmitBtn value={'Sign in'} active={submitButtonState} />
+                    <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
+                    <SubmitBtn value={'Sign in'} active={submitButtonState} />
 
-                <p className={styles['option']}>
-                    You don&apos;t have an account? <Link to={PATH.REGISTER}>Register here!</Link>
-                </p>
-            </form>
-        </div>
+                    <p className={styles['option']}>
+                        You don&apos;t have an account? <Link to={PATH.REGISTER}>Register here!</Link>
+                    </p>
+                </form>
+            </div>
+        </PageTitle>
     );
 };
