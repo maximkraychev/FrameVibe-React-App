@@ -17,10 +17,18 @@ export const getAllPosts = async () => {
     return api.get(API_PATH.ALL_POSTS);
 }
 
-export const updatePost = async (postId, post) => {
+export const updateDetailsPost = async (postId, post) => {
     return api.patch(API_PATH.UPDATE_POST_FN(postId), post);
 }
 
 export const deletePost = async (postId) => {
     return api.delete(API_PATH.DELETE_POST_FN(postId));
+}
+
+export const likePost = async (postId) => {
+    return api.put(API_PATH.ADD_LIKE_POST_FN(postId));
+}
+
+export const dislikePost = async (postId) => {
+    return api.put(API_PATH.DISLIKE_POST_FN(postId));
 }
