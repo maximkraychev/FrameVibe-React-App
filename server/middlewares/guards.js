@@ -22,8 +22,17 @@ function isOwner(req, res, next) {
 	}
 }
 
+function notOwner(req, res, next) {
+	if (req.user._id == res.locals.preload.owner) {
+		return res.status(403).json({ message: 'Forbidden', statusCode: 403 });
+	} else {
+		next();
+	}
+}
+
 export {
 	isUserLogged,
 	isUserGuest,
-	isOwner
+	isOwner,
+	notOwner
 };
