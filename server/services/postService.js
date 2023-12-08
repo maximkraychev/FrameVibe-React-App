@@ -18,6 +18,9 @@ const updatePost = (postId, post) => Post.findByIdAndUpdate(postId, { $set: post
 // DELETE 
 const deletePost = (postId) => Post.findByIdAndDelete(postId, { returnDocument: true });
 
+// PUT
+const updatePostPut = (postId, post) => Post.findByIdAndUpdate(postId, post, { runValidators: true, new: true });
+
 export {
     getSinglePost,
     getAllUserPosts,
@@ -25,4 +28,5 @@ export {
     createPost,
     updatePost,
     deletePost,
+    updatePostPut
 };
