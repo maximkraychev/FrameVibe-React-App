@@ -23,9 +23,10 @@ export const Login = () => {
     const navigate = useNavigate();
     const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onLoginSubmit);
-    const { errorMessages, checkFieldForError } = useFormValidation(initialValues, LOGIN_FORM_VALIDATIONS);
+    const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, LOGIN_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
+    // Submit Btn state
     useEffect(() => {
         setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
     }, [values, errorMessages]);
@@ -41,14 +42,11 @@ export const Login = () => {
 
     function onInputChange(e) {
         changeHandler(e);
-
-        if (errorMessages[e.target.name]) {
-            errorCheck(e);
-        }
+        checkFieldForError(e.target.name, e.target.value);
     }
 
-    function errorCheck(e) {
-        checkFieldForError(e.target.name, e.target.value);
+    function showError(e) {
+        changeErrorVisibility(e.target.name);
     }
 
     return (
@@ -56,24 +54,24 @@ export const Login = () => {
             <form className={styles['login-form']}>
                 <h2>Sign in</h2>
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.EMAIL]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
                 <input
                     type="email"
                     placeholder='Email'
                     name={INPUT_NAMES.EMAIL}
                     value={values[INPUT_NAMES.EMAIL]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.PASSWORD]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
                 <input
                     type="password"
                     placeholder='Password'
                     name={INPUT_NAMES.PASSWORD}
                     value={values[INPUT_NAMES.PASSWORD]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
                 <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
