@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { ShareSvg } from "../Svg/ShareSvg";
+import { ShareSvg } from "../../Svg/ShareSvg";
 import styles from './Share.module.css';
-import { PARAMS, PATH } from "../../constants/paths";
+import { PARAMS, PATH } from "../../../constants/paths";
 import { useState } from "react";
 
 export const Share = () => {

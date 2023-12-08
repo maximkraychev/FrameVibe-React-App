@@ -5,13 +5,14 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { StateContext } from '../../contexts/StateContext';
 import { deletePost, getSinglePost } from '../../services/postService';
 import { PARAMS, PATH } from '../../constants/paths';
+import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
+import { usePostStateExplore } from '../../hooks/usePostStateExplore';
 
 import styles from './Details.module.css';
 import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
 import { DeletePostModal } from '../Modal/DeletePostModal/DeletePostModal';
-import { Share } from '../Share/Share';
-import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
-import { usePostStateExplore } from '../../hooks/usePostStateExplore';
+import { Share } from '../Buttons/Share/Share';
+
 
 export const Details = () => {
 
