@@ -14,6 +14,8 @@ import { UPLOAD_FORM_VALIDATION } from "../../util/formValidations";
 import styles from './EditPost.module.css';
 import { SubmitBtn } from "../Buttons/SubmitBtn/SubmitBtn";
 import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
+import { PageTitle } from "../PageTitle/PageTitle";
+import { SITE_TITLE } from "../../constants/titles";
 
 const initialValues = {
     [INPUT_NAMES.DESCRIPTION]: ''
@@ -86,7 +88,7 @@ export const EditPost = () => {
         try {
             const postForServer = { ...currentPost, ...values };
             const updatedPost = await updateDetailsPost(postForServer._id, values);
-          
+
             // Sync the new data
             syncState(updatedPost);
 
@@ -97,22 +99,26 @@ export const EditPost = () => {
     }
 
     return (
-        <div className={styles['form-container']}>
-            <form className={styles['upload-image-form']} onSubmit={onSubmit}>
-                <h2>Edit Post</h2>
+        <PageTitle title={SITE_TITLE.EDIT_POST}>
 
-                <img
-                    className={styles['image-preview']}
-                    src={currentPost?.imageURL}
-                    alt="Post-Image"
-                />
+            <div className={styles['form-container']}>
+                <form className={styles['upload-image-form']} onSubmit={onSubmit}>
+                    <h2>Edit Post</h2>
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
-                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
+                    <img
+                        className={styles['image-preview']}
+                        src={currentPost?.imageURL}
+                        alt="Post-Image"
+                    />
 
-                <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                <SubmitBtn value={'Apply Changes'} active={submitButtonState} />
-            </form>
-        </div>
+                    <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
+                    <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
+
+                    <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
+                    <SubmitBtn value={'Apply Changes'} active={submitButtonState} />
+                </form>
+            </div>
+
+        </PageTitle>
     );
 };
