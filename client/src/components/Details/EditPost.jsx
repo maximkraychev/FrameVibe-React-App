@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { StateContext } from "../../contexts/StateContext";
 import { useFormValidation } from "../../hooks/useFormValidation";
 import { useForm } from "../../hooks/useForm";
-import { getSinglePost, updatePost } from "../../services/postService";
+import { useSyncStateWithNewPost } from "../../hooks/useSyncStateWithNewPost";
+import { getSinglePost, updateDetailsPost } from "../../services/postService";
 import { submitBtnStateCheck } from "../../util/submitBtnStateCheck";
 import { PARAMS, PATH } from "../../constants/paths";
 import { INPUT_NAMES } from "../../constants/formInputNaming";
@@ -28,6 +29,7 @@ export const EditPost = () => {
     const navigation = useNavigate();
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const { syncState } = useSyncStateWithNewPost();
 
     useEffect(() => {
         let post = null;
@@ -83,9 +85,12 @@ export const EditPost = () => {
     async function onSubmitHandler() {
         try {
             const postForServer = { ...currentPost, ...values };
-            const updatedPost = await updatePost(postForServer._id, values);
+            const updatedPost = await updateDetailsPost(postForServer._id, values);
           
-            navigation(PATH.POST_FN(updatedPost._id), {state: updatedPost});
+            // Sync the new data
+            syncState(updatedPost);
+
+            navigation(PATH.POST_FN(updatedPost._id), { state: updatedPost });
         } catch (err) {
             setSubmitError(err.message);
         }

@@ -12,7 +12,6 @@ import { Outlet } from 'react-router-dom';
 
 export const Explore = () => {
 
-    // const { state, changePostsStateExplore } = useContext(StateContext);
     const { setUser } = useContext(AuthContext);
     const { state, changeExplorePosts } = usePostStateExplore();
 
