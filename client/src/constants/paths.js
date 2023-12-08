@@ -37,5 +37,7 @@ export const API_PATH = {
     SINGLE_POST_FN: (postId) => `/post/${postId}`,
     ALL_POSTS: '/post',
     UPDATE_POST_FN: (postId) => `/post/${postId}`,
-    DELETE_POST_FN: (postId) => `/post/${postId}`
+    DELETE_POST_FN: (postId) => `/post/${postId}`,
+    ADD_LIKE_POST_FN: (postId) => `/post/${postId}/like`,
+    DISLIKE_POST_FN: (postid) => `/post/${postid}/dislike`
 }
