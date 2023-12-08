@@ -25,7 +25,7 @@ export const CreatePost = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [submitError, setSubmitError] = useState('');
     const navigation = useNavigate();
-    const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
+    const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility, setManualErrorOnField } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
     useEffect(() => {
@@ -40,14 +40,15 @@ export const CreatePost = () => {
 
             reader.onload = (e) => {
                 setPreviewImage(e.target.result);
-            };
+            }
 
             reader.onerror = (e) => {
                 console.error('Error reading the file:', e.target.error);
-                // TODO add modal that shows the error message; 
+                // TODO find a way to broke it and figure out what values we've got and handle it
+            
             };
 
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(invalidBlob);
         }
     };
 
@@ -68,14 +69,11 @@ export const CreatePost = () => {
 
     function onInputChange(e) {
         changeHandler(e);
-
-        if (errorMessages[e.target.name]) {
-            errorCheck(e);
-        }
+        checkFieldForError(e.target.name, e.target.value);
     }
 
-    function errorCheck(e) {
-        checkFieldForError(e.target.name, e.target.value);
+    function showError(e) {
+        changeErrorVisibility(e.target.name);
     }
 
     return (
@@ -85,6 +83,7 @@ export const CreatePost = () => {
                 <label htmlFor="upload-image" className={styles['label-for-upload-image']}>Select Image</label>
                 <input type="file" name={INPUT_NAMES.UPLOAD_IMAGE} id='upload-image' accept="image/png, image/jpeg" onChange={handleImageChange} />
 
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.UPLOAD_IMAGE] && errorMessages[INPUT_NAMES.UPLOAD_IMAGE]}</p>
                 {previewImage && (
                     <img
                         className={styles['image-preview']}
@@ -93,8 +92,8 @@ export const CreatePost = () => {
                     />
                 )}
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
-                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.DESCRIPTION] && errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
+                <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={showError} rows="6" cols="50"></textarea>
 
                 <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                 <SubmitBtn value={'Upload'} active={submitButtonState} />
