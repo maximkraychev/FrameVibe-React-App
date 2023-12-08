@@ -63,7 +63,6 @@ export const Register = () => {
                 // In case of Email we need to make async request
                 if (timeouts[INPUT_NAMES.EMAIL]) clearTimeout(timeouts[INPUT_NAMES.EMAIL]);
                 timeouts[INPUT_NAMES.EMAIL] = checkFieldForError(name, value, { async: getUserInfoByEmail, error: 'This email is already taken!' });
-                console.log(timeouts[INPUT_NAMES.EMAIL]);
                 break;
 
             case INPUT_NAMES.USERNAME:
