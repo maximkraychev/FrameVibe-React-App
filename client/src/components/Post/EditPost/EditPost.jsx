@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { StateContext } from "../../contexts/StateContext";
-import { useFormValidation } from "../../hooks/useFormValidation";
-import { useForm } from "../../hooks/useForm";
-import { useSyncStateWithNewPost } from "../../hooks/useSyncStateWithNewPost";
-import { getSinglePost, updateDetailsPost } from "../../services/postService";
-import { submitBtnStateCheck } from "../../util/submitBtnStateCheck";
-import { PARAMS, PATH } from "../../constants/paths";
-import { INPUT_NAMES } from "../../constants/formInputNaming";
-import { UPLOAD_FORM_VALIDATION } from "../../util/formValidations";
+import { StateContext } from "../../../contexts/StateContext";
+import { useFormValidation } from "../../../hooks/useFormValidation";
+import { useForm } from "../../../hooks/useForm";
+import { useSyncStateWithNewPost } from "../../../hooks/useSyncStateWithNewPost";
+import { getSinglePost, updateDetailsPost } from "../../../services/postService";
+import { submitBtnStateCheck } from "../../../util/submitBtnStateCheck";
+import { PARAMS, PATH } from "../../../constants/paths";
+import { INPUT_NAMES } from "../../../constants/formInputNaming";
+import { UPLOAD_FORM_VALIDATION } from "../../../util/formValidations";
 
 import styles from './EditPost.module.css';
-import { SubmitBtn } from "../Buttons/SubmitBtn/SubmitBtn";
-import { STATE_FIELDS } from "../../constants/stateFieldsConstants";
-import { PageTitle } from "../PageTitle/PageTitle";
-import { SITE_TITLE } from "../../constants/titles";
+import { SubmitBtn } from "../../Buttons/SubmitBtn/SubmitBtn";
+import { STATE_FIELDS } from "../../../constants/stateFieldsConstants";
+import { PageTitle } from "../../PageTitle/PageTitle";
+import { SITE_TITLE } from "../../../constants/titles";
 
 const initialValues = {
     [INPUT_NAMES.DESCRIPTION]: ''

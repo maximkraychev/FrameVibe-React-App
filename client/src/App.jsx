@@ -10,13 +10,13 @@ import { Header } from './components/Header/Header';
 import { Explore } from './components/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
 import { Register } from './components/Auth/Register/Register';
-import { CreatePost } from './components/CreatePost/CreatePost';
+import { CreatePost } from './components/Post/CreatePost/CreatePost';
 import { Profile } from './components/Profile/Profile';
 import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
-import { Post } from './components/Details/Post';
-import { EditPost } from './components/Details/EditPost';
-import { PostWithModal } from './components/Details/PostWithModal';
+import { Post } from './components/Post/Post/Post';
+import { EditPost } from './components/Post/EditPost/EditPost';
+import { PostWithModal } from './components/Post/PostWithModal/PostWithModal';
 
 function App() {
 
@@ -27,7 +27,6 @@ function App() {
         <StateProvider>
           <Routes>
 
-            <Route path='/' />
             <Route path={PATH.REGISTER} element={<Register />} />
             <Route path={PATH.LOGIN} element={<Login />} />
             <Route path={PATH.LOGOUT} element={<Logout />} />
@@ -42,7 +41,7 @@ function App() {
               <Route path={PATH.PROFILE} element={<Profile />}>
                 <Route path={PATH.POST_DETAILS} element={<PostWithModal />} />
               </Route>
-              
+
               <Route path={PATH.POST_CREATE} element={<CreatePost />} />
               <Route path={PATH.POST_EDIT} element={<EditPost />} />
             </Route>

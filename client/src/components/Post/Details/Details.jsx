@@ -1,23 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { AuthContext } from '../../contexts/AuthContext';
-import { StateContext } from '../../contexts/StateContext';
-import { deletePost, dislikePost, getSinglePost, likePost } from '../../services/postService';
-import { usePostStateExplore } from '../../hooks/usePostStateExplore';
-import { PARAMS, PATH } from '../../constants/paths';
-import { STATE_FIELDS } from '../../constants/stateFieldsConstants';
-import { SITE_TITLE } from '../../constants/titles';
+import { AuthContext } from '../../../contexts/AuthContext';
+import { StateContext } from '../../../contexts/StateContext';
+import { deletePost, dislikePost, getSinglePost, likePost } from '../../../services/postService';
+import { usePostStateExplore } from '../../../hooks/usePostStateExplore';
+import { PARAMS, PATH } from '../../../constants/paths';
+import { STATE_FIELDS } from '../../../constants/stateFieldsConstants';
+import { SITE_TITLE } from '../../../constants/titles';
 
 
 import styles from './Details.module.css';
-import { CloseDetailsBtn } from '../Buttons/CloseDetailsBtn/CloseDetailsBtn';
-import { DeletePostModal } from '../Modal/DeletePostModal/DeletePostModal';
-import { Share } from '../Buttons/Share/Share';
-import { HeartSolidSvg } from '../Svg/HeartSolid';
-import { HeartSvg } from '../Svg/Heart';
-import { useSyncStateWithNewPost } from '../../hooks/useSyncStateWithNewPost';
-import { PageTitle } from '../PageTitle/PageTitle';
+import { CloseDetailsBtn } from '../../Buttons/CloseDetailsBtn/CloseDetailsBtn';
+import { DeletePostModal } from '../../Modal/DeletePostModal/DeletePostModal';
+import { Share } from '../../Buttons/Share/Share';
+import { HeartSolidSvg } from '../../Svg/HeartSolid';
+import { HeartSvg } from '../../Svg/Heart';
+import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
+import { PageTitle } from '../../PageTitle/PageTitle';
 
 
 export const Details = () => {

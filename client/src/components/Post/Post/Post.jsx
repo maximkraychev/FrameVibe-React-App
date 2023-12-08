@@ -1,5 +1,5 @@
 import styles from './Post.module.css';
-import { Details } from "./Details";
+import { Details } from "../Details/Details";
 
 export const Post = () => {
 

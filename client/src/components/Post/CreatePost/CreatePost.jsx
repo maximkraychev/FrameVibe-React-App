@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useForm } from '../../hooks/useForm';
-import { useFormValidation } from '../../hooks/useFormValidation';
-import { createPost } from '../../services/postService';
-import { submitBtnStateCheck } from '../../util/submitBtnStateCheck';
-import { UPLOAD_FORM_VALIDATION } from '../../util/formValidations';
-import { INPUT_NAMES } from '../../constants/formInputNaming';
-import { PATH } from '../../constants/paths';
-import { SITE_TITLE } from '../../constants/titles';
+import { useForm } from '../../../hooks/useForm';
+import { useFormValidation } from '../../../hooks/useFormValidation';
+import { createPost } from '../../../services/postService';
+import { submitBtnStateCheck } from '../../../util/submitBtnStateCheck';
+import { UPLOAD_FORM_VALIDATION } from '../../../util/formValidations';
+import { INPUT_NAMES } from '../../../constants/formInputNaming';
+import { PATH } from '../../../constants/paths';
+import { SITE_TITLE } from '../../../constants/titles';
 
 import styles from './CreatePost.module.css';
-import { SubmitBtn } from '../Buttons/SubmitBtn/SubmitBtn';
-import { PageTitle } from '../PageTitle/PageTitle';
+import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
+import { PageTitle } from '../../PageTitle/PageTitle';
 
 const initialValues = {
     // The current form validation abstraction does not allow empty fields

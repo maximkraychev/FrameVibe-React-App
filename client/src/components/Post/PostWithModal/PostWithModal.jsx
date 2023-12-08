@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import styles from './PostWithModal.module.css';
-import { Details } from "./Details";
+import { Details } from "../Details/Details";
 
 export const PostWithModal = () => {
 
