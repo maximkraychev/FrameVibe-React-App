@@ -26,16 +26,17 @@ export const Register = () => {
 
     const { register } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [rePasswordErrorState, setRePasswordErrorState] = useState(false);
     const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit);
-    const { errorMessages, checkFieldForError } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
+    const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
+    // Submit Btn state;
     useEffect(() => {
         setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
     }, [values, errorMessages]);
 
+    // Timeouts 
     const timeouts = useRef({
         [INPUT_NAMES.EMAIL]: null,
         [INPUT_NAMES.USERNAME]: null
@@ -57,51 +58,37 @@ export const Register = () => {
         const value = e.target.value;
         const name = e.target.name;
 
-        // In case of Email we need to make async request
-        if (name == INPUT_NAMES.EMAIL) {
-            if (timeouts[INPUT_NAMES.EMAIL]) clearTimeout(timeouts[INPUT_NAMES.EMAIL]);
+        switch (name) {
+            case INPUT_NAMES.EMAIL:
+                // In case of Email we need to make async request
+                if (timeouts[INPUT_NAMES.EMAIL]) clearTimeout(timeouts[INPUT_NAMES.EMAIL]);
+                timeouts[INPUT_NAMES.EMAIL] = checkFieldForError(name, value, { async: getUserInfoByEmail, error: 'This email is already taken!' });
+                console.log(timeouts[INPUT_NAMES.EMAIL]);
+                break;
 
-            timeouts[INPUT_NAMES.EMAIL] = checkFieldForError(name, value, { async: getUserInfoByEmail, error: 'This email is already taken!' });
+            case INPUT_NAMES.USERNAME:
+                // In case of Username we need to make async request
+                if (timeouts[INPUT_NAMES.USERNAME]) clearTimeout(timeouts[INPUT_NAMES.USERNAME]);
+                timeouts[INPUT_NAMES.USERNAME] = checkFieldForError(name, value, { async: getUserInfoByUsername, error: 'This username is already taken!' });
+                break;
+
+            case INPUT_NAMES.REPASSWORD:
+                // In case of rePassword we need to give also the current password
+                checkFieldForError(name, value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
+                return;
+
+            case INPUT_NAMES.PASSWORD:
+                // This is for the case where we started with repass and then add value to pass. This way as long as the are identical there wont be an error
+                checkFieldForError(name, value);
+                checkFieldForError(INPUT_NAMES.REPASSWORD, values[INPUT_NAMES.REPASSWORD], { passwordRef: value });
+                return;
         }
 
-        // In case of Username we need to make async request
-        if (name == INPUT_NAMES.USERNAME) {
-
-            if (timeouts[INPUT_NAMES.USERNAME]) clearTimeout(timeouts[INPUT_NAMES.USERNAME]);
-
-            timeouts[INPUT_NAMES.USERNAME] = checkFieldForError(name, value, { async: getUserInfoByUsername, error: 'This username is already taken!' })
-        }
-
-        // In case of rePassword we need to give also the current password
-        if (name == INPUT_NAMES.REPASSWORD) {
-            checkFieldForError(name, value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
-            return;
-        }
-
-        // This is for the case where we started with repass and then add value to pass. This way as long as the are identical there wont be an error
-        if (name == INPUT_NAMES.PASSWORD) {
-            checkFieldForError(name, value);
-            checkFieldForError(INPUT_NAMES.REPASSWORD, values[INPUT_NAMES.REPASSWORD], { passwordRef: value });
-            return;
-        }
-
-        // If we have error for that field test again we the new value 
-        if (errorMessages[name]) {
-            checkFieldForError(name, value);
-        }
+        checkFieldForError(name, value);
     }
 
-    function errorCheck(e) {
-        // :( hacky way try to find a better solution; 
-        if (errorMessages[e.target.name] && errorMessages[e.target.name].includes('is already taken!')) return;
-
-        if (e.target.name == INPUT_NAMES.REPASSWORD) {
-            checkFieldForError(e.target.name, e.target.value, { passwordRef: values[INPUT_NAMES.PASSWORD] });
-            setRePasswordErrorState(true);
-            return;
-        }
-
-        checkFieldForError(e.target.name, e.target.value);
+    function showError(e) {
+        changeErrorVisibility(e.target.name, e.target.value);
     }
 
     return (
@@ -109,44 +96,44 @@ export const Register = () => {
             <form className={styles['register-form']} method='POST' onSubmit={onSubmit}>
                 <h2>Create Account</h2>
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.EMAIL]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.EMAIL] && errorMessages[INPUT_NAMES.EMAIL]}</p>
                 <input
                     type="email"
                     name={INPUT_NAMES.EMAIL}
                     placeholder='Email'
                     value={values[INPUT_NAMES.EMAIL]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.USERNAME]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.USERNAME] && errorMessages[INPUT_NAMES.USERNAME]}</p>
                 <input
                     type="text"
                     name={INPUT_NAMES.USERNAME}
                     placeholder='Username'
                     value={values[INPUT_NAMES.USERNAME]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
-                <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.PASSWORD]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.PASSWORD] && errorMessages[INPUT_NAMES.PASSWORD]}</p>
                 <input
                     type="password"
                     name={INPUT_NAMES.PASSWORD}
                     placeholder='Password'
                     value={values[INPUT_NAMES.PASSWORD]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
-                <p className={styles['error-field']}>{rePasswordErrorState && errorMessages[INPUT_NAMES.REPASSWORD]}</p>
+                <p className={styles['error-field']}>{errorVisibility[INPUT_NAMES.REPASSWORD] && errorMessages[INPUT_NAMES.REPASSWORD]}</p>
                 <input
                     type="password"
                     name={INPUT_NAMES.REPASSWORD}
                     placeholder='RePassword'
                     value={values[INPUT_NAMES.REPASSWORD]}
                     onChange={onInputChange}
-                    onBlur={errorCheck}
+                    onBlur={showError}
                 />
 
                 <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
