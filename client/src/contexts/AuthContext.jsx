@@ -3,7 +3,7 @@ import { createContext, useState } from "react"
 import { getCookieUserData } from "../util/getCookieUserData"
 import { loginService, registerService } from "../services/authService";
 
-export const AuthContext = createContext();;
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
