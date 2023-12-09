@@ -1,0 +1,47 @@
+.main-error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.err-msg-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.err-msg-container p {
+    max-width: 80%;
+    text-align: center;
+    font-size: 1.3em;
+    word-wrap: break-word;
+}
+
+.btn-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2em;
+    max-width: 90%;
+}
+
+
+.reload-btn,
+.hide-btn {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.reload-btn {
+    background-color: var(--reload-btn-color);
+    color: var(--darker-white-color);
+}
+
+.hide-btn {
+    background-color: var(--blue-dark-color);
+    color: var(--darker-white-color);
+}
