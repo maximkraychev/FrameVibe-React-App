@@ -21,7 +21,7 @@ const initialValues = {
 
 export const Login = () => {
 
-    const { login } = useContext(AuthContext);
+    const { login, test } = useContext(AuthContext);
     const navigate = useNavigate();
     const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onLoginSubmit);
@@ -37,7 +37,8 @@ export const Login = () => {
     async function onLoginSubmit(data) {
         try {
             setBtnLoadingState(true);
-            await login(data);
+            const userData = await login(data);
+            test(userData);
             navigate(PATH.EXPLORE);
         } catch (err) {
             setBtnLoadingState(false);

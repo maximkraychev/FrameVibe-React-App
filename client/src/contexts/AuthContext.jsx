@@ -27,12 +27,17 @@ export const AuthProvider = ({ children }) => {
         setUser()
     }
 
+    function test(data) {
+        setAuth(data)
+    }
+
     const values = {
         auth,
         register,
         login,
         logout,
-        setUser
+        setUser,
+        test
     }
 
     return (
