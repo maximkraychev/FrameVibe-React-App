@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../../contexts/AuthContext';
-import { StateContext } from '../../../contexts/stateContext';
+import { StateContext } from '../../../contexts/StateContext';
 import { deletePost, dislikePost, getSinglePost, likePost } from '../../../services/postService';
 import { usePostStateExplore } from '../../../hooks/usePostStateExplore';
 import { PARAMS, PATH } from '../../../constants/paths';
