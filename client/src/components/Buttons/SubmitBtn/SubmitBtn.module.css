@@ -17,3 +17,8 @@
     border: 1px solid var(--blue-light-color);
     background-color: var(--blue-light-color);
 }
+
+.spinner-container {
+    height: 2em;
+    width: 2em;
+}
