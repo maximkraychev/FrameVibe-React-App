@@ -53,6 +53,15 @@
     text-align: center;
 }
 
+.submit-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4em;
+    height: 3.5em;
+    padding-block: 1em;
+}
+
 @media (width > 479px) {
     .upload-image-form {
         flex-basis: 25em;

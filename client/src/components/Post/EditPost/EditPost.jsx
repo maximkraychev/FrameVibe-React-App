@@ -34,6 +34,7 @@ export const EditPost = () => {
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const { syncState } = useSyncStateWithNewPost();
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const [btnLoadingState, setBtnLoadingState] = useState(false);
 
     useEffect(() => {
         let post = null;
@@ -95,6 +96,7 @@ export const EditPost = () => {
 
     async function onSubmitHandler() {
         try {
+            setBtnLoadingState(true);
             const postForServer = { ...currentPost, ...values };
             const updatedPost = await updateDetailsPost(postForServer._id, values);
 
@@ -104,6 +106,7 @@ export const EditPost = () => {
             navigation(PATH.POST_FN(updatedPost._id), { state: updatedPost });
         } catch (err) {
             setSubmitError(err.message);
+            setBtnLoadingState(false);
         }
     }
 
@@ -128,7 +131,9 @@ export const EditPost = () => {
                         <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
 
                         <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                        <SubmitBtn value={'Apply Changes'} active={submitButtonState} />
+                        <div className={styles['submit-btn-container']}>
+                            <SubmitBtn value={'Apply Changes'} active={submitButtonState} loading={btnLoadingState} />
+                        </div>
                     </form>
                 </div>
             }
