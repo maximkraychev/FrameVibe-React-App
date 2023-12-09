@@ -100,6 +100,11 @@
     padding-inline: 0.5em;
 }
 
+.like-spinner-container {
+    height: 2em;
+    width: 2em;
+}
+
 @media (width > 600px) {
     .card header,
     .actions,

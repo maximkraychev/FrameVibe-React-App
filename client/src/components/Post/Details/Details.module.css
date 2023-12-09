@@ -135,6 +135,11 @@
     font-size: 1.4em;
 }
 
+.like-spinner-container {
+    height: 2em;
+    width: 2em;
+}
+
 
 .not-found-post {
     justify-self: center;

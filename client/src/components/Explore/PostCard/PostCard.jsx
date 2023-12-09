@@ -7,8 +7,9 @@ import { dislikePost, likePost } from '../../../services/postService';
 import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
 
 import styles from './PostCard.module.css';
-import { HeartSvg } from '../../Svg/Heart';
 import { HeartSolidSvg } from '../../Svg/HeartSolid';
+import { Heart } from '../../Buttons/Heart/Heart';
+import { ButtonSpinner } from '../../Spinner/ButtonSpinner/ButtonSpinner';
 
 export const PostCard = ({ post }) => {
 
@@ -16,6 +17,7 @@ export const PostCard = ({ post }) => {
     const { changeErrorModalMsgState } = useContext(StateContext);
     const [isLiked, setIsLiked] = useState(() => post.likes.includes(auth._id));
     const { syncState } = useSyncStateWithNewPost();
+    const [likeSpinnerState, setLikeSpinnerState] = useState(false);
 
     const { owner, imageURL, description, likes, _id } = post;
 
@@ -25,13 +27,16 @@ export const PostCard = ({ post }) => {
         try {
             // If owner return
             if ((auth && auth._id === post?.owner?._id)) return;
+            setLikeSpinnerState(true);
 
             const updatedPost = await likePost(_id);
 
             setIsLiked(true);
             syncState(updatedPost);
+            setLikeSpinnerState(false);
         } catch (err) {
             console.error(err);
+            setLikeSpinnerState(false);
             changeErrorModalMsgState(err.message);
         }
 
@@ -41,13 +46,16 @@ export const PostCard = ({ post }) => {
         try {
             // If owner return
             if ((auth && auth._id === post?.owner?._id)) return;
+            setLikeSpinnerState(true);
 
             const updatedPost = await dislikePost(_id);
 
             setIsLiked(false);
             syncState(updatedPost);
+            setLikeSpinnerState(false);
         } catch (err) {
             console.error(err);
+            setLikeSpinnerState(false);
             changeErrorModalMsgState(err.message);
         }
     }
@@ -72,17 +80,12 @@ export const PostCard = ({ post }) => {
                 </div>
                 <div className={styles['actions']}>
 
-                    {isLiked
-                        ? <span
-                            className={styles['svg-container']}
-                            onClick={onDisLike}>
-                            <HeartSolidSvg />
-                        </span>
-                        : <span
-                            className={styles['svg-container']}
-                            onClick={onLike}>
-                            <HeartSvg />
-                        </span>
+                    {/* Likes logic */}
+                    {(auth && auth._id !== post?.owner?._id)
+                        ? likeSpinnerState
+                            ? <ButtonSpinner />
+                            : <Heart isLiked={isLiked} onDisLike={onDisLike} onLike={onLike} />
+                        : <span className={styles['svg-container']} ><HeartSolidSvg /></span>
                     }
 
                     <p>{likes?.length} likes</p>

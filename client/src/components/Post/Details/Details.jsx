@@ -15,10 +15,11 @@ import { CloseDetailsBtn } from '../../Buttons/CloseDetailsBtn/CloseDetailsBtn';
 import { DeletePostModal } from '../../Modal/DeletePostModal/DeletePostModal';
 import { Share } from '../../Buttons/Share/Share';
 import { HeartSolidSvg } from '../../Svg/HeartSolid';
-import { HeartSvg } from '../../Svg/Heart';
 import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { MiddleSpinner } from '../../Spinner/MiddleSpinner/MiddleSpinner';
+import { Heart } from '../../Buttons/Heart/Heart';
+import { ButtonSpinner } from '../../Spinner/ButtonSpinner/ButtonSpinner';
 
 
 export const Details = () => {
@@ -29,6 +30,7 @@ export const Details = () => {
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const [isLiked, setIsLiked] = useState(false);
+    const [likeSpinnerState, setLikeSpinnerState] = useState(false);
     const [spinnerState, setSpinnerState] = useState(true);
     const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
     const { auth } = useContext(AuthContext);
@@ -116,6 +118,7 @@ export const Details = () => {
         try {
             // If owner return
             if ((auth && auth._id === post?.owner?._id)) return;
+            setLikeSpinnerState(true);
 
             const updatedPost = await likePost(post?._id);
 
@@ -125,8 +128,10 @@ export const Details = () => {
             setPost(updatedPost);
             //Set global state
             syncState(updatedPost);
+            setLikeSpinnerState(false);
         } catch (err) {
             console.error(err);
+            setLikeSpinnerState(false);
             changeErrorModalMsgState(err.message);
         }
 
@@ -136,6 +141,7 @@ export const Details = () => {
         try {
             // If owner return
             if ((auth && auth._id === post?.owner?._id)) return;
+            setLikeSpinnerState(true);
 
             const updatedPost = await dislikePost(post?._id);
 
@@ -145,8 +151,10 @@ export const Details = () => {
             setPost(updatedPost);
             //Set global state
             syncState(updatedPost);
+            setLikeSpinnerState(false);
         } catch (err) {
             console.error(err);
+            setLikeSpinnerState(false);
             changeErrorModalMsgState(err.message);
         }
     }
@@ -206,17 +214,13 @@ export const Details = () => {
                                 {/* TODO..comments <div className={styles['comments']}></div> */}
 
                                 <div className={styles['like-container']}>
-                                    {isLiked
-                                        ? <span
-                                            className={styles['svg-container']}
-                                            onClick={onDisLike}>
-                                            <HeartSolidSvg />
-                                        </span>
-                                        : <span
-                                            className={styles['svg-container']}
-                                            onClick={onLike}>
-                                            <HeartSvg />
-                                        </span>
+
+                                    {/* Likes logic */}
+                                    {(auth && auth._id !== post?.owner?._id)
+                                        ? likeSpinnerState
+                                            ? <ButtonSpinner />
+                                            : <Heart isLiked={isLiked} onDisLike={onDisLike} onLike={onLike} />
+                                        : <span className={styles['svg-container']} ><HeartSolidSvg /></span>
                                     }
 
                                     {post.likes && <p>{post.likes?.length} likes</p>}
