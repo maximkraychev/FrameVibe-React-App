@@ -27,6 +27,7 @@ export const Login = () => {
     const { values, changeHandler, onSubmit } = useForm(initialValues, onLoginSubmit);
     const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, LOGIN_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const [btnLoadingState, setBtnLoadingState] = useState(false);
 
     // Submit Btn state
     useEffect(() => {
@@ -35,9 +36,11 @@ export const Login = () => {
 
     async function onLoginSubmit(data) {
         try {
+            setBtnLoadingState(true);
             await login(data);
             navigate(PATH.EXPLORE);
         } catch (err) {
+            setBtnLoadingState(false);
             setSubmitError(err.message);
         }
     }
@@ -78,7 +81,9 @@ export const Login = () => {
                     />
 
                     <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                    <SubmitBtn value={'Sign in'} active={submitButtonState} />
+                    <div className={styles['submit-btn-container']}>
+                        <SubmitBtn value={'Sign in'} active={submitButtonState} loading={btnLoadingState}/>
+                    </div>
 
                     <p className={styles['option']}>
                         You don&apos;t have an account? <Link to={PATH.REGISTER}>Register here!</Link>
