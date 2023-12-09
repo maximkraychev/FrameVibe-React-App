@@ -1,9 +1,11 @@
+import { homeController } from '../controllers/homeController.js';
 import { postController } from '../controllers/postController.js';
 import { userController } from '../controllers/userController.js';
 import logRequests from '../middlewares/displayRequest.js';
 
 export default (app) => {
 	app.use(logRequests()); // Logging every request
+	app.use('/', homeController);
 	app.use('/post', postController);
 	app.use('/users', userController);
 	app.all('*', (req, res, next) => {
