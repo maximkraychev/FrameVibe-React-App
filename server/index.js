@@ -10,7 +10,7 @@ import globalErrorHandling from './util/globalErrorHandler.js';
 dotenv.config();
 const PORT = process.env.PORT;
 
-async function start() {
+export default async function start() {
 	const app = express();
 
 	await databaseConfig();
