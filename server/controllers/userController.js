@@ -27,7 +27,7 @@ userController.post('/login', async (req, res, next) => {
 
         const { cookies, userDetails } = await userLogin(req.body);
         res.cookie('jwtHeaderPayload', cookies.userInfo)
-        res.cookie('jwtSignature', cookies.signature, { httpOnly: true });
+        res.cookie('jwtSignature', cookies.signature, { httpOnly: true, sameSite: 'none'});
         res.status(200).json({ message: 'Successful login' });
 
     } catch (err) {
