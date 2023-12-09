@@ -18,6 +18,7 @@ import { HeartSolidSvg } from '../../Svg/HeartSolid';
 import { HeartSvg } from '../../Svg/Heart';
 import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
 import { PageTitle } from '../../PageTitle/PageTitle';
+import { MiddleSpinner } from '../../Spinner/MiddleSpinner/MiddleSpinner';
 
 
 export const Details = () => {
@@ -28,6 +29,7 @@ export const Details = () => {
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
     const [isLiked, setIsLiked] = useState(false);
+    const [spinnerState, setSpinnerState] = useState(true);
     const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
     const { auth } = useContext(AuthContext);
     const { state, changeErrorModalMsgState } = useContext(StateContext);
@@ -41,14 +43,15 @@ export const Details = () => {
 
             (async function getData() {
                 try {
-                    if (params[PARAMS.POSTID]) {
-                        const currentPost = await getSinglePost(params[PARAMS.POSTID]);
+                    const currentPost = await getSinglePost(params[PARAMS.POSTID]);
 
-                        setPost(currentPost);
-                        setUser(currentPost.owner);
-                    }
+                    setPost(currentPost);
+                    setUser(currentPost.owner);
+                    setSpinnerState(false);
+
 
                 } catch (err) {
+                    setSpinnerState(false);
                     console.error(err);
                     navigation('/not-found');
                 }
@@ -59,6 +62,7 @@ export const Details = () => {
             // If we have  a post in state set the current post and user
             setPost(location.state);
             setUser(location.state?.owner);
+            setSpinnerState(false);
         }
 
     }, []);
@@ -98,6 +102,7 @@ export const Details = () => {
                 navigation(PATH.EXPLORE);
             } catch (err) {
                 console.error(err);
+
                 changeErrorModalMsgState(err.message);
             }
         })();
@@ -149,75 +154,83 @@ export const Details = () => {
     return (
         <PageTitle title={SITE_TITLE.DETAILS}>
 
-            <DeletePostModal state={deleteModalVisibility} hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
+            {spinnerState
 
-            {post &&
-                <div className={styles['details-container']}>
-                    <div className={styles['owner-mobile']}>
-                        <div className={styles['avatar-container-mobile']}>
-                            <img src={user?.avatar} alt="avatar" />
-                        </div>
-                        <p>{user?.username}</p>
-                        <CloseDetailsBtn />
-                    </div>
+                ? <MiddleSpinner />
 
+                : <>
+                    <DeletePostModal state={deleteModalVisibility} hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
 
-                    <div className={styles['image-container']}>
-                        <img src={post?.imageURL} alt="main-image" />
-                    </div>
-
-                    <div className={styles['description-container']}>
-
-                        <div className={styles['owner-desktop']}>
-                            <div className={styles['avatar-container-desktop']}>
-                                <img src={user?.avatar} alt="avatar" />
+                    {post &&
+                        <div className={styles['details-container']}>
+                            <div className={styles['owner-mobile']}>
+                                <div className={styles['avatar-container-mobile']}>
+                                    <img src={user?.avatar} alt="avatar" />
+                                </div>
+                                <p>{user?.username}</p>
+                                <CloseDetailsBtn />
                             </div>
-                            <p>{user?.username}</p>
 
-                            <CloseDetailsBtn />
+
+                            <div className={styles['image-container']}>
+                                <img src={post?.imageURL} alt="main-image" />
+                            </div>
+
+                            <div className={styles['description-container']}>
+
+                                <div className={styles['owner-desktop']}>
+                                    <div className={styles['avatar-container-desktop']}>
+                                        <img src={user?.avatar} alt="avatar" />
+                                    </div>
+                                    <p>{user?.username}</p>
+
+                                    <CloseDetailsBtn />
+                                </div>
+
+                                <div className={styles['btn-container']}>
+                                    <Share />
+                                    {post?.owner?._id == auth?._id &&
+                                        <>
+                                            <Link to={PATH.POST_EDIT_FN(post?._id)} className={styles['edit-btn']}>Edit</Link>
+                                            <Link onClick={showDeleteModal} className={styles['delete-btn']}>Delete</Link>
+                                        </>
+                                    }
+                                </div>
+
+                                <div className={styles['description']}>
+                                    <p>
+                                        {post?.description}
+                                    </p>
+                                </div>
+
+                                {/* TODO..comments <div className={styles['comments']}></div> */}
+
+                                <div className={styles['like-container']}>
+                                    {isLiked
+                                        ? <span
+                                            className={styles['svg-container']}
+                                            onClick={onDisLike}>
+                                            <HeartSolidSvg />
+                                        </span>
+                                        : <span
+                                            className={styles['svg-container']}
+                                            onClick={onLike}>
+                                            <HeartSvg />
+                                        </span>
+                                    }
+
+                                    {post.likes && <p>{post.likes?.length} likes</p>}
+                                </div>
+
+                            </div>
                         </div>
+                    }
 
-                        <div className={styles['btn-container']}>
-                            <Share />
-                            {post?.owner?._id == auth?._id &&
-                                <>
-                                    <Link to={PATH.POST_EDIT_FN(post?._id)} className={styles['edit-btn']}>Edit</Link>
-                                    <Link onClick={showDeleteModal} className={styles['delete-btn']}>Delete</Link>
-                                </>
-                            }
-                        </div>
+                    {!post &&
+                        <h4 className={styles['not-found-post']}>We couldn't locate the post you're looking for. It may have been deleted or doesn't exist.</h4>
+                    }
+                </>
 
-                        <div className={styles['description']}>
-                            <p>
-                                {post?.description}
-                            </p>
-                        </div>
-
-                        {/* TODO..comments <div className={styles['comments']}></div> */}
-
-                        <div className={styles['like-container']}>
-                            {isLiked
-                                ? <span
-                                    className={styles['svg-container']}
-                                    onClick={onDisLike}>
-                                    <HeartSolidSvg />
-                                </span>
-                                : <span
-                                    className={styles['svg-container']}
-                                    onClick={onLike}>
-                                    <HeartSvg />
-                                </span>
-                            }
-
-                            {post.likes && <p>{post.likes?.length} likes</p>}
-                        </div>
-
-                    </div>
-                </div>
-            }
-
-            {!post &&
-                <h4 className={styles['not-found-post']}>We couldn't locate the post you're looking for. It may have been deleted or doesn't exist.</h4>
             }
 
         </PageTitle>
