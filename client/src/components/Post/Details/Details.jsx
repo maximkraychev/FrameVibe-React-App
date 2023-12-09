@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../../contexts/AuthContext';
-import { StateContext } from '../../../contexts/StateContext';
+import { StateContext } from '../../../contexts/stateContext';
 import { deletePost, dislikePost, getSinglePost, likePost } from '../../../services/postService';
 import { usePostStateExplore } from '../../../hooks/usePostStateExplore';
 import { PARAMS, PATH } from '../../../constants/paths';
@@ -27,10 +27,11 @@ export const Details = () => {
     const navigation = useNavigate();
     const [post, setPost] = useState({});
     const [user, setUser] = useState({});
-    const { auth } = useContext(AuthContext);
-    const { state, changeModalState } = useContext(StateContext);
-    const { changeExplorePosts } = usePostStateExplore();
     const [isLiked, setIsLiked] = useState(false);
+    const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
+    const { auth } = useContext(AuthContext);
+    const { state } = useContext(StateContext);
+    const { changeExplorePosts } = usePostStateExplore();
     const { syncState } = useSyncStateWithNewPost();
 
 
@@ -72,11 +73,11 @@ export const Details = () => {
 
     function showDeleteModal(e) {
         e.preventDefault();
-        changeModalState(true);
+        setDeleteModalVisibility(true);
     }
 
     function hideDeleteModal() {
-        changeModalState(false);
+        setDeleteModalVisibility(false);
     }
 
     function deletePostHandler() {
@@ -150,7 +151,7 @@ export const Details = () => {
     return (
         <PageTitle title={SITE_TITLE.DETAILS}>
 
-            <DeletePostModal hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
+            <DeletePostModal state={deleteModalVisibility} hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
 
             {post &&
                 <div className={styles['details-container']}>
