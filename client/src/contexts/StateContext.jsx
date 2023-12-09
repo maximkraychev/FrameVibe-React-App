@@ -10,13 +10,13 @@ export const StateContext = createContext();
 const initialValues = {
     [STATE_FIELDS.POSTS_EXPLORE]: [],
     [STATE_FIELDS.POSTS_PROFILE]: [],
-    [STATE_FIELDS.MODAL]: false,
+    [STATE_FIELDS.ERROR_MODAL]: '',
 };
 
 export const StateProvider = ({ children }) => {
     const [state, dispatch] = useReducer(stateReducer, initialValues);
 
-    // Post Profile
+    // State for posts in Profile
     function changePostsStateProfile(x) {
         let value = x;
 
@@ -29,7 +29,7 @@ export const StateProvider = ({ children }) => {
     }
 
 
-    // Post Explore
+    // State for posts in Explore
     function changePostsStateExplore(x) {
         let value = x;
 
@@ -41,15 +41,15 @@ export const StateProvider = ({ children }) => {
         dispatch(dataForReducer);
     }
 
-    // Modal State
-    function changeModalState(x) {
+    // Error Modal Msg State
+    function changeErrorModalMsgState(x) {
         let value = x;
 
         if (x instanceof Function) {
-            value = x(state[STATE_FIELDS.MODAL]);
+            value = x(state[STATE_FIELDS.ERROR_MODAL]);
         }
 
-        const dataForReducer = { type: STATE_FIELDS.MODAL, value }
+        const dataForReducer = { type: STATE_FIELDS.ERROR_MODAL, value }
         dispatch(dataForReducer);
     }
 
@@ -57,7 +57,7 @@ export const StateProvider = ({ children }) => {
         state,
         changePostsStateProfile,
         changePostsStateExplore,
-        changeModalState,
+        changeErrorModalMsgState,
     };
 
     return (
