@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { StateContext } from '../../../contexts/StateContext';
@@ -10,18 +10,24 @@ import { SITE_TITLE } from '../../../constants/titles';
 import styles from './Explore.module.css';
 import { PostCard } from '../PostCard/PostCard';
 import { PageTitle } from '../../PageTitle/PageTitle';
+import { MiddleSpinner } from '../../Spinner/MiddleSpinner/MiddleSpinner';
 
 export const Explore = () => {
 
     const { changeExplorePosts } = usePostStateExplore();
     const { state, changeErrorModalMsgState } = useContext(StateContext);
+    const [spinnerState, setSpinnerState] = useState(true);
 
     useEffect(() => {
 
         getAllPosts()
-            .then(posts => changeExplorePosts(posts))
+            .then(posts => {
+                changeExplorePosts(posts);
+                setSpinnerState(false);
+            })
             .catch(err => {
                 console.error(err);
+                setSpinnerState(false);
                 changeErrorModalMsgState(err.message);
             })
 
@@ -30,10 +36,17 @@ export const Explore = () => {
     return (
         <PageTitle title={SITE_TITLE.EXPLORE}>
 
-            <section className={styles['explore']}>
-                {state[STATE_FIELDS.POSTS_EXPLORE].map(post => <PostCard key={post._id} post={post} />)}
-            </section>
-            <Outlet></Outlet>
+            {spinnerState
+
+                ? <MiddleSpinner />
+
+                : <>
+                    <section className={styles['explore']}>
+                        {state[STATE_FIELDS.POSTS_EXPLORE].map(post => <PostCard key={post._id} post={post} />)}
+                    </section>
+                    <Outlet></Outlet>
+                </>
+            }
 
         </PageTitle>
     );
