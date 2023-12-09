@@ -16,6 +16,7 @@ import { SubmitBtn } from "../../Buttons/SubmitBtn/SubmitBtn";
 import { STATE_FIELDS } from "../../../constants/stateFieldsConstants";
 import { PageTitle } from "../../PageTitle/PageTitle";
 import { SITE_TITLE } from "../../../constants/titles";
+import { MiddleSpinner } from "../../Spinner/MiddleSpinner/MiddleSpinner";
 
 const initialValues = {
     [INPUT_NAMES.DESCRIPTION]: ''
@@ -24,14 +25,15 @@ const initialValues = {
 export const EditPost = () => {
 
     const params = useParams();
+    const navigation = useNavigate();
     const { state, changeErrorModalMsgState } = useContext(StateContext);
     const [currentPost, setCurrentPost] = useState('');
-    const { values, changeHandler, onSubmit, changeValueByField } = useForm(initialValues, onSubmitHandler);
     const [submitError, setSubmitError] = useState('');
-    const navigation = useNavigate();
+    const [spinnerState, setSpinnerState] = useState(true);
+    const { values, changeHandler, onSubmit, changeValueByField } = useForm(initialValues, onSubmitHandler);
     const { errorMessages, checkFieldForError } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
-    const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
     const { syncState } = useSyncStateWithNewPost();
+    const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
     useEffect(() => {
         let post = null;
@@ -62,8 +64,12 @@ export const EditPost = () => {
 
                 // Populate every field from initialValues with data from post
                 Object.keys(initialValues).forEach(key => changeValueByField(key, post[key]));
+
+                // Stop spinner;
+                setSpinnerState(false);
             } catch (err) {
                 console.error(err);
+                setSpinnerState(false);
                 changeErrorModalMsgState(err.message);
             }
 
@@ -104,23 +110,28 @@ export const EditPost = () => {
     return (
         <PageTitle title={SITE_TITLE.EDIT_POST}>
 
-            <div className={styles['form-container']}>
-                <form className={styles['upload-image-form']} onSubmit={onSubmit}>
-                    <h2>Edit Post</h2>
+            {spinnerState
 
-                    <img
-                        className={styles['image-preview']}
-                        src={currentPost?.imageURL}
-                        alt="Post-Image"
-                    />
+                ? <MiddleSpinner />
 
-                    <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
-                    <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
+                : <div className={styles['form-container']}>
+                    <form className={styles['upload-image-form']} onSubmit={onSubmit}>
+                        <h2>Edit Post</h2>
 
-                    <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                    <SubmitBtn value={'Apply Changes'} active={submitButtonState} />
-                </form>
-            </div>
+                        <img
+                            className={styles['image-preview']}
+                            src={currentPost?.imageURL}
+                            alt="Post-Image"
+                        />
+
+                        <p className={styles['error-field']}>{errorMessages[INPUT_NAMES.DESCRIPTION]}</p>
+                        <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={errorCheck} rows="6" cols="50"></textarea>
+
+                        <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
+                        <SubmitBtn value={'Apply Changes'} active={submitButtonState} />
+                    </form>
+                </div>
+            }
 
         </PageTitle>
     );
