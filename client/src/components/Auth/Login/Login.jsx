@@ -38,6 +38,7 @@ export const Login = () => {
         try {
             setBtnLoadingState(true);
             const userData = await login(data);
+            console.log(userData);
             test(userData);
             navigate(PATH.EXPLORE);
         } catch (err) {
