@@ -20,11 +20,6 @@ async function request(type, path, data) {
         const response = await fetch(API_PATH.BASE + path, options);
 
         if (response.ok == false) {
-            //TODO add logic for clearing local user state 
-            // if (response.status == 403) {
-            //     clearUserData();
-            // }
-
             const error = await response.json();
             throw new Error(error.message);
         }
@@ -36,9 +31,7 @@ async function request(type, path, data) {
         }
 
     } catch (err) {
-        //TODO handle the error;
-        console.log(err);
-        alert(err.message);
+        console.error(err);
         throw err;
     }
 }
