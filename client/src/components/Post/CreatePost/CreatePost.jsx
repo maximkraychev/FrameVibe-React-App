@@ -29,6 +29,7 @@ export const CreatePost = () => {
     const navigation = useNavigate();
     const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const [btnLoadingState, setBtnLoadingState] = useState(false);
 
     useEffect(() => {
         setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
@@ -50,11 +51,12 @@ export const CreatePost = () => {
 
             };
 
-            reader.readAsDataURL(invalidBlob);
+            reader.readAsDataURL(file);
         }
     };
 
     async function uploadImageSubmitHandler(formData) {
+        setBtnLoadingState(true);
         try {
             // Using FormData sending the description adn the image to the back-end
             const dataForServer = new FormData();
@@ -66,6 +68,7 @@ export const CreatePost = () => {
             navigation(PATH.POST_FN(newPostData?._id), { state: newPostData });
         } catch (err) {
             setSubmitError(err.message);
+            setBtnLoadingState(false);
         }
     }
 
@@ -99,7 +102,10 @@ export const CreatePost = () => {
                     <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={showError} rows="6" cols="50"></textarea>
 
                     <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                    <SubmitBtn value={'Upload'} active={submitButtonState} />
+             
+                    <div className={styles['submit-btn-container']}>
+                        <SubmitBtn value={'Upload'} active={submitButtonState} loading={btnLoadingState} />
+                    </div>
                 </form>
             </div>
         </PageTitle>

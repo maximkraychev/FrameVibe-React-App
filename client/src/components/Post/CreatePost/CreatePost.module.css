@@ -52,7 +52,7 @@
 .file-selected {
     max-width: 10em;
     white-space: nowrap;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
@@ -70,6 +70,15 @@
 
 .api-error {
     text-align: center;
+}
+
+.submit-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4em;
+    height: 3.5em;
+    padding-block: 1em;
 }
 
 @media (width > 479px) {
