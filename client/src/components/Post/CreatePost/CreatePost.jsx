@@ -27,7 +27,7 @@ export const CreatePost = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [submitError, setSubmitError] = useState('');
     const navigation = useNavigate();
-    const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility, setManualErrorOnField } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
+    const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
 
     useEffect(() => {

@@ -30,13 +30,16 @@ export const Details = () => {
     const [isLiked, setIsLiked] = useState(false);
     const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
     const { auth } = useContext(AuthContext);
-    const { state } = useContext(StateContext);
+    const { state, changeErrorModalMsgState } = useContext(StateContext);
     const { changeExplorePosts } = usePostStateExplore();
     const { syncState } = useSyncStateWithNewPost();
 
 
     useEffect(() => {
-
+        const number = Math.floor(Math.random() * 100)
+        if (number > 50) {
+            changeErrorModalMsgState(`${number}asddddddddddddddddddddddddddddsdasdasdasdasdathjrjyygerttttttttttttttttwegewrg`);
+        }
         // If we don't have a post in state make a request for post
         if (!location.state) {
 
@@ -50,9 +53,8 @@ export const Details = () => {
                     }
 
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                     navigation('/not-found');
-                    //TODO handle the error
                 }
             })();
 
@@ -99,8 +101,8 @@ export const Details = () => {
                 // navigate to Explore
                 navigation(PATH.EXPLORE);
             } catch (err) {
-                console.log(err);
-                //TODO handle it;
+                console.error(err);
+                changeErrorModalMsgState(err.message);
             }
         })();
     }
@@ -123,8 +125,8 @@ export const Details = () => {
             //Set global state
             syncState(updatedPost);
         } catch (err) {
-            console.log(err);
-            //TODO handle the error;
+            console.error(err);
+            changeErrorModalMsgState(err.message);
         }
 
     }
@@ -143,8 +145,8 @@ export const Details = () => {
             //Set global state
             syncState(updatedPost);
         } catch (err) {
-            console.log(err);
-            //TODO handle the error;
+            console.error(err);
+            changeErrorModalMsgState(err.message);
         }
     }
 

@@ -18,7 +18,7 @@ import { MiddleSpinner } from '../../Spinner/MiddleSpinner/MiddleSpinner';
 export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
-    const { state, changePostsStateProfile } = useContext(StateContext);
+    const { state, changePostsStateProfile, changeErrorModalMsgState } = useContext(StateContext);
     const { auth } = useContext(AuthContext);
     const params = useParams();
     const [spinnerState, setSpinnerState] = useState(true);
@@ -66,9 +66,9 @@ export const Profile = () => {
                 changePostsStateProfile(arrivedPosts);
                 setSpinnerState(false)
             } catch (err) {
-                console.log(err);
+                console.error(err);
                 setSpinnerState(false);
-                //TODO .handle the error
+                changeErrorModalMsgState(err.message);
             }
         })();
 

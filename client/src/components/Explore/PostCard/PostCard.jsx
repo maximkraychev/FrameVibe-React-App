@@ -2,16 +2,18 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../../contexts/AuthContext';
+import { StateContext } from '../../../contexts/StateContext';
 import { dislikePost, likePost } from '../../../services/postService';
+import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
 
 import styles from './PostCard.module.css';
 import { HeartSvg } from '../../Svg/Heart';
 import { HeartSolidSvg } from '../../Svg/HeartSolid';
-import { useSyncStateWithNewPost } from '../../../hooks/useSyncStateWithNewPost';
 
 export const PostCard = ({ post }) => {
 
     const { auth } = useContext(AuthContext);
+    const { changeErrorModalMsgState } = useContext(StateContext);
     const [isLiked, setIsLiked] = useState(() => post.likes.includes(auth._id));
     const { syncState } = useSyncStateWithNewPost();
 
@@ -29,8 +31,8 @@ export const PostCard = ({ post }) => {
             setIsLiked(true);
             syncState(updatedPost);
         } catch (err) {
-            console.log(err);
-            //TODO handle the error;
+            console.error(err);
+            changeErrorModalMsgState(err.message);
         }
 
     }
@@ -45,8 +47,8 @@ export const PostCard = ({ post }) => {
             setIsLiked(false);
             syncState(updatedPost);
         } catch (err) {
-            console.log(err);
-            //TODO handle the error;
+            console.error(err);
+            changeErrorModalMsgState(err.message);
         }
     }
 

@@ -1,13 +1,18 @@
+import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
+
+import { StateContext } from "../../../contexts/StateContext";
+import { PARAMS, PATH } from "../../../constants/paths";
+
 import { ShareSvg } from "../../Svg/ShareSvg";
 import styles from './Share.module.css';
-import { PARAMS, PATH } from "../../../constants/paths";
-import { useState } from "react";
 
 export const Share = () => {
 
     const [clipboardMsgVisualization, setClipboardMsgVisualization] = useState(false);
     const params = useParams();
+    const { changeErrorModalMsgState } = useContext(StateContext);
+
 
     async function copyToClipboard() {
         try {
@@ -24,8 +29,8 @@ export const Share = () => {
                 }, 2000);
             }
         } catch (err) {
-            console.log(err);
-            //TODO handle the error            
+            console.error(err);
+            changeErrorModalMsgState(err.message);
         }
     }
 

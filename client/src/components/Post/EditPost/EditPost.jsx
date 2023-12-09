@@ -24,7 +24,7 @@ const initialValues = {
 export const EditPost = () => {
 
     const params = useParams();
-    const { state } = useContext(StateContext);
+    const { state, changeErrorModalMsgState } = useContext(StateContext);
     const [currentPost, setCurrentPost] = useState('');
     const { values, changeHandler, onSubmit, changeValueByField } = useForm(initialValues, onSubmitHandler);
     const [submitError, setSubmitError] = useState('');
@@ -37,32 +37,35 @@ export const EditPost = () => {
         let post = null;
 
         (async function getPost() {
-            // Check for postId 
-            if (!params[PARAMS.POSTID]) return;
 
-            // Check if we already have the post in the StateContext in Explore
-            let postFromState = state[STATE_FIELDS.POSTS_EXPLORE].find((post) => post._id === params[PARAMS.POSTID]);
+            try {
+                // Check if we already have the post in the StateContext in Explore
+                let postFromState = state[STATE_FIELDS.POSTS_EXPLORE].find((post) => post._id === params[PARAMS.POSTID]);
 
-            // If we still don't have the post check the state from Profile
-            if (!postFromState) {
-                post = state[STATE_FIELDS.POSTS_PROFILE].find((post) => post._id === params[PARAMS.POSTID]);
+                // If we still don't have the post check the state from Profile
+                if (!postFromState) {
+                    postFromState = state[STATE_FIELDS.POSTS_PROFILE].find((post) => post._id === params[PARAMS.POSTID]);
+                }
+
+                // If we have the post from state make a new reference
+                if (postFromState) {
+                    post = { ...postFromState }
+                }
+
+                // If we don't have the post make a new request for it
+                if (!post) {
+                    post = await getSinglePost(params[PARAMS.POSTID]);
+                }
+
+                // Save the post
+                setCurrentPost(post);
+
+                // Populate every field from initialValues with data from post
+                Object.keys(initialValues).forEach(key => changeValueByField(key, post[key]));
+            } catch (err) {
+                console.error(err);
+                changeErrorModalMsgState(err.message);
             }
-
-            // If we have the post from state make a new reference
-            if (postFromState) {
-                post = { ...postFromState }
-            }
-
-            // If we don't have the post make a new request for it
-            if (!post) {
-                post = await getSinglePost(params[PARAMS.POSTID]);
-            }
-
-            // Save the post
-            setCurrentPost(post);
-
-            // Populate every field from initialValues with data from post
-            Object.keys(initialValues).forEach(key => changeValueByField(key, post[key]));
 
         })();
 
