@@ -7,11 +7,11 @@ import { AuthGuard } from './guards/AuthGuard';
 
 import './global-css/global.css';
 import { Header } from './components/Header/Header';
-import { Explore } from './components/Explore/Explore';
+import { Explore } from './components/Explore/Explore/Explore';
 import { Login } from './components/Auth/Login/Login';
 import { Register } from './components/Auth/Register/Register';
 import { CreatePost } from './components/Post/CreatePost/CreatePost';
-import { Profile } from './components/Profile/Profile';
+import { Profile } from './components/Profile/Profile/Profile';
 import { NotFound } from './components/NotFound/NotFound';
 import { Logout } from './components/Auth/Logout/Logout';
 import { Post } from './components/Post/Post/Post';
