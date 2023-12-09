@@ -29,6 +29,7 @@ function App() {
 
           <Routes>
 
+            <Route path="/" element={<Navigate to={PATH.EXPLORE} />} />
             <Route path={PATH.REGISTER} element={<Register />} />
             <Route path={PATH.LOGIN} element={<Login />} />
             <Route path={PATH.LOGOUT} element={<Logout />} />
@@ -51,7 +52,7 @@ function App() {
           </Routes>
 
           <ErrorModal />
-          
+
         </StateProvider>
       </div>
     </AuthProvider>
