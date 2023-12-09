@@ -25,7 +25,7 @@ export const PATH = {
 
 
 export const API_PATH = {
-    BASE: 'http://localhost:3000',  //TODO change before deploy
+    BASE: 'https://frame-vibe-react-backend.vercel.app',  //TODO change before deploy
     REGISTER: '/users/register',
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',
