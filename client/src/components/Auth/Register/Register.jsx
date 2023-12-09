@@ -32,6 +32,7 @@ export const Register = () => {
     const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit);
     const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, REGISTER_FORM_VALIDATIONS);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
+    const [btnLoadingState, setBtnLoadingState] = useState(false);
 
     // Submit Btn state;
     useEffect(() => {
@@ -47,10 +48,12 @@ export const Register = () => {
 
     async function onRegisterSubmit(data) {
         try {
+            setBtnLoadingState(true);
             const { repassword, ...userDataForServer } = data;
             await register(userDataForServer);
             navigate(PATH.EXPLORE);
         } catch (err) {
+            setBtnLoadingState(false);
             setSubmitError(err.message);
         }
     }
@@ -139,7 +142,9 @@ export const Register = () => {
                     />
 
                     <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-                    <SubmitBtn value={'Sign up'} active={submitButtonState} />
+                    <div className={styles['submit-btn-container']}>
+                        <SubmitBtn value={'Sign up'} active={submitButtonState} loading={btnLoadingState} />
+                    </div>
 
                     <p className={styles['option']}>
                         You have an account? <Link to={PATH.LOGIN}>Login here!</Link>
