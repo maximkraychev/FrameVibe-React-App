@@ -17,6 +17,7 @@ import { Logout } from './components/Auth/Logout/Logout';
 import { Post } from './components/Post/Post/Post';
 import { EditPost } from './components/Post/EditPost/EditPost';
 import { PostWithModal } from './components/Post/PostWithModal/PostWithModal';
+import { ErrorModal } from './components/Modal/ErrorModal/ErrorModal';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       <Header />
       <div className='section-container'>
         <StateProvider>
+
           <Routes>
 
             <Route path={PATH.REGISTER} element={<Register />} />
@@ -47,6 +49,9 @@ function App() {
             </Route>
 
           </Routes>
+
+          <ErrorModal />
+          
         </StateProvider>
       </div>
     </AuthProvider>
