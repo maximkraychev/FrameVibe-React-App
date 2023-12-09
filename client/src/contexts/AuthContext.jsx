@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
         const user = await loginService(userData);
         console.log(user);
         setUser()
+        test(user);
     }
 
     function logout() {
