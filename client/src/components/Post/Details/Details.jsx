@@ -36,10 +36,6 @@ export const Details = () => {
 
 
     useEffect(() => {
-        const number = Math.floor(Math.random() * 100)
-        if (number > 50) {
-            changeErrorModalMsgState(`${number}asddddddddddddddddddddddddddddsdasdasdasdasdathjrjyygerttttttttttttttttwegewrg`);
-        }
         // If we don't have a post in state make a request for post
         if (!location.state) {
 
