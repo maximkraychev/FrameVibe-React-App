@@ -31,6 +31,7 @@ export const Details = () => {
     const [user, setUser] = useState({});
     const [isLiked, setIsLiked] = useState(false);
     const [likeSpinnerState, setLikeSpinnerState] = useState(false);
+    const [deleteSpinnerState, setDeleteSpinnerState] = useState(false);
     const [spinnerState, setSpinnerState] = useState(true);
     const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
     const { auth } = useContext(AuthContext);
@@ -88,6 +89,7 @@ export const Details = () => {
 
         (async function deleteCurrentPost() {
             try {
+                setDeleteSpinnerState(true);
                 // Delete the post
                 const deletedPost = await deletePost(post._id);
 
@@ -97,14 +99,17 @@ export const Details = () => {
                     changeExplorePosts(filtratedPosts);
                 }
 
+
                 // Hide Delete modal
                 hideDeleteModal();
+
+                setDeleteSpinnerState(false);
 
                 // navigate to Explore
                 navigation(PATH.EXPLORE);
             } catch (err) {
                 console.error(err);
-
+                setDeleteSpinnerState(false);
                 changeErrorModalMsgState(err.message);
             }
         })();
@@ -167,7 +172,7 @@ export const Details = () => {
                 ? <MiddleSpinner />
 
                 : <>
-                    <DeletePostModal state={deleteModalVisibility} hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} />
+                    <DeletePostModal state={deleteModalVisibility} hideDeleteModal={hideDeleteModal} deletePostHandler={deletePostHandler} spinnerState={deleteSpinnerState} />
 
                     {post &&
                         <div className={styles['details-container']}>
