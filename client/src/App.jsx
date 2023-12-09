@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from './contexts/AuthContext';
 import { StateProvider } from './contexts/StateContext';
