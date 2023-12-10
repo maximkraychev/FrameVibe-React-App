@@ -19,7 +19,7 @@ export const Profile = () => {
 
     const [currentUserProfile, setCurrentUserProfile] = useState({});
     const { state, changePostsStateProfile, changeErrorModalMsgState } = useContext(StateContext);
-    const { auth } = useContext(AuthContext);
+    const { auth, accessToken } = useContext(AuthContext);
     const params = useParams();
     const [spinnerState, setSpinnerState] = useState(true);
 
@@ -51,7 +51,7 @@ export const Profile = () => {
                 }
 
                 // Take all user posts
-                const arrivedPosts = await getAllUserPosts(user._id);
+                const arrivedPosts = await getAllUserPosts(user._id, accessToken);
 
 
                 // Set current user

@@ -5,7 +5,7 @@ export const getUserInfoById = async (userId) => {
     return api.get(API_PATH.USER_BY_ID_FN(userId));
 };
 
-export const getUserInfoByUsername = async (username) => {
+export const getUserInfoByUsername = async (username, accessToken) => {
     return api.get(API_PATH.USER_BY_USERNAME_FN(username));
 };
 

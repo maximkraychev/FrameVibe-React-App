@@ -1,45 +1,46 @@
 import { createContext, useState } from "react"
-
-import { getCookieUserData } from "../util/getCookieUserData"
-import { loginService, registerService } from "../services/authService";
+import { LOCAL_STORAGE } from "../constants/localStorageState";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  
+    const [authState, setAuthState] = useState(() => {
+        const persistedState = localStorage.getItem(LOCAL_STORAGE.AUTH);
 
-    const [auth, setAuth] = useState(getCookieUserData());
+        if (persistedState) {
+            return JSON.parse(persistedState);
+        }
 
-    function setUser() {
-        setAuth(getCookieUserData());
+        return {};
+    });
+
+    const setPersistedState = (value) => {
+        setAuthState(value);
+
+        let serializedValue;
+        if (typeof value === 'function') {
+            serializedValue = JSON.stringify(value(state));
+        } else {
+            serializedValue = JSON.stringify(value);
+        }
+
+        localStorage.setItem(LOCAL_STORAGE.AUTH, serializedValue);
+    };
+
+
+    const clearState = () => {
+        localStorage.removeItem(LOCAL_STORAGE.AUTH);
+        setAuthState({});
     }
 
-    async function register(userData) {
-        await registerService(userData);
-        setUser()
-    }
-
-    async function login(userData) {
-        const user = await loginService(userData);
-        console.log(user);
-        setUser()
-        test(user);
-    }
-
-    function logout() {
-        setUser()
-    }
-
-    function test(data) {
-        setAuth(data)
-    }
 
     const values = {
-        auth,
-        register,
-        login,
-        logout,
-        setUser,
-        test
+        auth: authState?.userDetails,
+        isAuthenticated: !!authState?.accessToken,
+        accessToken: authState?.accessToken,
+        setPersistedState,
+        clearState
     }
 
     return (
@@ -48,3 +49,30 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+
+
+// const loginSubmitHandler = async (values) => {
+//     const result = await loginService(values.email, values.password);
+
+//     setAuth(result);
+
+//     localStorage.setItem('accessToken', result.accessToken);
+
+
+//     navigate(PATH.EXPLORE);
+// }
+
+// const registerSubmitHandler = async (values) => {
+//     const result = await registerService(values.email, values.username, values.password);
+
+//     setAuth(result);
+
+//     localStorage.setItem('accessToken', result.accessToken);
+
+//     navigate(PATH.EXPLORE);
+// }
+
+// const logoutHandler = () => {
+//     setAuth({});
+//     localStorage.removeItem('accessToken');
+// };

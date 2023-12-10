@@ -1,10 +1,9 @@
 import { API_PATH } from "../constants/paths";
 
-async function request(type, path, data) {
+async function request(method, path, accessToken, data) {
 
     const options = {
-        method: type,
-        credentials: 'include',
+        method,
         headers: {}
     }
 
@@ -16,10 +15,19 @@ async function request(type, path, data) {
         options.body = JSON.stringify(data);
     }
 
+    if (accessToken) {
+        options.headers['X-Authorization'] = accessToken;
+    }
+
     try {
         const response = await fetch(API_PATH.BASE + path, options);
 
         if (response.ok == false) {
+
+            if (response.status === 401) {                                                                  // If the token is invalid, the server returns 401 (unauthorized) 
+                  //TODO                                                                                    // and to prevent a software lock, clear the token from localStorage
+            }
+
             const error = await response.json();
             throw new Error(error.message);
         }

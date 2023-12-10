@@ -34,7 +34,7 @@ export const Details = () => {
     const [deleteSpinnerState, setDeleteSpinnerState] = useState(false);
     const [spinnerState, setSpinnerState] = useState(true);
     const [deleteModalVisibility, setDeleteModalVisibility] = useState(false);
-    const { auth } = useContext(AuthContext);
+    const { auth, accessToken } = useContext(AuthContext);
     const { state, changeErrorModalMsgState } = useContext(StateContext);
     const { changeExplorePosts } = usePostStateExplore();
     const { syncState } = useSyncStateWithNewPost();
@@ -46,7 +46,7 @@ export const Details = () => {
 
             (async function getData() {
                 try {
-                    const currentPost = await getSinglePost(params[PARAMS.POSTID]);
+                    const currentPost = await getSinglePost(params[PARAMS.POSTID], accessToken);
 
                     setPost(currentPost);
                     setUser(currentPost.owner);
@@ -91,7 +91,7 @@ export const Details = () => {
             try {
                 setDeleteSpinnerState(true);
                 // Delete the post
-                const deletedPost = await deletePost(post._id);
+                const deletedPost = await deletePost(post._id, accessToken);
 
                 // Remove the post from Explore state 
                 if (state[STATE_FIELDS.POSTS_EXPLORE].length > 0) {
@@ -125,7 +125,7 @@ export const Details = () => {
             if ((auth && auth._id === post?.owner?._id)) return;
             setLikeSpinnerState(true);
 
-            const updatedPost = await likePost(post?._id);
+            const updatedPost = await likePost(post?._id, accessToken);
 
             // Set Like state
             setIsLiked(false);
@@ -148,7 +148,7 @@ export const Details = () => {
             if ((auth && auth._id === post?.owner?._id)) return;
             setLikeSpinnerState(true);
 
-            const updatedPost = await dislikePost(post?._id);
+            const updatedPost = await dislikePost(post?._id, accessToken);
 
             // Set Like state
             setIsLiked(false);

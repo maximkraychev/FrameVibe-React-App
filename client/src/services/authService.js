@@ -1,12 +1,12 @@
 import { API_PATH } from '../constants/paths.js';
 import * as api from './api.js';
 
-export const registerService = async (data) => {
-    return api.post(API_PATH.REGISTER, data);
+export const registerService = async (accessToken, data) => {
+    return api.post(API_PATH.REGISTER, accessToken, data);
 }
 
-export const loginService = async (data) => {
-    return api.post(API_PATH.LOGIN, data);
+export const loginService = async (accessToken, data) => {
+    return api.post(API_PATH.LOGIN, accessToken, data);
 }
 
 export const logoutService = async () => {

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { StateContext } from '../../../contexts/StateContext';
+import { AuthContext } from '../../../contexts/AuthContext';
 import { usePostStateExplore } from '../../../hooks/usePostStateExplore';
 import { getAllPosts } from '../../../services/postService';
 import { STATE_FIELDS } from '../../../constants/stateFieldsConstants';
@@ -16,11 +17,12 @@ export const Explore = () => {
 
     const { changeExplorePosts } = usePostStateExplore();
     const { state, changeErrorModalMsgState } = useContext(StateContext);
+    const { accessToken } = useContext(AuthContext);
     const [spinnerState, setSpinnerState] = useState(true);
 
     useEffect(() => {
 
-        getAllPosts()
+        getAllPosts(accessToken)
             .then(posts => {
                 changeExplorePosts(posts);
                 setSpinnerState(false);

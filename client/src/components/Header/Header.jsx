@@ -14,7 +14,7 @@ import { RegisterSvg } from '../Svg/Register';
 
 export const Header = () => {
 
-    const { auth, setUser } = useContext(AuthContext);
+    const {  auth, isAuthenticated } = useContext(AuthContext);
 
     function setLinksAndActiveCss(boolean) {
         return [
@@ -38,7 +38,7 @@ export const Header = () => {
                 <nav className={styles['desktop-nav']}>
 
                     {/* Guest */}
-                    {!auth &&
+                    {!isAuthenticated &&
                         <>
                             <NavLink to={PATH.LOGIN} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <LoginLogoutSvg />
@@ -52,7 +52,7 @@ export const Header = () => {
                     }
 
                     {/* User */}
-                    {auth &&
+                    {isAuthenticated &&
                         <>
                             <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <ExploreSvg />
@@ -82,7 +82,7 @@ export const Header = () => {
                 <nav className={styles['mobile-nav']}>
 
                     {/* Guest */}
-                    {!auth &&
+                    {!isAuthenticated &&
                         <>
                             <NavLink to={PATH.LOGIN} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <LoginLogoutSvg />
@@ -94,7 +94,7 @@ export const Header = () => {
                     }
 
                     {/* User */}
-                    {auth &&
+                    {isAuthenticated &&
                         <>
                             <NavLink to={PATH.EXPLORE} className={({ isActive }) => setLinksAndActiveCss(isActive)}>
                                 <ExploreSvg />

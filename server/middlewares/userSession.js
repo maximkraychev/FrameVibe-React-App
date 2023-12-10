@@ -3,23 +3,14 @@ import { tokenBlackList } from '../util/tokenBlackList.js';
 
 export default () => (req, res, next) => {
 
-	let userToken = null;
-
-	// The token is saved as two cookies on the client
-	// Concatenate the two cookie into one
-	const tokenHeaderPayload = req.cookies.jwtHeaderPayload;
-	const tokenSignature = req.cookies.jwtSignature;
-
-	if (tokenHeaderPayload && tokenSignature) {
-		userToken = tokenHeaderPayload.concat('.', tokenSignature);
-	}
+	const userToken = req.headers['x-authorization'];
 
 	// If we have userToken save it into req
 	if (userToken) {
 		try {
-			if (tokenBlackList.has(userToken)) {
-				throw new Error('The token has already been used. Please sign in again.');
-			}
+			// if (tokenBlackList.has(userToken)) {
+			// 	throw new Error('The token has already been used. Please sign in again.');
+			// }
 
 			const decodedToken = jwt.verify(
 				userToken,
@@ -39,9 +30,6 @@ export default () => (req, res, next) => {
 			// Add status code and invoke global error handler
 			error.statusCode = 401;
 
-			// Delete auth cookies on client in case of error while validating them on the server
-			res.cookie('jwtHeaderPayload', '', { expires: new Date(0) })
-			res.cookie('jwtSignature', '', { httpOnly: true, expires: new Date(0) });
 			return next(error);
 		}
 	}

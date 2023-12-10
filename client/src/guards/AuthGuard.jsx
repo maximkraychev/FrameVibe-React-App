@@ -5,9 +5,9 @@ import { AuthContext } from "../contexts/AuthContext"
 import { PATH } from "../constants/paths";
 
 export const AuthGuard = () => {
-    const { auth } = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
-    if (!auth) {
+    if (!isAuthenticated) {
         return <Navigate to={PATH.LOGIN} />;
     }
 

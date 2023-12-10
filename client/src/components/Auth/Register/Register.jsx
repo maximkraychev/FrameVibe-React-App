@@ -10,6 +10,7 @@ import { REGISTER_FORM_VALIDATIONS } from '../../../util/formValidations';
 import { PATH } from '../../../constants/paths';
 import { INPUT_BASE, INPUT_NAMES } from '../../../constants/formInputNaming';
 import { SITE_TITLE } from '../../../constants/titles';
+import { registerService } from '../../../services/authService';
 
 import styles from './Register.module.css';
 import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
@@ -26,7 +27,7 @@ const initialValues = {
 
 export const Register = () => {
 
-    const { register } = useContext(AuthContext);
+    const { setPersistedState, accessToken } = useContext(AuthContext);
     const navigate = useNavigate();
     const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onRegisterSubmit);
@@ -50,7 +51,9 @@ export const Register = () => {
         try {
             setBtnLoadingState(true);
             const { repassword, ...userDataForServer } = data;
-            await register(userDataForServer);
+            const newUser = await registerService(accessToken, userDataForServer);
+          
+            setPersistedState(newUser);
             navigate(PATH.EXPLORE);
         } catch (err) {
             setBtnLoadingState(false);

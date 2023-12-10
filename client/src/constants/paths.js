@@ -19,13 +19,15 @@ export const PATH = {
     POST_EDIT_FN: (id) => `/p/${id}/edit`,
     PROFILE_FN: (username) => `/profile/${username}`,
     PROFILE_OPEN_POST_FN: (username, postId) => `/profile/${username}/${postId}`,
-    CLIPBOARD_COPY_PATH_FN: (postId) => `http://localhost:5173/p/${postId}`
+    // CLIPBOARD_COPY_PATH_FN: (postId) => `http://localhost:5173/p/${postId}`                              //TODO
+    CLIPBOARD_COPY_PATH_FN: (postId) => `https://frame-vibe-react-app.vercel.app/p/${postId}`
 };
 
 
 
 export const API_PATH = {
     BASE: 'https://frame-vibe-react-backend.vercel.app',  //TODO change before deploy
+    // BASE: 'http://localhost:3000',
     REGISTER: '/users/register',
     LOGIN: '/users/login',
     LOGOUT: '/users/logout',

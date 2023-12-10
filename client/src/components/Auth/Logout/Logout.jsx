@@ -5,17 +5,23 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { logoutService } from "../../../services/authService";
 import { PATH } from "../../../constants/paths";
 import { StateContext } from "../../../contexts/StateContext";
+import { usePostStateExplore } from "../../../hooks/usePostStateExplore";
+import { usePostStateProfile } from "../../../hooks/usePostStateProfile";
 
 export const Logout = () => {
 
     const navigate = useNavigate();
-    const { logout } = useContext(AuthContext);
+    const { clearState } = useContext(AuthContext);
     const { changeErrorModalMsgState } = useContext(StateContext);
+    const { clearExplorePosts } = usePostStateExplore()
+    const { clearProfilePosts } = usePostStateProfile()
 
     useEffect(() => {
         logoutService()
             .then(() => {
-                logout();
+                clearState();
+                clearExplorePosts();
+                clearProfilePosts();
                 navigate(PATH.LOGIN);
             })
             .catch(err => {

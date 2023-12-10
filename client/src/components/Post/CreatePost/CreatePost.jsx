@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AuthContext } from '../../../contexts/AuthContext';
 import { useForm } from '../../../hooks/useForm';
 import { useFormValidation } from '../../../hooks/useFormValidation';
 import { createPost } from '../../../services/postService';
@@ -30,6 +32,7 @@ export const CreatePost = () => {
     const { errorMessages, errorVisibility, checkFieldForError, changeErrorVisibility } = useFormValidation(initialValues, UPLOAD_FORM_VALIDATION);
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
     const [btnLoadingState, setBtnLoadingState] = useState(false);
+    const { accessToken } = useContext(AuthContext);
 
     useEffect(() => {
         setSubmitButtonState(submitBtnStateCheck(values, errorMessages));
@@ -63,7 +66,7 @@ export const CreatePost = () => {
             dataForServer.append(INPUT_NAMES.DESCRIPTION, formData[INPUT_NAMES.DESCRIPTION]);
             dataForServer.append(INPUT_NAMES.UPLOAD_IMAGE, formData[INPUT_NAMES.UPLOAD_IMAGE]);
 
-            const newPostData = await createPost(dataForServer);
+            const newPostData = await createPost(accessToken, dataForServer);
 
             navigation(PATH.POST_FN(newPostData?._id), { state: newPostData });
         } catch (err) {
@@ -102,7 +105,7 @@ export const CreatePost = () => {
                     <textarea name={INPUT_NAMES.DESCRIPTION} value={values[INPUT_NAMES.DESCRIPTION]} onChange={onInputChange} onBlur={showError} rows="6" cols="50"></textarea>
 
                     <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
-             
+
                     <div className={styles['submit-btn-container']}>
                         <SubmitBtn value={'Upload'} active={submitButtonState} loading={btnLoadingState} />
                     </div>

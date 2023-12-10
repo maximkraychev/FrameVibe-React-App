@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../../../contexts/AuthContext';
@@ -13,13 +13,15 @@ import { ButtonSpinner } from '../../Spinner/ButtonSpinner/ButtonSpinner';
 
 export const PostCard = ({ post }) => {
 
-    const { auth } = useContext(AuthContext);
+    const { auth, accessToken } = useContext(AuthContext);
     const { changeErrorModalMsgState } = useContext(StateContext);
     const [isLiked, setIsLiked] = useState(() => post.likes.includes(auth._id));
     const { syncState } = useSyncStateWithNewPost();
     const [likeSpinnerState, setLikeSpinnerState] = useState(false);
 
-    const { owner, imageURL, description, likes, _id } = post;
+    useEffect(() => {
+        setIsLiked(() => post.likes.includes(auth._id));
+    }, [post]);
 
 
     async function onLike() {
@@ -29,7 +31,7 @@ export const PostCard = ({ post }) => {
             if ((auth && auth._id === post?.owner?._id)) return;
             setLikeSpinnerState(true);
 
-            const updatedPost = await likePost(_id);
+            const updatedPost = await likePost(post?._id, accessToken);
 
             setIsLiked(true);
             syncState(updatedPost);
@@ -48,7 +50,7 @@ export const PostCard = ({ post }) => {
             if ((auth && auth._id === post?.owner?._id)) return;
             setLikeSpinnerState(true);
 
-            const updatedPost = await dislikePost(_id);
+            const updatedPost = await dislikePost(post?._id, accessToken);
 
             setIsLiked(false);
             syncState(updatedPost);
@@ -67,15 +69,15 @@ export const PostCard = ({ post }) => {
                 <header>
                     <div className={styles['avatar-container']}>
                         <p>
-                            <img src={owner?.avatar} alt="avatar" />
+                            <img src={post?.owner?.avatar} alt="avatar" />
                         </p>
                     </div>
-                    <p className={styles['username']}>{owner.username}</p>
-                    <Link to={`/profile/${owner.username}`}>View Profile</Link>
+                    <p className={styles['username']}>{post?.owner?.username}</p>
+                    <Link to={`/profile/${post?.owner?.username}`}>View Profile</Link>
                 </header>
                 <div className={styles['image-container']}>
-                    <Link to={`/explore/${_id}`} state={post} >
-                        <img src={imageURL} alt="main-image" />
+                    <Link to={`/explore/${post?._id}`} state={post} >
+                        <img src={post?.imageURL} alt="main-image" />
                     </Link>
                 </div>
                 <div className={styles['actions']}>
@@ -88,11 +90,11 @@ export const PostCard = ({ post }) => {
                         : <span className={styles['svg-container']} ><HeartSolidSvg /></span>
                     }
 
-                    <p>{likes?.length} likes</p>
+                    <p>{post?.likes?.length} likes</p>
 
                 </div>
                 <p className={styles['description']}>
-                    {description}
+                    {post?.description}
                 </p>
             </div>
         </>

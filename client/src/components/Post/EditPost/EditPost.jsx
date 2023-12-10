@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { StateContext } from "../../../contexts/StateContext";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 import { useForm } from "../../../hooks/useForm";
 import { useSyncStateWithNewPost } from "../../../hooks/useSyncStateWithNewPost";
@@ -35,6 +36,7 @@ export const EditPost = () => {
     const { syncState } = useSyncStateWithNewPost();
     const [submitButtonState, setSubmitButtonState] = useState(submitBtnStateCheck(values, errorMessages));
     const [btnLoadingState, setBtnLoadingState] = useState(false);
+    const { accessToken } = useContext(AuthContext)
 
     useEffect(() => {
         let post = null;
@@ -57,7 +59,7 @@ export const EditPost = () => {
 
                 // If we don't have the post make a new request for it
                 if (!post) {
-                    post = await getSinglePost(params[PARAMS.POSTID]);
+                    post = await getSinglePost(params[PARAMS.POSTID], accessToken);
                 }
 
                 // Save the post
@@ -98,7 +100,7 @@ export const EditPost = () => {
         try {
             setBtnLoadingState(true);
             const postForServer = { ...currentPost, ...values };
-            const updatedPost = await updateDetailsPost(postForServer._id, values);
+            const updatedPost = await updateDetailsPost(postForServer._id, accessToken, values);
 
             // Sync the new data
             syncState(updatedPost);

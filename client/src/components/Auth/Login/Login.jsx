@@ -13,6 +13,7 @@ import { SITE_TITLE } from '../../../constants/titles';
 import styles from './Login.module.css';
 import { SubmitBtn } from '../../Buttons/SubmitBtn/SubmitBtn';
 import { PageTitle } from '../../PageTitle/PageTitle';
+import { loginService } from '../../../services/authService';
 
 const initialValues = {
     [INPUT_NAMES.EMAIL]: '',
@@ -21,7 +22,7 @@ const initialValues = {
 
 export const Login = () => {
 
-    const { login, test } = useContext(AuthContext);
+    const { setPersistedState, accessToken } = useContext(AuthContext);
     const navigate = useNavigate();
     const [submitError, setSubmitError] = useState('');
     const { values, changeHandler, onSubmit } = useForm(initialValues, onLoginSubmit);
@@ -37,9 +38,9 @@ export const Login = () => {
     async function onLoginSubmit(data) {
         try {
             setBtnLoadingState(true);
-            const userData = await login(data);
-            // console.log(userData);
-            // test(userData);
+            const userData = await loginService(accessToken, data);
+        
+            setPersistedState(userData);
             navigate(PATH.EXPLORE);
         } catch (err) {
             setBtnLoadingState(false);
@@ -84,7 +85,7 @@ export const Login = () => {
 
                     <p className={[styles['error-field'], styles['api-error']].join(' ')}>{submitError}</p>
                     <div className={styles['submit-btn-container']}>
-                        <SubmitBtn value={'Sign in'} active={submitButtonState} loading={btnLoadingState}/>
+                        <SubmitBtn value={'Sign in'} active={submitButtonState} loading={btnLoadingState} />
                     </div>
 
                     <p className={styles['option']}>
