@@ -10,6 +10,7 @@ image-packed pages, image uploads, personalized profiles, and the power to like 
  - Likes and dislikes
  - Register and login
  - Personal profile page
+ - Mobile View
 
 ## Tools 🛠️
 
