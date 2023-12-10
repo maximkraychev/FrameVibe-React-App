@@ -1,4 +1,4 @@
-# 👋 Welcome to FrameVibe project's README! 
+# 👋 Welcome to FrameVibe README! 
 
 This project was build for education purpose and for React course. It's got cool stuff like user registration, 
 image-packed pages, image uploads, personalized profiles, and the power to like and dislike. Dive in and explore! 🚀📸
@@ -11,7 +11,7 @@ image-packed pages, image uploads, personalized profiles, and the power to like 
  - Register and login
  - Personal profile page
 
-## Tools🛠️
+## Tools 🛠️
 
 ### Frond-End 🎨
  - Built with React
